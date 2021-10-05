@@ -1,0 +1,42 @@
+﻿@model IEnumerable<RestaurantManagement.Models.Bookings>
+@{
+    
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Table Bookings</title>
+</head>
+<body>
+    <h3>List of tables</h3>
+    <table>
+        <tr>
+            <td>Table Number</td>
+            <td>Capacity</td>
+            <td>Hall Placing</td>
+            
+            <td></td>
+        </tr>
+
+        @foreach (var booking in Model)
+        {
+            @if (booking.IsAvailable == true)
+            {
+                
+    <tr>
+        
+        <td>@booking.TableNumber</td>
+        <td>@booking.Capacity</td>
+        <td>@booking.HallPlacing</td>
+        
+        <td><a href="~/Home/ToBook/@booking.Id">To Book</a></td>
+    </tr>
+            }
+        }
+    </table>
+</body>
+</html>
+
+    
