@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RestaurantManagement.Models
 {
-    public class ClientContext : DbContext
+    public class ClientContext : IdentityDbContext<User>
     {
         public DbSet<Clients> Clients { get; set; }
         public DbSet<Bookings> Bookings { get; set; }
