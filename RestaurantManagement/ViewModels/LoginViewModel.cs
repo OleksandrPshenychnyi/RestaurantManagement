@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
 
 namespace RestaurantManagement.ViewModels
 {
-    public class RegisterViewModel
+    public class LoginViewModel
     {
         [Required]
         [Display(Name = "Email")]
@@ -17,10 +17,9 @@ namespace RestaurantManagement.ViewModels
         [Display(Name = "Password")]
         public string Password { get; set; }
 
-        [Required]
-        [Compare("Password", ErrorMessage = "Passwords do not match")]
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        public string PasswordConfirm { get; set; }
+        [Display(Name = "Remember it?")]
+        public bool RememberMe { get; set; }
+
+        public string ReturnUrl { get; set; }
     }
 }

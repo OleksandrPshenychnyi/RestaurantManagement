@@ -33,7 +33,7 @@ namespace RestaurantManagement.Controllers
         public string ToBook(Clients client)
         {
             db.Clients.Add(client);
-            // сохраняем в бд все изменения
+            
             db.SaveChanges();
             return "Thank you, " + client.FirstName + ", for reservation!";
         }

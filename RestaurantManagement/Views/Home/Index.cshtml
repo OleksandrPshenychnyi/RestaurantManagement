@@ -10,32 +10,47 @@
     <title>Table Bookings</title>
 </head>
 <body>
-    <h3>List of tables</h3>
-    <table>
-        <tr>
-            <td>Table Number</td>
-            <td>Capacity</td>
-            <td>Hall Placing</td>
-            
-            <td></td>
-        </tr>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <p>@User.Identity.Name</p>
 
-        @foreach (var booking in Model)
-        {
-            @if (booking.IsAvailable == true)
-            {
-                
-    <tr>
-        
-        <td>@booking.TableNumber</td>
-        <td>@booking.Capacity</td>
-        <td>@booking.HallPlacing</td>
-        
-        <td><a href="~/Home/ToBook/@booking.Id">To Book</a></td>
-    </tr>
-            }
-        }
-    </table>
+        <form method="post" asp-controller="Account" asp-action="Logout">
+            <h3>List of tables</h3>
+            <table>
+                <tr>
+                    <td>Table Number</td>
+                    <td>Capacity</td>
+                    <td>Hall Placing</td>
+
+                    <td></td>
+                </tr>
+
+                @foreach (var booking in Model)
+                {
+                    @if (booking.IsAvailable == true)
+                    {
+
+                        <tr>
+
+                            <td>@booking.TableNumber</td>
+                            <td>@booking.Capacity</td>
+                            <td>@booking.HallPlacing</td>
+
+                            <td><a href="~/Home/ToBook/@booking.Id">To Book</a></td>
+                        </tr>
+                    }
+                }
+            </table>
+            <input type="submit" value="Exit" />
+        </form>
+    }
+    else
+    {
+        <a asp-controller="Account" asp-action="Login">Login</a>
+        <a asp-controller="Account" asp-action="Register">Register</a>
+    }
+   
+    
 </body>
 </html>
 

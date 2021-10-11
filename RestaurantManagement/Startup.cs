@@ -28,7 +28,11 @@ namespace RestaurantManagement
         {
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ClientContext>(options => options.UseSqlServer(connection));
-            services.AddIdentity<User, IdentityRole>()
+            services.AddIdentity<User, IdentityRole>(opts =>
+            {
+                opts.User.RequireUniqueEmail = true;    //unique email
+                opts.User.AllowedUserNameCharacters = ".@abcdefghijklmnopqrstuvwxyz1234567890"; // symbols
+            })
                .AddEntityFrameworkStores<ClientContext>();
             services.AddControllersWithViews();
         }
