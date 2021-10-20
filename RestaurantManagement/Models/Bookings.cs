@@ -14,6 +14,7 @@ namespace RestaurantManagement.Models
         
         public bool IsAvailable { get; set; }
         // public DateTime DateTime { get; set; }
+        public int ClientId { get; set; }
         public Clients Clients { get; set; }
     }
 }

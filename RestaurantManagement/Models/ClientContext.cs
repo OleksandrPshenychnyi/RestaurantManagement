@@ -11,11 +11,19 @@ namespace RestaurantManagement.Models
     {
         public DbSet<Clients> Clients { get; set; }
         public DbSet<Bookings> Bookings { get; set; }
-
+        public DbSet<Courses> Courses { get; set; }
+        public DbSet<Employees> Employees { get; set; }
+        public DbSet<Orders> Orders { get; set; }
         public ClientContext(DbContextOptions<ClientContext> options)
             : base(options)
         {
             Database.EnsureCreated();
         }
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<Bookings>()
+        //        .HasOne(p => p.Clients)
+        //        .WithMany(b => b.Bookings);
+        //}
     }
 }
