@@ -11,5 +11,6 @@ namespace RestaurantManagement.Models
         public int RoleId { get; set; }
         public int Identifier { get; set; }
         public decimal Salary { get; set; }
+        public ICollection<Courses> Courses { get; set; }
     }
 }

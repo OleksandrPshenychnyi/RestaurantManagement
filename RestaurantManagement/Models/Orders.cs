@@ -10,5 +10,6 @@ namespace RestaurantManagement.Models
         public int Id { get; set; }
         public int TableId { get; set; }
         public DateTime DateTime { get; set; }
+        public ICollection<Courses> Courses { get; set; }
     }
 }

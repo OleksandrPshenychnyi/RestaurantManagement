@@ -11,5 +11,7 @@ namespace RestaurantManagement.Models
         public string MealName { get; set; }
         public string BriefDesc { get; set; }
         public int CookingTime { get; set; }
+        public ICollection<Orders> Orders { get; set; }
+        public ICollection<Employees> Employees { get; set; }
     }
 }
