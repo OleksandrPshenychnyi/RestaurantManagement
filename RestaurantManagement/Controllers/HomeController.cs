@@ -20,7 +20,8 @@ namespace RestaurantManagement.Controllers
             }
             public IActionResult Index()
             {
-                return View(db.Bookings.ToList());
+            var _avaliableTables = db.Tables.Where(table => table.IsAvailable).ToList();
+                return View(_avaliableTables);
             }
         [HttpGet]
         public IActionResult ToBook(int? id)
@@ -30,12 +31,21 @@ namespace RestaurantManagement.Controllers
             return View();
         }
         [HttpPost]
-        public string ToBook(Clients client)
+        public IActionResult ToBook(Client client)
         {
             db.Clients.Add(client);
             
             db.SaveChanges();
-            return "Thank you, " + client.FirstName + ", for reservation!";
+            var table = db.Tables.FirstOrDefault(table => table.TableId == client.TableId);
+            table.IsAvailable = false;
+            db.SaveChanges();
+            return RedirectToAction("ThxPage", client);
+
+        }
+        public IActionResult ThxPage(Client client)
+        {
+            ViewBag.Clients = client; 
+            return View();
         }
     }
 }

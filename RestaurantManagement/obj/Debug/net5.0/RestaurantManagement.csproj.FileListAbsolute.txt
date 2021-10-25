@@ -785,3 +785,4 @@ C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Roles\Index.cshtml.g.cs
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Roles\UserList.cshtml.g.cs
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Roles\Create.cshtml.g.cs
+C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Home\ThxPage.cshtml.g.cs

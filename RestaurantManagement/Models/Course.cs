@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 
 namespace RestaurantManagement.Models
 {
-    public class Courses
+    public class Course
     {
-        public int CoursesId { get; set; }
+        public int CourseId { get; set; }
         public string MealName { get; set; }
         public string BriefDesc { get; set; }
         public int CookingTime { get; set; }
-        public ICollection<Orders> Orders { get; set; }
-        public ICollection<Employees> Employees { get; set; }
+        public ICollection<Order> Orders { get; set; }
+        public ICollection<Employee> Employees { get; set; }
     }
 }

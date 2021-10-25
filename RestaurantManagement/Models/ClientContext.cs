@@ -7,23 +7,29 @@ using System.Threading.Tasks;
 
 namespace RestaurantManagement.Models
 {
-    public class ClientContext : IdentityDbContext<User>
+    public class ClientContext :IdentityDbContext<User>
     {
-        public DbSet<Clients> Clients { get; set; }
-        public DbSet<Bookings> Bookings { get; set; }
-        public DbSet<Courses> Courses { get; set; }
-        public DbSet<Employees> Employees { get; set; }
-        public DbSet<Orders> Orders { get; set; }
+        public DbSet<Client> Clients { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
+        //public DbSet<Course> Courses { get; set; }
+       // public DbSet<Employee> Employees { get; set; }
+      //  public DbSet<Order> Orders { get; set; }
+        public DbSet<Table> Tables { get; set; }
         public ClientContext(DbContextOptions<ClientContext> options)
             : base(options)
         {
             Database.EnsureCreated();
         }
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    modelBuilder.Entity<Bookings>()
-        //        .HasOne(p => p.Clients)
-        //        .WithMany(b => b.Bookings);
-        //}
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Booking>()
+                .HasOne(p => p.Client)
+                .WithMany(b => b.Bookings);
+
+            modelBuilder.Entity<Booking>()
+                .HasOne(p => p.Table)
+                .WithMany(b => b.Bookings);
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
