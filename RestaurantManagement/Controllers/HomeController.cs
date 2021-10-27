@@ -20,7 +20,15 @@ namespace RestaurantManagement.Controllers
             }
             public IActionResult Index()
             {
-            var _avaliableTables = db.Tables.Where(table => table.IsAvailable).ToList();
+            if (User.IsInRole("admin"))
+            {
+                return RedirectToAction("Index","Roles");
+            }
+            else if (User.IsInRole("waiter"))
+            {
+                return RedirectToAction("Index", "Waiter");
+            }
+            var _avaliableTables =  db.Tables.Where(table => table.IsAvailable).ToList();
                 return View(_avaliableTables);
             }
         [HttpGet]

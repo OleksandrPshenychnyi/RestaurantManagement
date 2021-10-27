@@ -1,0 +1,53 @@
+﻿@model IEnumerable<RestaurantManagement.Models.Client>
+@{
+    Layout = null;
+
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Reserved tables</title>
+</head>
+<body>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <p>@User.Identity.Name</p>
+
+        <form method="post" asp-controller="Account" asp-action="Logout">
+            <h3>List of reserved tables</h3>
+            <table>
+                <tr>
+                    <td>First name</td>
+                    <td>Second name</td>
+                    <td>Phone number</td>
+                    <td>Table number</td>
+                    <td></td>
+                </tr>
+
+                @foreach (var client in Model)
+                {
+
+            <tr>
+
+                <td>@client.FirstName</td>
+                <td>@client.SecondName</td>
+                <td>@client.PhoneNumber</td>
+                <td>@client.TableNumber</td>
+                <td><a href="~/Waiter/Delete/@client.ClientId">Cancel reservation</a></td>
+            </tr>
+
+                }
+            </table>
+            <input type="submit" value="Exit" />
+        </form>
+    }
+    else
+    {
+        <a asp-controller="Account" asp-action="Login">Login</a>
+        <a asp-controller="Account" asp-action="Register">Register</a>
+    }
+
+
+</body>
+</html>

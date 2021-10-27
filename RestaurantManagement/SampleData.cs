@@ -47,52 +47,52 @@ namespace RestaurantManagement
                 );
                 context.SaveChanges();
             }
-            if (!context.Clients.Any())
-            {
-                context.Clients.AddRange(
-                    new Client
-                    {
+            //if (!context.Clients.Any())
+            //{
+            //    context.Clients.AddRange(
+            //        new Client
+            //        {
 
-                        FirstName = "dada",
-                        SecondName = "dada",
-                        PhoneNumber = 3123123,
-                        TableNumber = 3
+            //            FirstName = "dada",
+            //            SecondName = "dada",
+            //            PhoneNumber = 3123123,
+            //            TableNumber = 3
 
-                    }
+            //        }
 
-                );
-                context.SaveChanges();
-            }
-            if (!context.Bookings.Any())
-            {
-                context.Bookings.AddRange(
-                    new Booking
-                    {
+            //    );
+            //    context.SaveChanges();
+            //}
+            //if (!context.Bookings.Any())
+            //{
+            //    context.Bookings.AddRange(
+            //        new Booking
+            //        {
 
-                        TableId = 1,
+            //            TableId = 1,
                         
-                        ClientId = 1
+            //            ClientId = 1
 
-                    },
-                    new Booking
-                    {
+            //        },
+            //        new Booking
+            //        {
 
-                        TableId =2,
+            //            TableId =2,
                         
-                        ClientId = 1
+            //            ClientId = 1
 
-                    },
-                    new Booking
-                    {
+            //        },
+            //        new Booking
+            //        {
 
-                        TableId = 3,
+            //            TableId = 3,
                         
-                        ClientId = 1
+            //            ClientId = 1
 
-                    }
-                );
-                context.SaveChanges();
-            }
+            //        }
+            //    );
+            //    context.SaveChanges();
+            //}
         }
     }
 }

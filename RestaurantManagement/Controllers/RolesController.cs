@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 namespace RestaurantManagement.Controllers
 {
     [Authorize(Roles = "admin")]
+    
     public class RolesController : Controller
     {
         RoleManager<IdentityRole> _roleManager;

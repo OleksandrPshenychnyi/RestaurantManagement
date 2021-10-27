@@ -12,6 +12,7 @@
 <body>
     @if (User.Identity.IsAuthenticated)
     {
+        
         <p>@User.Identity.Name</p>
 
         <form method="post" asp-controller="Account" asp-action="Logout">
@@ -27,7 +28,7 @@
 
                 @foreach (var table in Model)
                 {
-                    
+
                         <tr>
 
                             <td>@table.TableNumber</td>
@@ -36,14 +37,15 @@
 
                             <td><a href="~/Home/ToBook/@table.TableId">To Book</a></td>
                         </tr>
-                    
+
                 }
             </table>
             <input type="submit" value="Exit" />
         </form>
-    }
-    else
-    {
+            
+        }
+        else
+        {
         <a asp-controller="Account" asp-action="Login">Login</a>
         <a asp-controller="Account" asp-action="Register">Register</a>
     }

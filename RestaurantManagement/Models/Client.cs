@@ -15,9 +15,9 @@ namespace RestaurantManagement.Models
         public int PhoneNumber { get; set; }
         public int TableNumber { get; set; }
         public List<Booking> Bookings { get; set; }
-        public Client(){
-            Bookings = new List<Booking>();
-            }
+        //public Client(){
+        //    Bookings = new List<Booking>();
+        //    }
         public int TableId { get; set; }
     }
 }
