@@ -18,7 +18,7 @@ namespace RestaurantManagement.Controllers
         }
         public IActionResult Index()
         {
-            return View(db.Clients.ToList());
+            return View(db.Guests.ToList());
         }
         [HttpGet]
         public IActionResult Delete(int? id)
@@ -33,8 +33,8 @@ namespace RestaurantManagement.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Client client = db.Clients.Find(id);
-            db.Clients.Remove(client);
+            Guest client = db.Guests.Find(id);
+            db.Guests.Remove(client);
             db.SaveChanges();
             var table = db.Tables.FirstOrDefault(table => client.TableId == table.TableId);
             table.IsAvailable = true;

@@ -6,18 +6,21 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace RestaurantManagement.Controllers
 {
     public class HomeController : Controller
     {
-        
-        
-            ClientContext db;
-            public HomeController(ClientContext context)
+        UserManager<User> _userManager;
+      
+        ClientContext db;
+            public HomeController(ClientContext context, UserManager<User> userManager)
             {
                 db = context;
-            }
+                _userManager = userManager;
+        }
             public IActionResult Index()
             {
             if (User.IsInRole("admin"))
@@ -39,20 +42,47 @@ namespace RestaurantManagement.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult ToBook(Client client)
+        public async Task<IActionResult> ToBook(Guest guest, int tableId)
         {
-            db.Clients.Add(client);
-            
-            db.SaveChanges();
-            var table = db.Tables.FirstOrDefault(table => table.TableId == client.TableId);
-            table.IsAvailable = false;
-            db.SaveChanges();
-            return RedirectToAction("ThxPage", client);
+            if (!(User.Identity.IsAuthenticated))
+            {
+                var guestId = db.Guests.Add(guest);
+                db.SaveChanges();
+
+                var booking = new Booking()
+                {
+                    IsLogged = false,
+                    GuestId = guestId.Entity.GuestId,
+                    TableId = tableId
+                };
+                db.Bookings.Add(booking);
+                var table = db.Tables.FirstOrDefault(table => table.TableId == guest.TableId);
+                table.IsAvailable = false;
+                db.SaveChanges();
+                return RedirectToAction("ThxPage", guest);
+
+            }
+            else
+            {
+                var userid = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var booking = new Booking()
+                {
+                    IsLogged = true,
+                    User = await _userManager.FindByIdAsync(userid),
+                    TableId = tableId
+                };
+                db.Bookings.Add(booking);
+                var table = db.Tables.FirstOrDefault(table => table.TableId == guest.TableId);
+                table.IsAvailable = false;
+                db.SaveChanges();
+                return RedirectToAction("ThxPage", guest);
+            }
+
 
         }
-        public IActionResult ThxPage(Client client)
+        public IActionResult ThxPage(Guest guest)
         {
-            ViewBag.Clients = client; 
+            ViewBag.Guest = guest; 
             return View();
         }
     }

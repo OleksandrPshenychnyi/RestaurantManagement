@@ -9,6 +9,17 @@ namespace RestaurantManagement.ViewModels
     public class RegisterViewModel
     {
         [Required]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Second Name")]
+        public string SecondName { get; set; }
+
+        [Required]
+        [Display(Name = "Phone number")]
+        public string PhoneNumber { get; set; }
+        [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
 

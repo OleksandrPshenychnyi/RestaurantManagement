@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<RestaurantManagement.Models.Table>
+
 @{
-    
+
     Layout = null;
 }
 <!DOCTYPE html>
@@ -12,7 +13,7 @@
 <body>
     @if (User.Identity.IsAuthenticated)
     {
-        
+
         <p>@User.Identity.Name</p>
 
         <form method="post" asp-controller="Account" asp-action="Logout">
@@ -29,29 +30,53 @@
                 @foreach (var table in Model)
                 {
 
-                        <tr>
+                    <tr>
 
-                            <td>@table.TableNumber</td>
-                            <td>@table.Capacity</td>
-                            <td>@table.HallPlacing</td>
+                        <td>@table.TableNumber</td>
+                        <td>@table.Capacity</td>
+                        <td>@table.HallPlacing</td>
 
-                            <td><a href="~/Home/ToBook/@table.TableId">To Book</a></td>
-                        </tr>
+                        <td><a href="~/Home/ToBook/@table.TableId">To Book</a></td>
+                    </tr>
 
                 }
             </table>
             <input type="submit" value="Exit" />
         </form>
-            
-        }
-        else
-        {
+
+    }
+    else
+    {
         <a asp-controller="Account" asp-action="Login">Login</a>
         <a asp-controller="Account" asp-action="Register">Register</a>
+        <h3>List of tables</h3>
+        <table>
+            <tr>
+                <td>Table Number</td>
+                <td>Capacity</td>
+                <td>Hall Placing</td>
+
+                <td></td>
+            </tr>
+
+            @foreach (var table in Model)
+            {
+
+                <tr>
+
+                    <td>@table.TableNumber</td>
+                    <td>@table.Capacity</td>
+                    <td>@table.HallPlacing</td>
+
+                    <td><a href="~/Home/ToBook/@table.TableId">To Book</a></td>
+                </tr>
+
+            }
+        </table>
     }
-   
-    
+
+
 </body>
 </html>
 
-    
+

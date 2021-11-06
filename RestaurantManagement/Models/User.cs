@@ -8,6 +8,8 @@ namespace RestaurantManagement.Models
 {
     public class User : IdentityUser
     {
-        public int Year { get; set; }
+        public string FirstName { get; set; }
+        public string SecondName { get; set; }
+        public ICollection<Booking> Bookings { get; set; }
     }
 }

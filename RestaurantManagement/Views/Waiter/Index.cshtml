@@ -1,4 +1,4 @@
-﻿@model IEnumerable<RestaurantManagement.Models.Client>
+﻿@model IEnumerable<RestaurantManagement.Models.Guest>
 @{
     Layout = null;
 
@@ -25,16 +25,16 @@
                     <td></td>
                 </tr>
 
-                @foreach (var client in Model)
+                @foreach (var guest in Model)
                 {
 
             <tr>
 
-                <td>@client.FirstName</td>
-                <td>@client.SecondName</td>
-                <td>@client.PhoneNumber</td>
-                <td>@client.TableNumber</td>
-                <td><a href="~/Waiter/Delete/@client.ClientId">Cancel reservation</a></td>
+                <td>@guest.FirstName</td>
+                <td>@guest.SecondName</td>
+                <td>@guest.PhoneNumber</td>
+                
+                <td><a href="~/Waiter/Delete/@guest.GuestId">Cancel reservation</a></td>
             </tr>
 
                 }

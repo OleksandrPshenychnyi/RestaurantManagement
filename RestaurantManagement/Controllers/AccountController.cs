@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantManagement.Models;
 using RestaurantManagement.ViewModels;
@@ -66,31 +67,43 @@ namespace RestaurantManagement.Controllers
         {
             return View();
         }
+      
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                User user = new User { Email = model.Email, UserName = model.Email };
-                // add user
-                var result = await _UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+           
+                if (ModelState.IsValid)
                 {
+                    User user = new User
+                    {
+                        FirstName = model.FirstName,
+                        SecondName = model.SecondName,
+                        PhoneNumber = model.PhoneNumber,
+                        Email = model.Email,
+                        UserName = model.Email
+                    };
+                    // add user
+                    var result = await _UserManager.CreateAsync(user, model.Password);
+                    
+                    if (result.Succeeded)
+                    {
+                   // await _UserManager.AddToRoleAsync(user, "user");
                     // cookies
                     await _SignInManager.SignInAsync(user, false);
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    foreach (var error in result.Errors)
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
                     {
-                        ModelState.AddModelError(string.Empty, error.Description);
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
                     }
                 }
+                return View(model);
+
             }
-            return View(model);
-
         }
-
     }
-}
+

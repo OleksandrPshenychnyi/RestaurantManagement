@@ -9,7 +9,7 @@ namespace RestaurantManagement.Models
 {
     public class ClientContext :IdentityDbContext<User>
     {
-        public DbSet<Client> Clients { get; set; }
+        public DbSet<Guest> Guests { get; set; }
         public DbSet<Booking> Bookings { get; set; }
         //public DbSet<Course> Courses { get; set; }
        // public DbSet<Employee> Employees { get; set; }
@@ -20,11 +20,18 @@ namespace RestaurantManagement.Models
         {
             Database.EnsureCreated();
         }
+
+       
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Booking>()
-                .HasOne(p => p.Client)
-                .WithMany(b => b.Bookings);
+            .HasOne(n => n.User)
+            .WithMany(a => a.Bookings);
+
+            modelBuilder.Entity<Booking>()
+                .HasOne(p => p.Guest)
+                .WithOne(b => b.Booking);
 
             modelBuilder.Entity<Booking>()
                 .HasOne(p => p.Table)

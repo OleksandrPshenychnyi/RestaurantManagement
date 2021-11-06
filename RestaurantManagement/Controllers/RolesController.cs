@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace RestaurantManagement.Controllers
 {
-    [Authorize(Roles = "admin")]
+  //  [Authorize(Roles = "admin")]
     
     public class RolesController : Controller
     {

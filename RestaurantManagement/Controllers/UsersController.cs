@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantManagement.Models;
 using RestaurantManagement.ViewModels;
@@ -17,7 +18,7 @@ namespace RestaurantManagement.Controllers
         {
             _userManager = userManager;
         }
-
+      
         public IActionResult Index() => View(_userManager.Users.ToList());
 
         public IActionResult Create() => View();
@@ -25,11 +26,13 @@ namespace RestaurantManagement.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateUserViewModel model)
         {
-            if (ModelState.IsValid)
+            
+                if (ModelState.IsValid)
             {
                 User user = new User { Email = model.Email, UserName = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                 
+                    if (result.Succeeded)
                 {
                     return RedirectToAction("Index");
                 }
