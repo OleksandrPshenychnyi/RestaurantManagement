@@ -1,0 +1,36 @@
+﻿@model IEnumerable<RestaurantManagement.Models.Guest>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Booking page</title>
+</head>
+<body>
+    <div>
+        <h3>Booking Form</h3>
+        <p>To book the table fill the fields below:</p>
+        <form method="post">
+            <input type="hidden" value="@ViewBag.TableId" name="TableId" />
+            <table>
+                <tr>
+                    <td>First Name:</td>
+                    <td><input type="text" name="FirstName"> </td>
+                </tr>
+                <tr>
+                    <td>Second Name:</td>
+                    <td><input type="text" name="SecondName" /></td>
+                </tr>
+                <tr>
+                    <td>Phone Number:</td>
+                    <td><input type="text" name="PhoneNumber" /></td>
+                </tr>
+
+                <tr><td><input type="submit" value="Submit" /> </td><td></td></tr>
+            </table>
+        </form>
+    </div>
+</body>
+</html>

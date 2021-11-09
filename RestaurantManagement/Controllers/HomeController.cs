@@ -42,7 +42,7 @@ namespace RestaurantManagement.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> ToBook(Guest guest, int tableId)
+        public IActionResult ToBook(Guest guest, int tableId)
         {
             if (!(User.Identity.IsAuthenticated))
             {
@@ -62,23 +62,31 @@ namespace RestaurantManagement.Controllers
                 return RedirectToAction("ThxPage", guest);
 
             }
-            else
+            else return RedirectToAction("ToBookAutorized");
+
+        }
+        [HttpGet]
+        public IActionResult ToBookAutorized(int? id)
+        {
+            if (id == null) return RedirectToAction("Index");
+            ViewBag.TableId = id;
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> ToBookAutorized(Guest guest, int tableId)
+        {
+            var userid = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var booking = new Booking()
             {
-                var userid = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                var booking = new Booking()
-                {
-                    IsLogged = true,
-                    User = await _userManager.FindByIdAsync(userid),
-                    TableId = tableId
-                };
-                db.Bookings.Add(booking);
-                var table = db.Tables.FirstOrDefault(table => table.TableId == guest.TableId);
-                table.IsAvailable = false;
-                db.SaveChanges();
-                return RedirectToAction("ThxPage", guest);
-            }
-
-
+                IsLogged = true,
+                User = await _userManager.FindByIdAsync(userid),
+                TableId = tableId
+            };
+            db.Bookings.Add(booking);
+            var table = db.Tables.FirstOrDefault(table => table.TableId == booking.TableId);
+            table.IsAvailable = false;
+            db.SaveChanges();
+            return RedirectToAction("ThxPage", guest);
         }
         public IActionResult ThxPage(Guest guest)
         {

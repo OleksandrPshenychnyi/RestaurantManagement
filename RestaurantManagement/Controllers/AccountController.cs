@@ -88,7 +88,7 @@ namespace RestaurantManagement.Controllers
                     
                     if (result.Succeeded)
                     {
-                   // await _UserManager.AddToRoleAsync(user, "user");
+                    await _UserManager.AddToRoleAsync(user, "User");
                     // cookies
                     await _SignInManager.SignInAsync(user, false);
                         return RedirectToAction("Index", "Home");

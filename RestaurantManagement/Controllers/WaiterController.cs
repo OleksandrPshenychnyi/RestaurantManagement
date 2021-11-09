@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace RestaurantManagement.Controllers
 {
-    [Authorize(Roles = "waiter")]
+    [Authorize(Roles = "Waiter")]
     public class WaiterController : Controller
     {
         ClientContext db;
