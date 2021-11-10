@@ -23,11 +23,11 @@ namespace RestaurantManagement.Controllers
         }
             public IActionResult Index()
             {
-            if (User.IsInRole("admin"))
+            if (User.IsInRole("Admin"))
             {
                 return RedirectToAction("Index","Roles");
             }
-            else if (User.IsInRole("waiter"))
+            else if (User.IsInRole("Waiter"))
             {
                 return RedirectToAction("Index", "Waiter");
             }
@@ -66,14 +66,28 @@ namespace RestaurantManagement.Controllers
 
         }
         [HttpGet]
-        public IActionResult ToBookAutorized(int? id)
+        public  IActionResult ToBookAutorized(int? id)
         {
             if (id == null) return RedirectToAction("Index");
+            var userid = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            //var UserId = await _userManager.FindByIdAsync(userid);
+            var selectuser = from User in db.Users
+                             where User.Id == userid
+                             select User;
+            ViewBag.User = selectuser;
             ViewBag.TableId = id;
-            return View();
+
+            var selecttable = from Table in db.Tables
+                              where Table.TableId == id
+                              select Table;
+
+            ViewBag.Table = selecttable;
+
+            return View(); ;
         }
         [HttpPost]
-        public async Task<IActionResult> ToBookAutorized(Guest guest, int tableId)
+        public async Task<IActionResult> ToBookAutorized( int tableId)
         {
             var userid = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var booking = new Booking()
@@ -86,11 +100,11 @@ namespace RestaurantManagement.Controllers
             var table = db.Tables.FirstOrDefault(table => table.TableId == booking.TableId);
             table.IsAvailable = false;
             db.SaveChanges();
-            return RedirectToAction("ThxPage", guest);
+            return RedirectToAction("ThxPage");
         }
         public IActionResult ThxPage(Guest guest)
         {
-            ViewBag.Guest = guest; 
+            ViewBag.Guest = guest;
             return View();
         }
     }

@@ -33,10 +33,10 @@ namespace RestaurantManagement.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Guest client = db.Guests.Find(id);
-            db.Guests.Remove(client);
+            Guest guest = db.Guests.Find(id);
+            db.Guests.Remove(guest);
             db.SaveChanges();
-            var table = db.Tables.FirstOrDefault(table => client.TableId == table.TableId);
+            var table = db.Tables.FirstOrDefault(table => guest.TableId == table.TableId);
             table.IsAvailable = true;
             db.SaveChanges();
             return RedirectToAction("Index");
