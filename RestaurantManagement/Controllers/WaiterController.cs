@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using RestaurantManagement.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace RestaurantManagement.Controllers
 {
@@ -16,29 +17,34 @@ namespace RestaurantManagement.Controllers
         {
             db = context;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(db.Guests.ToList());
+            //var guests = db.Guests.ToList();
+            //var bookings = db.Bookings.ToList();
+            return await Task.Run(() => View(db.Guests.ToList()));
+           
         }
         [HttpGet]
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null) return RedirectToAction("Index");
-            ViewBag.ClientId = id;
-            return View();
+            ViewBag.GuestId = id;
+            return await Task.Run(() => View());
         }
 
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public async Task<ActionResult> CancelConfirmed(int id)
         {
-            Guest guest = db.Guests.Find(id);
+            Guest guest = await db.Guests.FindAsync(id);
+            
             db.Guests.Remove(guest);
-            db.SaveChanges();
-            var table = db.Tables.FirstOrDefault(table => guest.TableId == table.TableId);
+            
+            await db.SaveChangesAsync();
+            var table =await db.Tables.FirstOrDefaultAsync(table => guest.TableId == table.TableId);
             table.IsAvailable = true;
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
     }

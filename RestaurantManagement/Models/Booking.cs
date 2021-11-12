@@ -11,6 +11,7 @@ namespace RestaurantManagement.Models
         public int? Discount { get; set; }
         public string Dish { get; set; }
         public bool IsLogged { get; set; }
+        public string Status { get; set; }
         public User User { get; set; }
         public int? GuestId { get; set; }
         public Guest Guest { get; set; }
