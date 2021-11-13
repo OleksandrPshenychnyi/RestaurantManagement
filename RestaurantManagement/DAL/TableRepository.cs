@@ -9,40 +9,40 @@ namespace RestaurantManagement.DAL
 {
     public class TableRepository : IDisposable, ITableRepository<Table>
     {
-        private ClientContext db;
+        private readonly ClientContext db;
 
         public TableRepository(ClientContext context)
         {
             this.db = context;
         }
 
-        public IEnumerable<Table> GetTables()
+        public  IEnumerable<Table> GetTables()
         {
            
-            return db.Tables.Where(table => table.IsAvailable).ToList();
+           return db.Tables.ToList();
         }
 
-        public Table Get(int id)
+        public Table Get(int? id)
         {
-            var tableFind = db.Tables.Find(id);
+            //var tableFind = db.Tables.Find(id);
 
             return db.Tables.Find(id);
         }
 
-        public void Create(Table table)
+        public async void CreateAsync(Table table)
         {
-            db.Tables.Add(table);
+           await db.Tables.AddAsync(table);
         }
 
-        public void Update(Table table)
+        public  void Update(Table table)
         {
             db.Entry(table).State = EntityState.Modified;
-            db.SaveChanges();
+           
         }
 
-        public void Delete(int id)
+        public async void DeleteAsync(int id)
         {
-            Table table = db.Tables.Find(id);
+            Table table =await db.Tables.FindAsync(id);
             if (table != null)
                 db.Tables.Remove(table);
         }

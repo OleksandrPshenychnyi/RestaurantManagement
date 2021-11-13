@@ -13,17 +13,19 @@ using RestaurantManagement.DAL;
 
 namespace RestaurantManagement.Controllers
 {
-    public class HomeController : Controller
+    public class TableController : Controller
     {
-        private ITableRepository<Table> tableRepository;
+        
+         private UnitOfWork unitOfWork;
         UserManager<User> _userManager;
       
         ClientContext db;
-            public HomeController(ClientContext context, UserManager<User> userManager)
+            public TableController(ClientContext context, UserManager<User> userManager)
             {
                 db = context;
                 _userManager = userManager;
-            this.tableRepository = new TableRepository(db);
+            this.unitOfWork = new UnitOfWork(db);
+           
         }
             public async Task<IActionResult> Index()
             {
@@ -36,7 +38,7 @@ namespace RestaurantManagement.Controllers
                 return RedirectToAction("Index", "Waiter");
             }
             //var result = tableRepository.GetTables();
-            return await Task.Run(() => View(tableRepository.GetTables()));
+            return await Task.Run(() => View(unitOfWork.TableRepository.GetTables().Where(table=>table.IsAvailable).ToList()));
         }
         
     }

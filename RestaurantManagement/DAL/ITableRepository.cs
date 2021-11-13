@@ -9,11 +9,11 @@ namespace RestaurantManagement.DAL
 {
     interface ITableRepository<T> where T : class
     {
-        IEnumerable<T> GetTables();
-        T Get(int id);
-        void Create(T item);
+         IEnumerable<T> GetTables();
+        T Get(int? id);
+        void CreateAsync(T item);
         void Update(T item);
-        void Delete(int id);
+        void DeleteAsync(int id);
         void Save();
     }
 }

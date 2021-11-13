@@ -13,9 +13,8 @@ namespace RestaurantManagement.Controllers
 {
     public class BookingController : Controller
     {
-        private ITableRepository<Table> tableRepository;
-        private IBookingRepository<Booking> bookingRepository;
-        private IGuestRepository<Guest> guestRepository;
+        private UnitOfWork unitOfWork;
+       
         UserManager<User> _userManager;
 
         ClientContext db;
@@ -23,10 +22,7 @@ namespace RestaurantManagement.Controllers
         {
             db = context;
             _userManager = userManager;
-            this.bookingRepository = new BookingRepository(db);
-            this.tableRepository = new TableRepository(db);
-            this.guestRepository = new GuestRepository(db);
-
+            this.unitOfWork = new UnitOfWork(db);
         }
         [HttpGet]
         public async Task<IActionResult> ToBook(int? id)
@@ -40,27 +36,25 @@ namespace RestaurantManagement.Controllers
         {
             if (!(User.Identity.IsAuthenticated))
             {
-                guestRepository.Create(guest);
-
-                //  = db.Guests.Add(guest);
+                unitOfWork.GuestRepository.Create(guest);
                 await db.SaveChangesAsync();
 
                 var bookingObj = new Booking()
                 {
                     IsLogged = false,
                     GuestId = guest.GuestId,
-                    TableId = tableId
+                    TableId = tableId,
+                    Status = "Reserved"
                 };
-                var savedBooking = db.Bookings.AddAsync(bookingObj).Result.Entity;
-                savedBooking.Status = "Reserved";
+                unitOfWork.BookingRepository.Create(bookingObj);
+                unitOfWork.Save();
                 // Error???
-                //bookingRepository.Update(savedBooking);
+               // bookingRepository.Update(bookingObj);
 
-                var table = tableRepository.Get(tableId);
+                var table = unitOfWork.TableRepository.Get(tableId);
                 table.IsAvailable = false;
-                tableRepository.Update(table);
-
-
+                unitOfWork.TableRepository.Update(table);
+                unitOfWork.Save();
                 return RedirectToAction("ThxPage", guest);
 
             }
@@ -73,11 +67,11 @@ namespace RestaurantManagement.Controllers
             if (id == null) return RedirectToAction("Index");
             var userid = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var selectuser = await db.Users.Where(user => user.Id == userid).SingleOrDefaultAsync();
+            var selectuser = await db.Users.Where(user => user.Id == userid).ToListAsync();
             ViewBag.User = selectuser;
             ViewBag.TableId = id;
 
-            var selecttable = await db.Tables.Where(table => table.TableId == id).SingleOrDefaultAsync();
+            var selecttable = await db.Tables.Where(table => table.TableId == id).ToListAsync();
             ViewBag.Table = selecttable;
 
             return await Task.Run(() => View());

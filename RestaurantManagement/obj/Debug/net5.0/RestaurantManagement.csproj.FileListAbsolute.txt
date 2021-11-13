@@ -759,8 +759,6 @@ C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\RestaurantManagement.TagHelpers.output.cache
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\RestaurantManagement.RazorCoreGenerate.cache
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Account\Register.cshtml.g.cs
-C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Home\Index.cshtml.g.cs
-C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Home\Privacy.cshtml.g.cs
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Shared\Error.cshtml.g.cs
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Shared\_Layout.cshtml.g.cs
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
@@ -784,8 +782,10 @@ C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Roles\UserList.cshtml.g.cs
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Roles\Create.cshtml.g.cs
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Waiter\Index.cshtml.g.cs
-C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\RestaurantManagement.csproj.AssemblyReference.cache
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Waiter\Cancel.cshtml.g.cs
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Booking\ThxPage.cshtml.g.cs
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Booking\ToBook.cshtml.g.cs
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Booking\ToBookAutorized.cshtml.g.cs
+C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Table\Index.cshtml.g.cs
+C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Table\Privacy.cshtml.g.cs
+C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\RestaurantManagement.csproj.AssemblyReference.cache

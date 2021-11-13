@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,13 +16,17 @@ namespace RestaurantManagement.Models
        // public DbSet<Employee> Employees { get; set; }
       //  public DbSet<Order> Orders { get; set; }
         public DbSet<Table> Tables { get; set; }
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+        //}
         public ClientContext(DbContextOptions<ClientContext> options)
             : base(options)
         {
             Database.EnsureCreated();
         }
 
-       
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -43,7 +43,7 @@ namespace RestaurantManagement.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Table");
                     }
                 }
                 else
@@ -60,7 +60,7 @@ namespace RestaurantManagement.Controllers
         {
             // удаляем аутентификационные куки
             await _SignInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Table");
         }
         [HttpGet]
         public IActionResult Register()
@@ -91,7 +91,7 @@ namespace RestaurantManagement.Controllers
                     await _UserManager.AddToRoleAsync(user, "User");
                     // cookies
                     await _SignInManager.SignInAsync(user, false);
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Table");
                     }
                     else
                     {
