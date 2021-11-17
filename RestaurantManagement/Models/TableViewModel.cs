@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace RestaurantManagement.Models
 {
-    public class Table
+    public class TableViewModel
     {
         public int TableId { get; set; }
         public int? WaiterId { get; set; }
@@ -13,10 +13,10 @@ namespace RestaurantManagement.Models
         public int TableNumber { get; set; }
         public int Capacity { get; set; }
         public string HallPlacing { get; set; }
-        public List<Booking> Bookings { get; set; }
-        public Table()
+        public List<BookingViewModel> Bookings { get; set; }
+        public TableViewModel()
         {
-            Bookings = new List<Booking>();
+            Bookings = new List<BookingViewModel>();
         }
     }
 }

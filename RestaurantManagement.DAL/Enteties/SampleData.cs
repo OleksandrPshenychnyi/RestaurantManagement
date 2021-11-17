@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using RestaurantManagement.DAL.EF;
+using RestaurantManagement.DAL.Enteties;
 using RestaurantManagement.Models;
 using System;
 using System.Collections.Generic;
@@ -7,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace RestaurantManagement
 {
-   public enum Roles
+    public enum Roles
     {
         Admin,
         Waiter,
         User
-    } 
+    }
     public class SampleData
     {
         public static async Task SeedRolesAsync(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
@@ -42,7 +44,7 @@ namespace RestaurantManagement
                 {
                     await userManager.CreateAsync(DefaultAdmin, "Admin1!");
                     await userManager.AddToRoleAsync(DefaultAdmin, Roles.Admin.ToString());
-                    
+
                 }
 
             }
@@ -85,9 +87,9 @@ namespace RestaurantManagement
                 }
             }
         }
-        public static void Initialize(ClientContext context)
+        public static void Initialize(ProjectContext context)
         {
-           
+
             if (!context.Tables.Any())
             {
                 context.Tables.AddRange(
@@ -124,53 +126,6 @@ namespace RestaurantManagement
                 );
                 context.SaveChanges();
             }
-            //if (!context.Clients.Any())
-            //{
-            //    context.Clients.AddRange(
-            //        new Client
-            //        {
-
-            //            FirstName = "dada",
-            //            SecondName = "dada",
-            //            PhoneNumber = 3123123,
-            //            TableNumber = 3
-
-            //        }
-
-            //    );
-            //    context.SaveChanges();
-            //}
-            //if (!context.Bookings.Any())
-            //{
-            //    context.Bookings.AddRange(
-            //        new Booking
-            //        {
-
-            //            TableId = 1,
-                        
-            //            ClientId = 1
-
-            //        },
-            //        new Booking
-            //        {
-
-            //            TableId =2,
-                        
-            //            ClientId = 1
-
-            //        },
-            //        new Booking
-            //        {
-
-            //            TableId = 3,
-                        
-            //            ClientId = 1
-
-            //        }
-            //    );
-            //    context.SaveChanges();
-            //}
         }
     }
 }
-

@@ -6,6 +6,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using RestaurantManagement.BLL.Interfaces;
+using RestaurantManagement.BLL.Services;
+using RestaurantManagement.DAL;
+using RestaurantManagement.DAL.EF;
 using RestaurantManagement.Models;
 using System;
 using System.Collections.Generic;
@@ -27,14 +31,20 @@ namespace RestaurantManagement
         public void ConfigureServices(IServiceCollection services)
         {
             string connection = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<ClientContext>(options => options.UseSqlServer(connection));
+            services.AddDbContext<ProjectContext>(options => options.UseSqlServer(connection));
             services.AddIdentity<User, IdentityRole>(opts =>
             {
                 opts.User.RequireUniqueEmail = true;    //unique email
                 opts.User.AllowedUserNameCharacters = ".@abcdefghijklmnopqrstuvwxyz1234567890"; // symbols
             })
-               .AddEntityFrameworkStores<ClientContext>();
+               .AddEntityFrameworkStores<ProjectContext>();
             services.AddControllersWithViews();
+            services.AddScoped<IBooking, BookingService>();
+            services.AddScoped<ITable, TableService>();
+            services.AddScoped<ITableRepository, TableRepository>();
+            services.AddScoped<IBookingRepository, BookingRepository>();
+            services.AddScoped<IGuestRepository, GuestRepository>();
+            services.AddAuthentication();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

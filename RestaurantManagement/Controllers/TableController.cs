@@ -10,24 +10,24 @@ using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using RestaurantManagement.DAL;
+using RestaurantManagement.DAL.EF;
+using RestaurantManagement.BLL.Interfaces;
+using RestaurantManagement.BLL;
+using AutoMapper;
 
 namespace RestaurantManagement.Controllers
 {
     public class TableController : Controller
     {
-        
-         private UnitOfWork unitOfWork;
-        UserManager<User> _userManager;
-      
-        ClientContext db;
-            public TableController(ClientContext context, UserManager<User> userManager)
+
+        ITable tableService;
+        public TableController(ITable serv)
             {
-                db = context;
-                _userManager = userManager;
-            this.unitOfWork = new UnitOfWork(db);
-           
-        }
-            public async Task<IActionResult> Index()
+            tableService = serv;
+
+            }
+        
+        public async Task<IActionResult> Index()
             {
             if (User.IsInRole("Admin"))
             {
@@ -37,8 +37,10 @@ namespace RestaurantManagement.Controllers
             {
                 return RedirectToAction("Index", "Waiter");
             }
-            //var result = tableRepository.GetTables();
-            return await Task.Run(() => View(unitOfWork.TableRepository.GetTables().Where(table=>table.IsAvailable).ToList()));
+            IEnumerable<TableDTO> tableDtos =  tableService.GetTablesAsync().Where(table => table.IsAvailable).ToList();
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<TableDTO, TableViewModel>()).CreateMapper();
+            var tables = mapper.Map<IEnumerable<TableDTO>, List<TableViewModel>>(tableDtos);
+            return await Task.Run(() => View(tables));
         }
         
     }

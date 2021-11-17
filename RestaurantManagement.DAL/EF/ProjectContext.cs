@@ -1,14 +1,17 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using RestaurantManagement.DAL.Enteties;
+using RestaurantManagement.Models;
 using System;
 using System.Collections.Generic;
 
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RestaurantManagement.Models
+namespace RestaurantManagement.DAL.EF
 {
-    public class ClientContext :IdentityDbContext<User>
+    public class ProjectContext : IdentityDbContext<User>
     {
         public DbSet<Guest> Guests { get; set; }
         public DbSet<Booking> Bookings { get; set; }
@@ -20,7 +23,7 @@ namespace RestaurantManagement.Models
         //{
         //    modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         //}
-        public ClientContext(DbContextOptions<ClientContext> options)
+        public ProjectContext(DbContextOptions<ProjectContext> options)
             : base(options)
         {
             Database.EnsureCreated();

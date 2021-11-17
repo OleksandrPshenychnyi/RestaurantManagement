@@ -1,4 +1,6 @@
-﻿using RestaurantManagement.Models;
+﻿
+using RestaurantManagement.DAL.EF;
+using RestaurantManagement.DAL.Enteties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +10,8 @@ namespace RestaurantManagement.DAL
 {
     public class UnitOfWork : IDisposable
     {
-        private readonly ClientContext db;
-        public UnitOfWork(ClientContext db)
+        private readonly ProjectContext db;
+        public UnitOfWork(ProjectContext db)
         {
             this.db = db;
         }
@@ -55,9 +57,9 @@ namespace RestaurantManagement.DAL
             }
         }
 
-        public void Save()
+        public async void SaveAsync()
         {
-            db.SaveChanges();
+           await db.SaveChangesAsync();
         }
 
         private bool disposed = false;

@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using RestaurantManagement.DAL.EF;
 using RestaurantManagement.Models;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace RestaurantManagement
 
                 try
                 {
-                    var context = services.GetRequiredService<ClientContext>();
+                    var context = services.GetRequiredService<ProjectContext>();
                     var userManager = services.GetRequiredService<UserManager<User>>();
                     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
                     await SampleData.SeedRolesAsync(userManager, roleManager);

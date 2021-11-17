@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RestaurantManagement.Models;
+using RestaurantManagement.DAL.EF;
+using RestaurantManagement.DAL.Enteties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,48 +8,48 @@ using System.Threading.Tasks;
 
 namespace RestaurantManagement.DAL
 {
-    public class GuestRepository : IDisposable, IGuestRepository<Guest>
+    public class GuestRepository : IDisposable, IGuestRepository
     {
-        private ClientContext db;
+        private ProjectContext db;
 
-        public GuestRepository(ClientContext context)
+        public GuestRepository(ProjectContext context)
         {
             this.db = context;
         }
 
-        public IEnumerable<Guest> GetGuests()
+        public async Task<IEnumerable<Guest>> GetGuestsAsync()
         {
 
-            return db.Guests.ToList();
+            return await db.Guests.ToListAsync();
         }
 
-        public Guest Get(int id)
+        public async Task<Guest> GetAsync(int id)
         {
 
-            return db.Guests.Find(id);
+            return await db.Guests.FindAsync(id);
         }
 
-        public void Create(Guest guest)
+        public async void CreateAsync(Guest guest)
         {
-            db.Guests.Add(guest);
+            await db.Guests.AddAsync(guest);
         }
 
-        public void Update(Guest guest)
+        public async void UpdateAsync(Guest guest)
         {
             db.Entry(guest).State = EntityState.Modified;
-            db.SaveChanges();
+
         }
 
-        public void Delete(int id)
+        public async void DeleteAsync(int id)
         {
-            Guest guest = db.Guests.Find(id);
+            Guest guest = await db.Guests.FindAsync(id);
             if (guest != null)
                 db.Guests.Remove(guest);
         }
 
-        public void Save()
+        public async void SaveAsync()
         {
-            db.SaveChanges();
+            await db.SaveChangesAsync();
         }
 
         private bool disposed = false;

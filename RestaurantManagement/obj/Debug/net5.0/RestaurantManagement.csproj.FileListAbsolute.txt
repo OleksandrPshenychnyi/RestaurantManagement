@@ -748,7 +748,6 @@ C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\RestaurantManagement.AssemblyInfoInputs.cache
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\RestaurantManagement.AssemblyInfo.cs
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\RestaurantManagement.csproj.CoreCompileInputs.cache
-C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\RestaurantManagement.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\RestaurantManagement.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\RestaurantManagement.RazorAssemblyInfo.cache
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\RestaurantManagement.RazorAssemblyInfo.cs
@@ -789,3 +788,8 @@ C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Table\Index.cshtml.g.cs
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Table\Privacy.cshtml.g.cs
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\RestaurantManagement.csproj.AssemblyReference.cache
+C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\bin\Debug\net5.0\AutoMapper.dll
+C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\bin\Debug\net5.0\RestaurantManagement.BLL.dll
+C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\bin\Debug\net5.0\RestaurantManagement.DAL.dll
+C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\bin\Debug\net5.0\RestaurantManagement.BLL.pdb
+C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\bin\Debug\net5.0\RestaurantManagement.DAL.pdb
