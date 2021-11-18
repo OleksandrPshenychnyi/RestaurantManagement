@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RestaurantManagement.DAL.Enteties;
-using RestaurantManagement.Models;
 using System;
 using System.Collections.Generic;
 

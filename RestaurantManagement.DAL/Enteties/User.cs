@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using RestaurantManagement.DAL.Enteties;
 
-namespace RestaurantManagement.Models
+
+namespace RestaurantManagement.DAL.Enteties
 {
     public class User : IdentityUser
     {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RestaurantManagement.BLL.Interfaces
 {
-    public interface ITable
+    public interface ITableService
     {
         
         // TableDTO GetTable(int? id);

@@ -5,49 +5,48 @@ using RestaurantManagement.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace RestaurantManagement.DAL
+namespace RestaurantManagement.DAL.Repositories
 {
-    public class GuestRepository : IDisposable, IGenericRepository<Guest>
+    public class UserRepository : IGenericRepository<User>
     {
         private ProjectContext db;
-
-        public GuestRepository(ProjectContext context)
+        
+        public UserRepository(ProjectContext context)
         {
             this.db = context;
         }
 
-        public IEnumerable<Guest> GetAll()
+        public IEnumerable<User> GetAll()
         {
 
-            return  db.Guests.ToList();
+            return  db.Users.ToList();
         }
 
-        public Guest Get(int id)
+        public User Get(int id)
         {
 
-            return  db.Guests.Find(id);
+            return  db.Users.Find(id);
         }
 
-        public  void Create(Guest guest)
+        public  void Create(User user)
         {
-             db.Guests.Add(guest);
-           // await db.SaveChangesAsync();
+             db.Users.Add(user);
         }
 
-        public void Update(Guest guest)
+        public void Update(User user)
         {
-            db.Entry(guest).State = EntityState.Modified;
-            
+            db.Entry(user).State = EntityState.Modified;
+
         }
 
-        public  void Delete(int id)
+        public void Delete(int id)
         {
-            Guest guest =  db.Guests.Find(id);
-            if (guest != null)
-                db.Guests.Remove(guest);
-            
+            User user =  db.Users.Find(id);
+            if (user != null)
+                db.Users.Remove(user);
         }
 
         public  void Save()

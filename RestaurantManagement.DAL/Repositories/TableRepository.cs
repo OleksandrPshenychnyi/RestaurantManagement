@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RestaurantManagement.DAL.EF;
 using RestaurantManagement.DAL.Enteties;
+using RestaurantManagement.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace RestaurantManagement.DAL
 {
-    public class TableRepository : IDisposable, ITableRepository
+    public class TableRepository : IDisposable, IGenericRepository<Table>
     {
         private readonly ProjectContext db;
 
@@ -17,40 +18,42 @@ namespace RestaurantManagement.DAL
             this.db = context;
         }
 
-        public IEnumerable<Table> GetTables()
+        public IEnumerable<Table> GetAll()
         {
            
            return db.Tables.ToList();
         }
 
-        public async Task<Table> GetAsync(int? id)
+        public Table Get(int id)
         {
-            //var tableFind = db.Tables.Find(id);
 
-            return await db.Tables.FindAsync(id);
+            return db.Tables.Find(id);
         }
 
-        public async void CreateAsync(Table table)
+        public void Create(Table table)
         {
-          await db.Tables.AddAsync(table);
+           db.Tables.Add(table);
+            
         }
 
-        public async void UpdateAsync(Table table)
+        public void Update(Table table)
         {
             db.Entry(table).State = EntityState.Modified;
+            
+
+        }
+
+        public void Delete(int id)
+        {
+             Table table =  db.Tables.Find(id);
+            if (table != null)
+                db.Tables.Remove(table);
            
         }
 
-        public async void DeleteAsync(int id)
+            public void Save()
         {
-             Table table = await db.Tables.FindAsync(id);
-            if (table != null)
-                db.Tables.Remove(table);
-        }
-
-            public async void SaveAsync()
-        {
-            await db.SaveChangesAsync();
+             db.SaveChanges();
         }
 
         private bool disposed = false;

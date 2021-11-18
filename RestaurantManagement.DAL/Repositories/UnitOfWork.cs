@@ -1,6 +1,8 @@
 ﻿
 using RestaurantManagement.DAL.EF;
 using RestaurantManagement.DAL.Enteties;
+using RestaurantManagement.DAL.Interfaces;
+using RestaurantManagement.DAL.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace RestaurantManagement.DAL
 {
-    public class UnitOfWork : IDisposable
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly ProjectContext db;
         public UnitOfWork(ProjectContext db)
@@ -16,11 +18,12 @@ namespace RestaurantManagement.DAL
             this.db = db;
         }
 
-
+        
         private TableRepository tableRepository;
         private BookingRepository bookingRepository;
         private GuestRepository guestRepository;
-        public TableRepository TableRepository
+        private UserRepository userRepository;
+        public IGenericRepository<Table> Tables
         {
             get
             {
@@ -32,7 +35,7 @@ namespace RestaurantManagement.DAL
                 return tableRepository;
             }
         }
-        public BookingRepository BookingRepository
+        public IGenericRepository<Booking> Bookings
         {
             get
             {
@@ -44,7 +47,7 @@ namespace RestaurantManagement.DAL
                 return bookingRepository;
             }
         }
-        public GuestRepository GuestRepository
+        public IGenericRepository<Guest> Guests
         {
             get
             {
@@ -56,10 +59,21 @@ namespace RestaurantManagement.DAL
                 return guestRepository;
             }
         }
-
-        public async void SaveAsync()
+        public IGenericRepository<User> Users
         {
-           await db.SaveChangesAsync();
+            get
+            {
+
+                if (this.userRepository == null)
+                {
+                    this.userRepository = new UserRepository(db);
+                }
+                return userRepository;
+            }
+        }
+        public  void SaveAsync()
+        {
+            db.SaveChangesAsync();
         }
 
         private bool disposed = false;

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using RestaurantManagement.DAL.Enteties;
 using RestaurantManagement.Models;
 using RestaurantManagement.ViewModels;
 using System;

@@ -8,9 +8,10 @@ using System.Threading.Tasks;
 
 namespace RestaurantManagement.BLL.Interfaces
 {
-    public interface IBooking
+    public interface IBookingService
     {
-        void ToBookAsync(GuestDTO guest, int id);
+        Task ToBookAsync(GuestDTO guest, int id);
+        void ToBookAutorizedAsync(int tableId, User userGet);
        // TableDTO GetTable(int? id);
         //IEnumerable<TableDTO> GetTables();
         void Dispose();

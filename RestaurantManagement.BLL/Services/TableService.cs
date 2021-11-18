@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace RestaurantManagement.BLL.Services
 {
-    public class TableService : IDisposable, ITable
+    public class TableService : IDisposable, ITableService
     {
         private UnitOfWork unitOfWork;
         ProjectContext db;
@@ -23,9 +23,10 @@ namespace RestaurantManagement.BLL.Services
         }
         public IEnumerable<TableDTO> GetTablesAsync()
         {
-            
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Table, TableDTO>()).CreateMapper();
-            return  mapper.Map<IEnumerable<Table>, List<TableDTO>>(unitOfWork.TableRepository.GetTables());
+            return mapper.Map<IEnumerable<Table>, List<TableDTO>>(unitOfWork.Tables.GetAll());
+            //var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Table, TableDTO>()).CreateMapper();
+            //return  mapper.Map<Task<IEnumerable<Table>>, List<TableDTO>>(unitOfWork.TableRepository.GetTablesAsync());
         }
         public void Dispose()
         {

@@ -20,8 +20,8 @@ namespace RestaurantManagement.Controllers
     public class TableController : Controller
     {
 
-        ITable tableService;
-        public TableController(ITable serv)
+        ITableService tableService;
+        public TableController(ITableService serv)
             {
             tableService = serv;
 

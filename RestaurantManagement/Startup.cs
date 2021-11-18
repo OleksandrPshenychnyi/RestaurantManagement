@@ -10,7 +10,9 @@ using RestaurantManagement.BLL.Interfaces;
 using RestaurantManagement.BLL.Services;
 using RestaurantManagement.DAL;
 using RestaurantManagement.DAL.EF;
-using RestaurantManagement.Models;
+using RestaurantManagement.DAL.Enteties;
+using RestaurantManagement.DAL.Interfaces;
+using RestaurantManagement.DAL.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +33,7 @@ namespace RestaurantManagement
         public void ConfigureServices(IServiceCollection services)
         {
             string connection = Configuration.GetConnectionString("DefaultConnection");
+            
             services.AddDbContext<ProjectContext>(options => options.UseSqlServer(connection));
             services.AddIdentity<User, IdentityRole>(opts =>
             {
@@ -39,11 +42,12 @@ namespace RestaurantManagement
             })
                .AddEntityFrameworkStores<ProjectContext>();
             services.AddControllersWithViews();
-            services.AddScoped<IBooking, BookingService>();
-            services.AddScoped<ITable, TableService>();
-            services.AddScoped<ITableRepository, TableRepository>();
-            services.AddScoped<IBookingRepository, BookingRepository>();
-            services.AddScoped<IGuestRepository, GuestRepository>();
+            services.AddScoped<IBookingService, BookingService>();
+            services.AddScoped<ITableService, TableService>();
+            services.AddScoped<IGenericRepository<Table>, GenericRepository<Table>>();
+            services.AddScoped<IGenericRepository<Booking>, GenericRepository<Booking>>();
+            services.AddScoped<IGenericRepository<Guest>, GenericRepository<Guest>>();
+            services.AddScoped<IGenericRepository<User>, GenericRepository<User>>();
             services.AddAuthentication();
         }
 
