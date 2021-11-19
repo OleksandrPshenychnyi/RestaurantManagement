@@ -9,10 +9,10 @@ namespace RestaurantManagement.DAL.Interfaces
     public interface IGenericRepository<TEntity> where TEntity : class
     {
         IEnumerable<TEntity> GetAll();
-        TEntity Get(int id);
-        void Create(TEntity item);
-        void Update(TEntity item);
-        void Delete(int id);
-        void Save();
+        Task<TEntity> GetAsync(int id);
+        Task CreateAsync(TEntity item);
+        Task UpdateAsync(TEntity item);
+        Task DeleteAsync(int id);
+        Task SaveAsync();
     }
 }

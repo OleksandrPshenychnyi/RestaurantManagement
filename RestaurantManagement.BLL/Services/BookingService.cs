@@ -32,8 +32,7 @@ namespace RestaurantManagement.BLL.Services
         {
             var guestObj = new Guest { TableId = guestDto.TableId,GuestId = guestDto.GuestId,FirstName = guestDto.FirstName,
                 SecondName = guestDto.SecondName, PhoneNumber = guestDto.PhoneNumber };
-            unitOfWork.Guests.Create(guestObj);
-            unitOfWork.Guests.Save();
+           await unitOfWork.Guests.CreateAsync(guestObj);
             int guestid = guestObj.GuestId ;
             Booking booking = new Booking()
             {
@@ -42,17 +41,14 @@ namespace RestaurantManagement.BLL.Services
                 TableId = tableId,
                 Status = "Reserved"
             };
-            unitOfWork.Bookings.Create(booking);
-            unitOfWork.Bookings.Save();
+            await unitOfWork.Bookings.CreateAsync(booking);
 
-            var table = unitOfWork.Tables.Get(tableId);
+            var table =await unitOfWork.Tables.GetAsync(tableId);
             table.IsAvailable = false;
-            unitOfWork.Tables.Update(table);
-             unitOfWork.Tables.Save();
+           await unitOfWork.Tables.UpdateAsync(table);
         }
-        public  void ToBookAutorizedAsync(int tableId, User userGet)
+        public  async Task ToBookAutorizedAsync(int tableId, User userGet)
         {
-            // var userid = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var booking = new Booking()
             {
                 IsLogged = true,
@@ -60,12 +56,10 @@ namespace RestaurantManagement.BLL.Services
                 TableId = tableId,
                 Status = "Reserved"
             };
-            unitOfWork.Bookings.Create(booking);
-            unitOfWork.Bookings.Save();
-            var table = unitOfWork.Tables.Get(tableId);
+           await unitOfWork.Bookings.CreateAsync(booking);
+            var table = await unitOfWork.Tables.GetAsync(tableId);
             table.IsAvailable = false;
-            unitOfWork.Tables.Update(table);
-            unitOfWork.Tables.Save();
+           await  unitOfWork.Tables.UpdateAsync(table);
 
         }
         public void Dispose()

@@ -21,38 +21,38 @@ namespace RestaurantManagement.DAL.Repositories
         public IEnumerable<TEntity> GetAll()
         {
 
-            return _dbSet.ToList();
+            return  _dbSet.ToList();
         }
 
-        public TEntity Get(int id)
+        public async Task< TEntity> GetAsync(int id)
         {
 
-            return _dbSet.Find(id);
+            return await _dbSet.FindAsync(id);
         }
 
-        public void Create(TEntity tEntity)
+        public async Task CreateAsync(TEntity tEntity)
         {
-            _dbSet.Add(tEntity);
-            
+           await _dbSet.AddAsync(tEntity);
+            await db.SaveChangesAsync();
         }
 
-        public void Update(TEntity tEntity)
+        public async Task UpdateAsync(TEntity tEntity)
         {
             db.Entry(tEntity).State = EntityState.Modified;
-
+            await db.SaveChangesAsync();
         }
 
-        public void Delete(int id)
+        public async Task DeleteAsync(int id)
         {
-            TEntity tEntity = _dbSet.Find(id);
+            TEntity tEntity =await _dbSet.FindAsync(id);
             if (tEntity != null)
                 _dbSet.Remove(tEntity);
-
+            await db.SaveChangesAsync();
         }
 
-        public void Save()
+        public async Task SaveAsync()
         {
-            db.SaveChanges();
+            await db.SaveChangesAsync();
         }
 
         //private bool disposed = false;

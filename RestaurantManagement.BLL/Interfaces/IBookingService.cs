@@ -11,7 +11,7 @@ namespace RestaurantManagement.BLL.Interfaces
     public interface IBookingService
     {
         Task ToBookAsync(GuestDTO guest, int id);
-        void ToBookAutorizedAsync(int tableId, User userGet);
+        Task ToBookAutorizedAsync(int tableId, User userGet);
        // TableDTO GetTable(int? id);
         //IEnumerable<TableDTO> GetTables();
         void Dispose();

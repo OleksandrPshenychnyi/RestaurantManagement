@@ -67,22 +67,8 @@ namespace RestaurantManagement.Controllers
         {
              userid = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
            User userGet= await _userManager.FindByIdAsync(userid);
-            bookingService.ToBookAutorizedAsync(tableId, userGet);
-            //var booking = new Booking()
-            //{
-            //    IsLogged = true,
-            //    User = await _userManager.FindByIdAsync(userid),
-            //    TableId = tableId
-            //};
-            //db.Bookings.Add(booking);
-
-            //var table = await db.Tables.FirstOrDefaultAsync(table => table.TableId == booking.TableId);
-            //table.IsAvailable = false;
-
-            //var bookingStatus = await db.Bookings.FirstOrDefaultAsync(booking => table.TableId == booking.TableId);
-            //booking.Status = "Reserved";
-
-            //await db.SaveChangesAsync();
+          await  bookingService.ToBookAutorizedAsync(tableId, userGet);
+            
             return RedirectToAction("ThxPage");
         }
         public async Task<IActionResult> ThxPage(Guest guest)
