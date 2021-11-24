@@ -39,7 +39,8 @@ namespace RestaurantManagement.Controllers
         {
             if (!(User.Identity.IsAuthenticated))
             {
-                var guestObj = new GuestDTO { TableId = guest.TableId, FirstName = guest.FirstName, SecondName = guest.SecondName, PhoneNumber = guest.PhoneNumber };
+                var guestObj = new GuestDTO { TableId = guest.TableId, FirstName = guest.FirstName, 
+                    SecondName = guest.SecondName, PhoneNumber = guest.PhoneNumber };
                 await bookingService.ToBookAsync(guestObj, tableId);
                 return RedirectToAction("ThxPage", guest);
 
@@ -48,12 +49,12 @@ namespace RestaurantManagement.Controllers
 
         }
         [HttpGet]
-        public async Task<IActionResult> ToBookAutorized(int? id)
+        public async Task<IActionResult> ToBookAutorizedAsync(int? id)
         {
             if (id == null) return RedirectToAction("Index");
-            var userid = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var selectuser = await db.Users.Where(user => user.Id == userid).ToListAsync();
+            var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            
+            var selectuser = await db.Users.Where(user => user.Id == userId).ToListAsync();
             ViewBag.User = selectuser;
             ViewBag.TableId = id;
 
@@ -63,11 +64,11 @@ namespace RestaurantManagement.Controllers
             return await Task.Run(() => View());
         }
         [HttpPost]
-        public async Task<IActionResult> ToBookAutorizedAsync(int tableId, string userid)
+        public async Task<IActionResult> ToBookAutorizedAsync(int tableId)
         {
-             userid = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+           string userid = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
            User userGet= await _userManager.FindByIdAsync(userid);
-          await  bookingService.ToBookAutorizedAsync(tableId, userGet);
+           await  bookingService.ToBookAutorizedAsync(tableId, userGet);
             
             return RedirectToAction("ThxPage");
         }

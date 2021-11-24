@@ -17,6 +17,8 @@ namespace RestaurantManagement.BLL
         //public Client(){
         //    Bookings = new List<Booking>();
         //    }
+        public bool Served { get; set; }
         public int TableId { get; set; }
+        
     }
 }

@@ -14,10 +14,10 @@ namespace RestaurantManagement.DAL.EF
     {
         public DbSet<Guest> Guests { get; set; }
         public DbSet<Booking> Bookings { get; set; }
-        //public DbSet<Course> Courses { get; set; }
-       // public DbSet<Employee> Employees { get; set; }
-      //  public DbSet<Order> Orders { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Meal> Meals { get; set; }
         public DbSet<Table> Tables { get; set; }
+        public DbSet<CartItem> ShoppingCartItems { get; set; }
         //protected override void OnModelCreating(DbModelBuilder modelBuilder)
         //{
         //    modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();

@@ -7,46 +7,65 @@ using RestaurantManagement.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using RestaurantManagement.DAL.EF;
+using RestaurantManagement.BLL;
+using AutoMapper;
+using RestaurantManagement.BLL.Interfaces;
+using RestaurantManagement.DAL.Enteties;
 
 namespace RestaurantManagement.Controllers
 {
-    [Authorize(Roles = "Waiter")]
+    //[Authorize(Roles = "Waiter")]
     public class WaiterController : Controller
     {
+        IBookingService bookingService;
+        IGuestService guestService;
         ProjectContext db;
-        public WaiterController(ProjectContext context)
+        public WaiterController(ProjectContext context, IBookingService servB, IGuestService servG)
         {
+            bookingService = servB;
             db = context;
+            guestService = servG;
         }
         public async Task<IActionResult> Index()
         {
-            //var guests = db.Guests.ToList();
-            //var bookings = db.Bookings.ToList();
-            return await Task.Run(() => View(db.Guests.ToList()));
-           
+            IEnumerable<Guest> guestDtos = guestService.GetAllGuestsAsync().ToList();
+            var mapperG = new MapperConfiguration(cfg => cfg.CreateMap<Guest, GuestViewModel>()).CreateMapper();
+            var guests = mapperG.Map<IEnumerable<Guest>, List<GuestViewModel>>(guestDtos);
+            ViewBag.Guest = guests;
+            
+            
+            return await Task.Run(() => View());
+
+
+
         }
-        //[HttpGet]
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null) return RedirectToAction("Index");
-        //    ViewBag.GuestId = id;
-        //    return await Task.Run(() => View());
-        //}
+        [HttpGet]
+        public async Task<IActionResult> Close(int id)
+        {
+            
+            
+            //if (id == null) return RedirectToAction("Index");
+            
+           var guestGet =  await guestService.GetGuestAsync(id);
+            var tableId = guestGet.TableId;
+            
+            ViewBag.TableId = tableId;
+            ViewBag.GuestId = id;
+           
+            return await Task.Run(() => View());
+        }
 
 
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> CancelConfirmed(int id)
-        //{
-        //    Guest guest = await db.Guests.FindAsync(id);
+        [HttpPost, ActionName("Close")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CloseConfirmed(int guestId,  int tableId)
+        {
+            Guest guestGet = await guestService.GetGuestAsync(guestId);
             
-        //    db.Guests.Remove(guest);
+            await bookingService.CloseReservation(guestGet, tableId);
             
-        //    await db.SaveChangesAsync();
-        //    var table =await db.Tables.FirstOrDefaultAsync(table => guest.TableId == table.TableId);
-        //    table.IsAvailable = true;
-        //    await db.SaveChangesAsync();
-        //    return RedirectToAction("Index");
-        
+            return RedirectToAction("Index");
+
+        }
     }
 }

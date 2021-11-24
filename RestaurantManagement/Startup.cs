@@ -44,6 +44,7 @@ namespace RestaurantManagement
             services.AddControllersWithViews();
             services.AddScoped<IBookingService, BookingService>();
             services.AddScoped<ITableService, TableService>();
+            services.AddScoped<IGuestService, GuestService>();
             services.AddScoped<IGenericRepository<Table>, GenericRepository<Table>>();
             services.AddScoped<IGenericRepository<Booking>, GenericRepository<Booking>>();
             services.AddScoped<IGenericRepository<Guest>, GenericRepository<Guest>>();

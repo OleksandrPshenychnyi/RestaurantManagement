@@ -1,4 +1,4 @@
-﻿@model IEnumerable<RestaurantManagement.Models.GuestViewModel>
+﻿@model IEnumerable<RestaurantManagement.Models.BookingViewModel>
 @{
     Layout = null;
 
@@ -16,28 +16,46 @@
 
         <form method="post" asp-controller="Account" asp-action="Logout">
             <h3>List of reserved tables</h3>
+            <input type="hidden" value="@ViewBag.Booking" name="id" />
             <table>
                 <tr>
                     <td>First name</td>
                     <td>Second name</td>
                     <td>Phone number</td>
-                    <td>Table number</td>
+
                     <td></td>
                 </tr>
 
-                @foreach (var guest in Model)
+
+
+                @foreach (var guest in ViewBag.Guest)
                 {
+                    @if (guest.Served == true)
+                    {
+                        <tr>
 
-            <tr>
+                            <td>@guest.FirstName</td>
+                            <td>@guest.SecondName</td>
+                            <td>@guest.PhoneNumber</td>
 
-                <td>@guest.FirstName</td>
-                <td>@guest.SecondName</td>
-                <td>@guest.PhoneNumber</td>
-                
-                <td><a href="~/Waiter/Cancel/@guest.GuestId">Cancel reservation</a></td>
-            </tr>
+                            
+                        </tr>
+                    }
+                    else
+                    {
+                    <tr>
 
-                }
+                        <td>@guest.FirstName</td>
+                        <td>@guest.SecondName</td>
+                        <td>@guest.PhoneNumber</td>
+
+                        <td><a href="~/Waiter/Close/@guest.GuestId">Close reservation</a></td>
+                    </tr>
+                        }
+                    }
+
+
+
             </table>
             <input type="submit" value="Exit" />
         </form>

@@ -88,7 +88,66 @@ namespace RestaurantManagement
         }
         public static void Initialize(ProjectContext context)
         {
+            if (!context.Categories.Any())
+            {
+                context.Categories.AddRange(
+                    new Category
+                    {
+                        CategoryName = "Drinks"
 
+
+                    },
+                    new Category
+                    {
+                        CategoryName = "Soups"
+
+
+                    },
+                    new Category
+                    {
+                        CategoryName = "Meat"
+
+
+                    }
+                );
+                context.SaveChanges();
+            }
+            if (!context.Meals.Any())
+            {
+                context.Meals.AddRange(
+                    new Meal
+                    {
+                        MealName = "Uzvar",
+                        Description = "Made with apples",
+                        ImagePath = "uzvar.png",
+                        UnitPrice = 15.50,
+                        CategoryID = 1
+
+
+                    },
+                    new Meal
+                    {
+                        MealName = "Borshch",
+                        Description = "Red like blood",
+                        ImagePath = "borshch.png",
+                        UnitPrice = 20,
+                        CategoryID = 2
+
+
+                    },
+                    new Meal
+                    {
+                        MealName = "Shashlik",
+                        Description = "You like it eji",
+                        ImagePath = "shashlik.png",
+                        UnitPrice = 50,
+                        CategoryID = 3
+
+
+                    }
+                );
+                context.SaveChanges();
+            }
             if (!context.Tables.Any())
             {
                 context.Tables.AddRange(
@@ -108,7 +167,7 @@ namespace RestaurantManagement
                         Capacity = 5,
                         HallPlacing = "Smoking",
                         WaiterId = 2,
-                        IsAvailable = false
+                        IsAvailable = true
 
 
                     },

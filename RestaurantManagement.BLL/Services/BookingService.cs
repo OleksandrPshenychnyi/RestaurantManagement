@@ -1,4 +1,5 @@
 ﻿
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -28,10 +29,10 @@ namespace RestaurantManagement.BLL.Services
             unitOfWork = new UnitOfWork(db);
 
         }
-        public async Task ToBookAsync(GuestDTO guestDto, int tableId)
+        public async Task ToBookAsync(GuestDTO guestDTO, int tableId)
         {
-            var guestObj = new Guest { TableId = guestDto.TableId,GuestId = guestDto.GuestId,FirstName = guestDto.FirstName,
-                SecondName = guestDto.SecondName, PhoneNumber = guestDto.PhoneNumber };
+            var guestObj = new Guest { TableId = guestDTO.TableId,GuestId = guestDTO.GuestId,FirstName = guestDTO.FirstName,
+                SecondName = guestDTO.SecondName, PhoneNumber = guestDTO.PhoneNumber, Served=false};
            await unitOfWork.Guests.CreateAsync(guestObj);
             int guestid = guestObj.GuestId ;
             Booking booking = new Booking()
@@ -47,8 +48,10 @@ namespace RestaurantManagement.BLL.Services
             table.IsAvailable = false;
            await unitOfWork.Tables.UpdateAsync(table);
         }
+       
         public  async Task ToBookAutorizedAsync(int tableId, User userGet)
         {
+            //decimal disc = new Discount(0.1m).GetDiscountedPrice(Table.Price);
             var booking = new Booking()
             {
                 IsLogged = true,
@@ -61,6 +64,28 @@ namespace RestaurantManagement.BLL.Services
             table.IsAvailable = false;
            await  unitOfWork.Tables.UpdateAsync(table);
 
+        }
+        
+        public async Task CloseReservation(Guest guest, int tableId)
+        {
+            guest.Served = true;
+            await unitOfWork.Guests.UpdateAsync(guest);
+
+            var tableGet = await unitOfWork.Tables.GetAsync(tableId);
+            tableGet.IsAvailable = true;
+            await unitOfWork.Tables.UpdateAsync(tableGet);
+           
+            var bookingObj = db.Bookings.FirstOrDefault(booking => booking.GuestId == guest.GuestId);
+            
+            bookingObj.Status = "Closed";
+            await unitOfWork.Bookings.SaveAsync();
+
+            
+        }
+        public IEnumerable<Booking> GetAllBookings()
+        {
+            
+            return unitOfWork.Bookings.GetAll();
         }
         public void Dispose()
         {
