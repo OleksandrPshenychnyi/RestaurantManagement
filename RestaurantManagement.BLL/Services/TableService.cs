@@ -21,12 +21,11 @@ namespace RestaurantManagement.BLL.Services
             this.unitOfWork = new UnitOfWork(db);
             
         }
-        public IEnumerable<TableDTO> GetTablesAsync()
+        public async Task<IEnumerable<TableDTO>> GetTablesAsync()
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Table, TableDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<Table>, List<TableDTO>>(unitOfWork.Tables.GetAll());
-            //var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Table, TableDTO>()).CreateMapper();
-            //return  mapper.Map<Task<IEnumerable<Table>>, List<TableDTO>>(unitOfWork.TableRepository.GetTablesAsync());
+            return mapper.Map<IEnumerable<Table>, List<TableDTO>>(await unitOfWork.Tables.GetAll());
+            
         }
         public void Dispose()
         {

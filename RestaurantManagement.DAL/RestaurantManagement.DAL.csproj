@@ -5,8 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Repositories\BookingRepository.cs" />
-    <Compile Remove="Repositories\GuestRepository.cs" />
     <Compile Remove="Repositories\TableRepository.cs" />
     <Compile Remove="Repositories\UserRepository.cs" />
   </ItemGroup>

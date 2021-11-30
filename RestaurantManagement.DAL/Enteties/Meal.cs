@@ -20,7 +20,7 @@ namespace RestaurantManagement.DAL.Enteties
         public double? UnitPrice { get; set; }
 
         public int? CategoryID { get; set; }
-
+        public List<Booking_Meal> Booking_Meals { get; set; }
         public virtual Category Category { get; set; }
     }
 }

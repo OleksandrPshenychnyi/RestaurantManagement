@@ -1,0 +1,25 @@
+﻿@model IEnumerable<RestaurantManagement.Models.GuestViewModel>
+
+@{
+    ViewBag.Title = "CloseGuest";
+}
+
+
+
+<h3>Are you sure you want to cancel?</h3>
+<div>
+    <form method="post">
+        <input type="hidden" value="@ViewBag.GuestId" name="guestId" />
+        <input type="hidden" value="@ViewBag.TableId" name="tableId" />
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-actions no-color">
+                <input type="submit" value="Cancel" class="btn btn-danger" />
+
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+        }
+    </form>
+</div>

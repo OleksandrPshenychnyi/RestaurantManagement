@@ -1,4 +1,4 @@
-﻿@model IEnumerable<RestaurantManagement.Models.GuestViewModel>
+﻿@model IEnumerable<RestaurantManagement.Models.BookingViewModel>
 @{
     Layout = null;
 
@@ -7,7 +7,7 @@
 
 <html>
 <head>
-    <title>Reserved tables</title>
+    <title>Archived orders</title>
 </head>
 <body>
     @if (User.Identity.IsAuthenticated)
@@ -15,9 +15,8 @@
         <p>@User.Identity.Name</p>
 
         <form method="post" asp-controller="Account" asp-action="Logout">
-            <h3>List of reserved tables</h3>
-            <a href="~/Waiter/Archive">Archive</a>
-            @*<input type="hidden" value="@ViewBag.Guest" name="GuestId" />*@
+            <h3>List of closed orders</h3>
+            <input type="hidden" value="@ViewBag.Booking" name="id" />
             <table>
                 <tr>
                     <td>First name</td>
@@ -31,18 +30,18 @@
 
                 @foreach (var guest in ViewBag.Guest)
                 {
+                    
+                        <tr>
+
+                            <td>@guest.FirstName</td>
+                            <td>@guest.SecondName</td>
+                            <td>@guest.PhoneNumber</td>
 
 
-                    <tr>
-
-                        <td>@guest.FirstName</td>
-                        <td>@guest.SecondName</td>
-                        <td>@guest.PhoneNumber</td>
-
-                        <td><a href="~/Waiter/CloseGuest/@guest.GuestId">Close reservation</a></td>
-                    </tr>
-
-                }
+                        </tr>
+                    }
+                   
+                
 
                 @foreach (var user in ViewBag.User)
                 {
@@ -53,13 +52,12 @@
                         <td>@user.SecondName</td>
                         <td>@user.PhoneNumber</td>
 
-                        <td><a href="~/Waiter/CloseUser/@user.Id">Close reservation</a></td>
+                        
                     </tr>
 
                 }
 
             </table>
-
             <input type="submit" value="Exit" />
         </form>
     }

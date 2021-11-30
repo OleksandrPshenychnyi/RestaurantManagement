@@ -18,31 +18,31 @@ namespace RestaurantManagement.DAL.Repositories
             db = context;
             _dbSet = db.Set<TEntity>();
         }
-        public IEnumerable<TEntity> GetAll()
+        public virtual async Task<IEnumerable<TEntity>> GetAll()
         {
 
-            return  _dbSet.ToList();
+            return await _dbSet.ToListAsync();
         }
 
-        public async Task< TEntity> GetAsync(int id)
+        public virtual async Task< TEntity> GetAsync(int id)
         {
 
             return await _dbSet.FindAsync(id);
         }
 
-        public async Task CreateAsync(TEntity tEntity)
+        public virtual async Task CreateAsync(TEntity tEntity)
         {
            await _dbSet.AddAsync(tEntity);
             await db.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(TEntity tEntity)
+        public virtual async Task UpdateAsync(TEntity tEntity)
         {
             db.Entry(tEntity).State = EntityState.Modified;
             await db.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int id)
+        public virtual async Task DeleteAsync(int id)
         {
             TEntity tEntity =await _dbSet.FindAsync(id);
             if (tEntity != null)
@@ -50,7 +50,7 @@ namespace RestaurantManagement.DAL.Repositories
             await db.SaveChangesAsync();
         }
 
-        public async Task SaveAsync()
+        public virtual async Task SaveAsync()
         {
             await db.SaveChangesAsync();
         }

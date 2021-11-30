@@ -10,7 +10,7 @@ namespace RestaurantManagement.BLL.Interfaces
     {
         
         // TableDTO GetTable(int? id);
-        IEnumerable<TableDTO> GetTablesAsync();
+        Task<IEnumerable<TableDTO>> GetTablesAsync();
         void Dispose();
     }
 }

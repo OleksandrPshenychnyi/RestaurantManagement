@@ -22,15 +22,15 @@ namespace RestaurantManagement.BLL.Services
             unitOfWork = new UnitOfWork(db);
 
         }
-        public async Task<Guest> GetGuestAsync(int id)
-        {
-           var guest= await unitOfWork.Guests.GetAsync(id);
-            return guest;
-        }
-        public IEnumerable<Guest> GetAllGuestsAsync()
+        //public async Task<Guest> GetGuestAsync(int id)
+        //{
+        //   var guest= await unitOfWork.Guests.GetAsync(id);
+        //    return guest;
+        //}
+        public async Task<IEnumerable<Guest>> GetAllGuestsAsync()
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Guest, GuestDTO>()).CreateMapper();
-            return unitOfWork.Guests.GetAll();
+            return await unitOfWork.Guests.GetAll();
         }
     }
 }

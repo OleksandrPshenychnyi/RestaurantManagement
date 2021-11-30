@@ -37,9 +37,10 @@ namespace RestaurantManagement.Controllers
             {
                 return RedirectToAction("Index", "Waiter");
             }
-            IEnumerable<TableDTO> tableDtos =  tableService.GetTablesAsync().Where(table => table.IsAvailable).ToList();
+            IEnumerable<TableDTO> tableDtos = await tableService.GetTablesAsync();
+            IEnumerable<TableDTO> tableDtosFiltered = tableDtos.Where(table => table.IsAvailable).ToList();
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<TableDTO, TableViewModel>()).CreateMapper();
-            var tables = mapper.Map<IEnumerable<TableDTO>, List<TableViewModel>>(tableDtos);
+            var tables = mapper.Map<IEnumerable<TableDTO>, List<TableViewModel>>(tableDtosFiltered);
             return await Task.Run(() => View(tables));
         }
         

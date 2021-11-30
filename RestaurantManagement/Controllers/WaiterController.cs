@@ -11,6 +11,8 @@ using RestaurantManagement.BLL;
 using AutoMapper;
 using RestaurantManagement.BLL.Interfaces;
 using RestaurantManagement.DAL.Enteties;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 
 namespace RestaurantManagement.Controllers
 {
@@ -20,52 +22,99 @@ namespace RestaurantManagement.Controllers
         IBookingService bookingService;
         IGuestService guestService;
         ProjectContext db;
-        public WaiterController(ProjectContext context, IBookingService servB, IGuestService servG)
+        private readonly UserManager<User> _userManager;
+        public WaiterController(ProjectContext context, IBookingService servB, IGuestService servG, UserManager<User> UserManager)
         {
+            _userManager = UserManager;
             bookingService = servB;
             db = context;
             guestService = servG;
         }
         public async Task<IActionResult> Index()
         {
-            IEnumerable<Guest> guestDtos = guestService.GetAllGuestsAsync().ToList();
-            var mapperG = new MapperConfiguration(cfg => cfg.CreateMap<Guest, GuestViewModel>()).CreateMapper();
-            var guests = mapperG.Map<IEnumerable<Guest>, List<GuestViewModel>>(guestDtos);
+            
+            var activeBookings = await bookingService.GetBookingsAsync("Reserved",false);
+            var users = activeBookings.Select(booking => booking.User);
+            ViewBag.User = users;
+            var activeBookings1 = await bookingService.GetBookingsAsync("Reserved",true);
+            var guests = activeBookings1.Select(booking => booking.Guest).ToList();
             ViewBag.Guest = guests;
-            
-            
+
+
+            return await Task.Run(() => View());
+
+
+
+        }
+        public async Task<IActionResult> Archive()
+        {
+
+            var activeBookings = await bookingService.GetBookingsAsync("Closed",false);
+            var users = activeBookings.Select(booking => booking.User);
+            ViewBag.User = users;
+            var activeBookings1 = await bookingService.GetBookingsAsync("Closed",true);
+            var guests = activeBookings1.Select(booking => booking.Guest);
+            ViewBag.Guest = guests;
+
+
             return await Task.Run(() => View());
 
 
 
         }
         [HttpGet]
-        public async Task<IActionResult> Close(int id)
+        public async Task<IActionResult> CloseGuestAsync(int id)
         {
-            
-            
+
+
             //if (id == null) return RedirectToAction("Index");
+            var getBookingGuest = await bookingService.GetOneBookingGuestAsync(id);
+
             
-           var guestGet =  await guestService.GetGuestAsync(id);
-            var tableId = guestGet.TableId;
-            
-            ViewBag.TableId = tableId;
             ViewBag.GuestId = id;
-           
+
+            var tableId = getBookingGuest.Select(tableId=> tableId.TableId).FirstOrDefault().ToString();
+            ViewBag.TableId = tableId;
+
+
             return await Task.Run(() => View());
         }
-
-
-        [HttpPost, ActionName("Close")]
+        [HttpPost, ActionName("CloseGuest")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CloseConfirmed(int guestId,  int tableId)
+        public async Task<ActionResult> CloseConfirmedGuestAsync(int guestId, int tableId)
         {
-            Guest guestGet = await guestService.GetGuestAsync(guestId);
-            
-            await bookingService.CloseReservation(guestGet, tableId);
-            
+
+            await bookingService.CloseReservationGuest(guestId, tableId);
+
             return RedirectToAction("Index");
 
         }
+        [HttpGet]
+        public async Task<IActionResult> CloseUserAsync(string id)
+        {
+
+
+            //if (id == null) return RedirectToAction("Index");
+
+            var getBookingUser = await bookingService.GetOneBookingUserAsync(id);
+            
+            ViewBag.UserId = id;
+
+            var tableId = getBookingUser.Select(tableId => tableId.TableId).FirstOrDefault().ToString();
+            ViewBag.TableId = tableId;
+
+            return await Task.Run(() => View());
+        }
+        [HttpPost, ActionName("CloseUser")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CloseConfirmedUserAsync(string userId, int tableId)
+        {
+
+            await bookingService.CloseReservationUser(userId, tableId);
+
+            return RedirectToAction("Index");
+
+        }
+
     }
 }

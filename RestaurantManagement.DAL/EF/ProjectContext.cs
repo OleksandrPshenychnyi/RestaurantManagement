@@ -15,9 +15,10 @@ namespace RestaurantManagement.DAL.EF
         public DbSet<Guest> Guests { get; set; }
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Meal> Meals { get; set; }
+        public DbSet<Meal> Meals { get; set; }    
         public DbSet<Table> Tables { get; set; }
         public DbSet<CartItem> ShoppingCartItems { get; set; }
+        public DbSet<Booking_Meal> Booking_Meals { get; set; }
         //protected override void OnModelCreating(DbModelBuilder modelBuilder)
         //{
         //    modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
@@ -43,6 +44,15 @@ namespace RestaurantManagement.DAL.EF
             modelBuilder.Entity<Booking>()
                 .HasOne(p => p.Table)
                 .WithMany(b => b.Bookings);
+
+            modelBuilder.Entity<Booking_Meal>()
+                .HasOne(p => p.Meal)
+                .WithMany(b => b.Booking_Meals)
+                .HasForeignKey(pt => pt.MealId);
+            modelBuilder.Entity<Booking_Meal>()
+                .HasOne(p => p.Booking)
+                .WithMany(b => b.Booking_Meals)
+                .HasForeignKey(pt => pt.BookingId);
             base.OnModelCreating(modelBuilder);
         }
     }

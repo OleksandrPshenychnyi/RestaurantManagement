@@ -793,4 +793,6 @@ C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\bin\Debug\net5.
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\bin\Debug\net5.0\RestaurantManagement.BLL.pdb
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\bin\Debug\net5.0\RestaurantManagement.DAL.pdb
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\RestaurantManagement.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Waiter\Close.cshtml.g.cs
+C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Waiter\Archive.cshtml.g.cs
+C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Waiter\CloseGuest.cshtml.g.cs
+C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Waiter\CloseUser.cshtml.g.cs

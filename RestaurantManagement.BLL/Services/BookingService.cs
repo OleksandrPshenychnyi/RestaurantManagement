@@ -66,27 +66,61 @@ namespace RestaurantManagement.BLL.Services
 
         }
         
-        public async Task CloseReservation(Guest guest, int tableId)
+        public async Task CloseReservationGuest(int guestId, int tableId)
         {
-            guest.Served = true;
-            await unitOfWork.Guests.UpdateAsync(guest);
-
-            var tableGet = await unitOfWork.Tables.GetAsync(tableId);
-            tableGet.IsAvailable = true;
-            await unitOfWork.Tables.UpdateAsync(tableGet);
-           
-            var bookingObj = db.Bookings.FirstOrDefault(booking => booking.GuestId == guest.GuestId);
-            
-            bookingObj.Status = "Closed";
+            var bookingGet = await unitOfWork.Bookings.GetGuestBookingAsync(guestId);
+            var bookingGetGuest = bookingGet.FirstOrDefault(booking => booking.GuestId == guestId);
+            bookingGetGuest.Status = "Closed";
             await unitOfWork.Bookings.SaveAsync();
+            bookingGetGuest.Guest.Served= true;
+            await unitOfWork.Guests.SaveAsync();
+            bookingGetGuest.Table.IsAvailable = true;
+            await unitOfWork.Tables.SaveAsync();
 
-            
         }
-        public IEnumerable<Booking> GetAllBookings()
+        public async Task CloseReservationUser(string userId, int tableId)
         {
-            
-            return unitOfWork.Bookings.GetAll();
+            var bookingGet = await unitOfWork.Bookings.GetUserBookingAsync(userId);
+            var bookingGetUser = bookingGet.FirstOrDefault(booking => booking.TableId == tableId);
+            bookingGetUser.Status = "Closed";
+            await unitOfWork.Bookings.SaveAsync();
+            bookingGetUser.Table.IsAvailable = true;
+            await unitOfWork.Tables.SaveAsync();
+
         }
+        public async Task<IEnumerable<Booking>> GetBookingsAsync(string status, bool isNull)
+        {
+            if (status != "Reserved" && status != "Closed")
+            {
+                throw new InvalidOperationException("Status not found!");
+            }
+            else if (isNull == false)
+            {
+                var activeBookingsUser = await unitOfWork.Bookings.GetAllUserBookingAsync();
+                var activeBookingsFilteredUser = activeBookingsUser.Where(booking => booking.Status == status && booking.User != null);
+                return activeBookingsFilteredUser;
+            }
+            else  
+            {
+                var activeBookingsGuest = await unitOfWork.Bookings.GetAllGuestBookingAsync();
+                var activeBookingsFilteredGuest = activeBookingsGuest.Where(booking => booking.Status == status && booking.User == null);
+                return activeBookingsFilteredGuest;
+            }  
+
+        }
+        public async Task<IEnumerable<Booking>> GetOneBookingGuestAsync(int guestId)
+        {
+            var getBooking = await unitOfWork.Bookings.GetGuestBookingAsync(guestId);
+      
+           return getBooking;
+        }
+        public async Task<IEnumerable<Booking>> GetOneBookingUserAsync(string userId)
+        {
+            var getBooking = await unitOfWork.Bookings.GetUserBookingAsync(userId);
+
+            return getBooking;
+        }
+
         public void Dispose()
         {
             unitOfWork.Dispose();
