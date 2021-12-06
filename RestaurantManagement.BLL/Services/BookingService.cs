@@ -19,20 +19,20 @@ namespace RestaurantManagement.BLL.Services
 {
     public class BookingService : IDisposable,IBookingService
     {
+        private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
         private UnitOfWork unitOfWork;
         ProjectContext db;
-        public BookingService(ProjectContext context, UserManager<User> UserManager)
+        public BookingService(ProjectContext context, UserManager<User> UserManager, IMapper mapper)
         {
             _userManager = UserManager;
             db = context;
             unitOfWork = new UnitOfWork(db);
-
+            _mapper = mapper;
         }
-        public async Task ToBookAsync(GuestDTO guestDTO, int tableId)
+        public async Task ToBookAsync(GuestDTO guestDTO, int tableId, IEnumerable<int> mealId)
         {
-            var guestObj = new Guest { TableId = guestDTO.TableId,GuestId = guestDTO.GuestId,FirstName = guestDTO.FirstName,
-                SecondName = guestDTO.SecondName, PhoneNumber = guestDTO.PhoneNumber, Served=false};
+            var guestObj = _mapper.Map<Guest>(guestDTO);
            await unitOfWork.Guests.CreateAsync(guestObj);
             int guestid = guestObj.GuestId ;
             Booking booking = new Booking()
@@ -43,13 +43,14 @@ namespace RestaurantManagement.BLL.Services
                 Status = "Reserved"
             };
             await unitOfWork.Bookings.CreateAsync(booking);
-
+            var bookingId = booking.Id;
+            await unitOfWork.Bookings_Meals.CreateAsync(bookingId, mealId);
             var table =await unitOfWork.Tables.GetAsync(tableId);
             table.IsAvailable = false;
            await unitOfWork.Tables.UpdateAsync(table);
         }
        
-        public  async Task ToBookAutorizedAsync(int tableId, User userGet)
+        public  async Task ToBookAutorizedAsync(int tableId, User userGet, IEnumerable<int> mealId)
         {
             //decimal disc = new Discount(0.1m).GetDiscountedPrice(Table.Price);
             var booking = new Booking()
@@ -60,6 +61,8 @@ namespace RestaurantManagement.BLL.Services
                 Status = "Reserved"
             };
            await unitOfWork.Bookings.CreateAsync(booking);
+            var bookingId = booking.Id;
+            await unitOfWork.Bookings_Meals.CreateAsync(bookingId, mealId);
             var table = await unitOfWork.Tables.GetAsync(tableId);
             table.IsAvailable = false;
            await  unitOfWork.Tables.UpdateAsync(table);
@@ -88,7 +91,7 @@ namespace RestaurantManagement.BLL.Services
             await unitOfWork.Tables.SaveAsync();
 
         }
-        public async Task<IEnumerable<Booking>> GetBookingsAsync(string status, bool isNull)
+        public async Task<IEnumerable<BookingDTO>> GetBookingsAsync(string status, bool isNull)
         {
             if (status != "Reserved" && status != "Closed")
             {
@@ -97,23 +100,27 @@ namespace RestaurantManagement.BLL.Services
             else if (isNull == false)
             {
                 var activeBookingsUser = await unitOfWork.Bookings.GetAllUserBookingAsync();
-                var activeBookingsFilteredUser = activeBookingsUser.Where(booking => booking.Status == status && booking.User != null);
-                return activeBookingsFilteredUser;
+                var activeBookingsFilteredUser = activeBookingsUser.Where(booking => booking.Status == status && booking.IsLogged == true);
+                var mappedActiveBookingsUser = _mapper.Map<List<BookingDTO>>(activeBookingsFilteredUser);
+                return mappedActiveBookingsUser;
             }
             else  
             {
                 var activeBookingsGuest = await unitOfWork.Bookings.GetAllGuestBookingAsync();
-                var activeBookingsFilteredGuest = activeBookingsGuest.Where(booking => booking.Status == status && booking.User == null);
-                return activeBookingsFilteredGuest;
+                var activeBookingsFilteredGuest = activeBookingsGuest.Where(booking => booking.Status == status && booking.IsLogged == false); 
+                
+                var mappedActiveBookingsGuest = _mapper.Map<List<BookingDTO>>(activeBookingsFilteredGuest);
+                return mappedActiveBookingsGuest;
             }  
 
         }
-        public async Task<IEnumerable<Booking>> GetOneBookingGuestAsync(int guestId)
+        public async Task<IEnumerable<Booking>> GetOneBookingGuestAsync(int? guestId)
         {
             var getBooking = await unitOfWork.Bookings.GetGuestBookingAsync(guestId);
       
            return getBooking;
         }
+
         public async Task<IEnumerable<Booking>> GetOneBookingUserAsync(string userId)
         {
             var getBooking = await unitOfWork.Bookings.GetUserBookingAsync(userId);

@@ -19,13 +19,13 @@ namespace RestaurantManagement.Controllers
 {
     public class TableController : Controller
     {
-
+        private readonly IMapper _mapper;
         ITableService tableService;
-        public TableController(ITableService serv)
+        public TableController(ITableService serv, IMapper mapper)
             {
             tableService = serv;
-
-            }
+            _mapper = mapper;
+        }
         
         public async Task<IActionResult> Index()
             {
@@ -37,11 +37,10 @@ namespace RestaurantManagement.Controllers
             {
                 return RedirectToAction("Index", "Waiter");
             }
+            
             IEnumerable<TableDTO> tableDtos = await tableService.GetTablesAsync();
-            IEnumerable<TableDTO> tableDtosFiltered = tableDtos.Where(table => table.IsAvailable).ToList();
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<TableDTO, TableViewModel>()).CreateMapper();
-            var tables = mapper.Map<IEnumerable<TableDTO>, List<TableViewModel>>(tableDtosFiltered);
-            return await Task.Run(() => View(tables));
+            var mappedTables = _mapper.Map<List<TableViewModel>>(tableDtos);
+            return await Task.Run(() => View(mappedTables));
         }
         
     }

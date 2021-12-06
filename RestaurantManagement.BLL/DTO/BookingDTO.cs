@@ -15,8 +15,9 @@ namespace RestaurantManagement.BLL
         public string Status { get; set; }
         public User User { get; set; }
         public int? GuestId { get; set; }
-        public Guest Guest { get; set; }
+        public GuestDTO Guest { get; set; }
         public int TableId { get; set; }
-        public Table Table { get; set; }
+        public TableDTO Table { get; set; }
+        public List<Booking_Meal> Booking_Meals { get; set; }
     }
 }

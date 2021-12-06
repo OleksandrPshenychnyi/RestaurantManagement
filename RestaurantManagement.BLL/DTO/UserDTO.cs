@@ -12,6 +12,6 @@ namespace RestaurantManagement.BLL.DTO
     {
         public string FirstName { get; set; }
         public string SecondName { get; set; }
-        public ICollection<Booking> Bookings { get; set; }
+        public ICollection<BookingDTO> Bookings { get; set; }
     }
 }

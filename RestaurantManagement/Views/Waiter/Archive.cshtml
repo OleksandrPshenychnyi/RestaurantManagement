@@ -1,4 +1,4 @@
-﻿@model IEnumerable<RestaurantManagement.Models.BookingViewModel>
+﻿@model IEnumerable<RestaurantManagement.Models.GuestViewModel>
 @{
     Layout = null;
 
@@ -15,14 +15,15 @@
         <p>@User.Identity.Name</p>
 
         <form method="post" asp-controller="Account" asp-action="Logout">
-            <h3>List of closed orders</h3>
-            <input type="hidden" value="@ViewBag.Booking" name="id" />
+            <h3>List of archived orders</h3>
+            <a href="~/Waiter/Archive">Archive</a>
+            @*<input type="hidden" value="@ViewBag.Guest" name="GuestId" />*@
             <table>
                 <tr>
                     <td>First name</td>
                     <td>Second name</td>
                     <td>Phone number</td>
-
+                    <td>Meal name</td>
                     <td></td>
                 </tr>
 
@@ -30,34 +31,48 @@
 
                 @foreach (var guest in ViewBag.Guest)
                 {
-                    
-                        <tr>
 
-                            <td>@guest.FirstName</td>
-                            <td>@guest.SecondName</td>
-                            <td>@guest.PhoneNumber</td>
+                    <tr>
+
+                        <td>@guest.Guest.FirstName</td>
+                        <td>@guest.Guest.SecondName</td>
+                        <td>@guest.Guest.PhoneNumber</td>
 
 
-                        </tr>
-                    }
-                   
-                
+
+                        @foreach (var item in guest.Booking_Meals)
+                        {
+                            <td>@item.Meal.MealName</td>
+                        }
+
+
+
+                       
+
+                    </tr>
+
+
+                }
 
                 @foreach (var user in ViewBag.User)
                 {
 
                     <tr>
 
-                        <td>@user.FirstName</td>
-                        <td>@user.SecondName</td>
-                        <td>@user.PhoneNumber</td>
-
-                        
+                        <td>@user.User.FirstName</td>
+                        <td>@user.User.SecondName</td>
+                        <td>@user.User.PhoneNumber</td>
+                        @foreach (var item in user.Booking_Meals)
+                        {
+                            <td>@item.Meal.MealName</td>
+                        }
+                    
                     </tr>
 
                 }
 
             </table>
+
             <input type="submit" value="Exit" />
         </form>
     }

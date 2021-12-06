@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -13,6 +14,7 @@ using RestaurantManagement.DAL.EF;
 using RestaurantManagement.DAL.Enteties;
 using RestaurantManagement.DAL.Interfaces;
 using RestaurantManagement.DAL.Repositories;
+using RestaurantManagement.Mappings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,11 +47,22 @@ namespace RestaurantManagement
             services.AddScoped<IBookingService, BookingService>();
             services.AddScoped<ITableService, TableService>();
             services.AddScoped<IGuestService, GuestService>();
+            services.AddScoped<IMealService, MealService>();
             services.AddScoped<IGenericRepository<Table>, GenericRepository<Table>>();
             services.AddScoped<IBookingRepository, BookingRepository>();
+            services.AddScoped<IBookings_MealsRepository, Booking_MealRepository>();
+            services.AddScoped<IMealRepository, MealRepository>();
             services.AddScoped<IGenericRepository<Guest>, GenericRepository<Guest>>();
             services.AddScoped<IGenericRepository<User>, GenericRepository<User>>();
             services.AddAuthentication();
+
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

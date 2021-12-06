@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace RestaurantManagement.DAL.Interfaces
 {
-    public interface IGuestRepository : IGenericRepository<Guest>
+    public interface IBookings_MealsRepository
     {
-           Task<IEnumerable<Guest>> GetGuestAsync(int id);
+        Task CreateAsync(int bookingId, IEnumerable<int> mealId);
+        Task UpdateAsync(bool mealReady, IEnumerable<int> mealId);
     }
 }

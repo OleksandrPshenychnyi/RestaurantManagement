@@ -17,7 +17,6 @@ namespace RestaurantManagement.DAL.EF
         public DbSet<Category> Categories { get; set; }
         public DbSet<Meal> Meals { get; set; }    
         public DbSet<Table> Tables { get; set; }
-        public DbSet<CartItem> ShoppingCartItems { get; set; }
         public DbSet<Booking_Meal> Booking_Meals { get; set; }
         //protected override void OnModelCreating(DbModelBuilder modelBuilder)
         //{

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<RestaurantManagement.Models.GuestViewModel>
+﻿@model IEnumerable<RestaurantManagement.DAL.Enteties.Meal>
 @{
     Layout = null;
 }
@@ -14,6 +14,7 @@
         <p>To book the table fill the fields below:</p>
         <form method="post">
             <input type="hidden" value="@ViewBag.TableId" name="TableId" />
+
             <table>
                 <tr>
                     <td>First Name:</td>
@@ -28,6 +29,50 @@
                     <td><input type="text" name="PhoneNumber" /></td>
                 </tr>
 
+
+            </table>
+
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.MealName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Description)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ImagePath)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.UnitPrice)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.Meal)
+                    {
+                        <tr>
+                            <td>
+                                @item.MealName
+                            </td>
+                            <td>
+                                @item.Description
+                            </td>
+                            <td>
+                                @item.ImagePath
+                            </td>
+                            <td>
+                                @item.UnitPrice
+                                <input type="checkbox" name="MealId" value="@item.MealId">
+                            </td>
+
+                        </tr>
+
+                    }
+                </tbody>
                 <tr><td><input type="submit" value="Submit" /> </td><td></td></tr>
             </table>
         </form>

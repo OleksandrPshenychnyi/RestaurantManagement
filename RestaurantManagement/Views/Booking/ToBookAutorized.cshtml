@@ -1,4 +1,4 @@
-﻿@model RestaurantManagement.ViewModels.MultipleTypesViewModel
+﻿@model IEnumerable<RestaurantManagement.DAL.Enteties.Meal>
 @{
     Layout = null;
 }
@@ -11,7 +11,6 @@
 <body>
     <div>
         <h3>Booking Form</h3>
-        <p>To book the table fill the fields below:</p>
         <form method="post">
             <table>
                 <tr>
@@ -60,9 +59,49 @@
                     </tr>
 
                 }
+            </table>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.MealName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Description)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ImagePath)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.UnitPrice)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.Meal)
+                    {
+                        <tr>
+                            <td>
+                                @item.MealName
+                            </td>
+                            <td>
+                                @item.Description
+                            </td>
+                            <td>
+                                @item.ImagePath
+                            </td>
+                            <td>
+                                @item.UnitPrice
+                                <input type="checkbox" name="MealId" value="@item.MealId">
+                            </td>
+
+                        </tr>
+
+                    }
+                </tbody>
                 <tr><td><input type="submit" value="Submit" /> </td><td></td></tr>
             </table>
-
         </form>
         
     </div>

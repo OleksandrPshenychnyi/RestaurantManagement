@@ -1,0 +1,98 @@
+﻿@model IEnumerable<RestaurantManagement.Models.GuestViewModel>
+@{
+    Layout = null;
+
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Meals</title>
+</head>
+<body>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <p>@User.Identity.Name</p>
+
+
+        <h3>List of reserved tables</h3>
+        <a href="~/Waiter/Archive">Archive</a>
+        <form method="post">
+            <input type="hidden" value="@ViewBag.BookingMeals" name="Id" />
+            <table>
+                <tr>
+                    <td>Meal name</td>
+                    <td>Unit price</td>
+                    <td></td>
+                </tr>
+
+
+
+                @foreach (var meal in ViewBag.BookingMeals)
+                {
+
+                    <tr>
+
+
+                        @foreach (var item in meal.Booking_Meals)
+                        {
+                            <td>
+                                @item.Meal.MealName
+
+                            </td>
+
+                            <td>
+                                @item.Meal.UnitPrice
+                                <input type="checkbox" name="MealId" value="@item.MealId">
+                            </td>
+
+                        }
+
+
+                    </tr>
+
+
+                }
+
+
+                <tr><td><input type="submit" value="Submit" /> </td><td></td></tr>
+            </table>
+        </form>
+        <form asp-controller="Waiter" asp-action="MealsReadyAsync" method="post">
+            <input type="hidden" value="@ViewBag.BookingMeals" name="Id" />
+            <table>
+                <tbody>
+                    @foreach (var item in ViewBag.Meal)
+                    {
+                        <tr>
+                            <td>
+                                @item.MealName
+                            </td>
+                            <td>
+                                @item.Description
+                            </td>
+                            <td>
+                                @item.ImagePath
+                            </td>
+                            <td>
+                                @item.UnitPrice
+                                <input type="checkbox" name="MealId" value="@item.MealId">
+                            </td>
+
+                        </tr>
+
+                    }
+                </tbody>
+                <tr><td><input type="submit" value="Submit" /> </td><td></td></tr>
+            </table>
+        </form>
+    }
+    else
+    {
+        <a asp-controller="Account" asp-action="Login">Login</a>
+        <a asp-controller="Account" asp-action="Register">Register</a>
+    }
+
+
+</body>
+</html>

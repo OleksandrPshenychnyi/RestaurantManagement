@@ -13,19 +13,22 @@ namespace RestaurantManagement.BLL.Services
 {
     public class TableService : IDisposable, ITableService
     {
+        private readonly IMapper _mapper;
         private UnitOfWork unitOfWork;
         ProjectContext db;
-        public TableService(ProjectContext context)
+        public TableService(ProjectContext context, IMapper mapper)
         {
             db = context;
             this.unitOfWork = new UnitOfWork(db);
-            
+            _mapper = mapper;
         }
         public async Task<IEnumerable<TableDTO>> GetTablesAsync()
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Table, TableDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<Table>, List<TableDTO>>(await unitOfWork.Tables.GetAll());
-            
+            var table = await unitOfWork.Tables.GetAll();
+            var tableFiltered = table.Where(table => table.IsAvailable).ToList();
+            var mappedTable = _mapper.Map<List<TableDTO>>(tableFiltered);
+            return mappedTable;
+
         }
         public void Dispose()
         {

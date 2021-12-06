@@ -11,6 +11,8 @@ namespace RestaurantManagement.DAL.Interfaces
     {
         IBookingRepository Bookings { get; }
         IGuestRepository Guests { get; }
+        IMealRepository Meals { get; }
+        IBookings_MealsRepository Bookings_Meals { get; }
         IGenericRepository<Table> Tables { get; }
         IGenericRepository<User> Users { get; }
     }

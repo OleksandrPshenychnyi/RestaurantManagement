@@ -12,7 +12,7 @@ namespace RestaurantManagement.Models
         public string Dish { get; set; }
         public bool IsLogged { get; set; }
         public string Status { get; set; }
-       // public UserViewModel User { get; set; }
+        public UserViewModel User { get; set; }
         public int? GuestId { get; set; }
         public GuestViewModel Guest { get; set; }
         public int TableId { get; set; }

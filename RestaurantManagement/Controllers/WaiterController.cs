@@ -19,26 +19,28 @@ namespace RestaurantManagement.Controllers
     //[Authorize(Roles = "Waiter")]
     public class WaiterController : Controller
     {
+        private readonly IMapper _mapper;
         IBookingService bookingService;
         IGuestService guestService;
+        IMealService mealService;
         ProjectContext db;
         private readonly UserManager<User> _userManager;
-        public WaiterController(ProjectContext context, IBookingService servB, IGuestService servG, UserManager<User> UserManager)
+        public WaiterController(ProjectContext context, IBookingService servB, IGuestService servG,IMealService servM, UserManager<User> UserManager, IMapper mapper)
         {
+            mealService = servM;
             _userManager = UserManager;
             bookingService = servB;
             db = context;
             guestService = servG;
+            _mapper = mapper;
         }
         public async Task<IActionResult> Index()
         {
-            
-            var activeBookings = await bookingService.GetBookingsAsync("Reserved",false);
-            var users = activeBookings.Select(booking => booking.User);
-            ViewBag.User = users;
-            var activeBookings1 = await bookingService.GetBookingsAsync("Reserved",true);
-            var guests = activeBookings1.Select(booking => booking.Guest).ToList();
-            ViewBag.Guest = guests;
+            var bookingDtosUser = await bookingService.GetBookingsAsync("Reserved", false);
+            ViewBag.User = bookingDtosUser;
+           
+            IEnumerable<BookingDTO> bookingDtosGuest = await bookingService.GetBookingsAsync("Reserved", true);
+            ViewBag.Guest = bookingDtosGuest;
 
 
             return await Task.Run(() => View());
@@ -49,12 +51,10 @@ namespace RestaurantManagement.Controllers
         public async Task<IActionResult> Archive()
         {
 
-            var activeBookings = await bookingService.GetBookingsAsync("Closed",false);
-            var users = activeBookings.Select(booking => booking.User);
-            ViewBag.User = users;
-            var activeBookings1 = await bookingService.GetBookingsAsync("Closed",true);
-            var guests = activeBookings1.Select(booking => booking.Guest);
-            ViewBag.Guest = guests;
+            var closedBookingsUser = await bookingService.GetBookingsAsync("Closed",false);
+            ViewBag.User = closedBookingsUser;
+            var closedBookingsGuest = await bookingService.GetBookingsAsync("Closed",true);
+            ViewBag.Guest = closedBookingsGuest;
 
 
             return await Task.Run(() => View());
@@ -63,11 +63,11 @@ namespace RestaurantManagement.Controllers
 
         }
         [HttpGet]
-        public async Task<IActionResult> CloseGuestAsync(int id)
+        public async Task<IActionResult> CloseGuestAsync(int? id)
         {
 
 
-            //if (id == null) return RedirectToAction("Index");
+            if (id == null) return RedirectToAction("Index");
             var getBookingGuest = await bookingService.GetOneBookingGuestAsync(id);
 
             
@@ -90,11 +90,12 @@ namespace RestaurantManagement.Controllers
 
         }
         [HttpGet]
+
         public async Task<IActionResult> CloseUserAsync(string id)
         {
 
 
-            //if (id == null) return RedirectToAction("Index");
+            if (id == null) return RedirectToAction("Index");
 
             var getBookingUser = await bookingService.GetOneBookingUserAsync(id);
             
@@ -115,6 +116,28 @@ namespace RestaurantManagement.Controllers
             return RedirectToAction("Index");
 
         }
+        [HttpGet]
 
+        public async Task<IActionResult> MealsReadyAsync(int? id)
+        {
+            if (id == null) return RedirectToAction("Index");
+            var getBookingMeal = await mealService.GetBookingForMeals(id);
+           
+            ViewBag.BookingId = id;
+            ViewBag.BookingMeals = getBookingMeal;
+            var mealGet = await mealService.GetMealsAsync();
+            ViewBag.Meal = mealGet;
+
+            return await Task.Run(() => View());
+        }
+        [HttpPost, ActionName("MealsReadyAsync")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> MealsReadyAsync(int id, IEnumerable<int> mealId)
+        {
+
+             await mealService.CreateMealAsync(id, mealId);
+            return RedirectToAction("Index");
+
+        }
     }
 }

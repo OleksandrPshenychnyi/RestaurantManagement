@@ -792,7 +792,12 @@ C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\bin\Debug\net5.
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\bin\Debug\net5.0\RestaurantManagement.DAL.dll
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\bin\Debug\net5.0\RestaurantManagement.BLL.pdb
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\bin\Debug\net5.0\RestaurantManagement.DAL.pdb
-C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\RestaurantManagement.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Waiter\Archive.cshtml.g.cs
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Waiter\CloseGuest.cshtml.g.cs
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Waiter\CloseUser.cshtml.g.cs
+C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Meal\Create.cshtml.g.cs
+C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Meal\Delete.cshtml.g.cs
+C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Meal\Details.cshtml.g.cs
+C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Meal\Edit.cshtml.g.cs
+C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Meal\Index.cshtml.g.cs
+C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Waiter\MealsReady.cshtml.g.cs

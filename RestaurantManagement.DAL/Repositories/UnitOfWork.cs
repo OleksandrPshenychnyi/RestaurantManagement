@@ -21,9 +21,10 @@ namespace RestaurantManagement.DAL
         
         private GenericRepository<Table> tableRepository;
         private GuestRepository guestRepository;
-        //private GenericRepository<Guest> guestRepository;
         private GenericRepository<User> userRepository;
         private BookingRepository bookingRepository;
+        private Booking_MealRepository booking_mealRepository;
+        private IMealRepository mealRepository;
         public IGenericRepository<Table> Tables
         {
             get
@@ -82,6 +83,30 @@ namespace RestaurantManagement.DAL
                     this.bookingRepository = new BookingRepository(db);
                 }
                 return bookingRepository;
+            }
+        }
+        public IBookings_MealsRepository Bookings_Meals
+        {
+            get
+            {
+
+                if (this.booking_mealRepository == null)
+                {
+                    this.booking_mealRepository = new Booking_MealRepository(db);
+                }
+                return booking_mealRepository;
+            }
+        }
+        public IMealRepository Meals
+        {
+            get
+            {
+
+                if (this.mealRepository == null)
+                {
+                    this.mealRepository = new MealRepository(db);
+                }
+                return mealRepository;
             }
         }
         public IGuestRepository Guests

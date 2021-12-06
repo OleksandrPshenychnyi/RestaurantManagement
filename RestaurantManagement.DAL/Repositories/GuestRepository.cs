@@ -18,7 +18,7 @@ namespace RestaurantManagement.DAL.Repositories
             db = context;
 
         }
-        public  async Task<IEnumerable<Guest>> GetAsync(int id)
+        public  async Task<IEnumerable<Guest>> GetGuestAsync(int id)
         {
             var getGuest = await db.Guests.Include(guest=> guest.Booking).Where(guest => guest.GuestId == id).ToListAsync();
             return getGuest;

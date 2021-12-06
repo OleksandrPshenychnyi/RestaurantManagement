@@ -13,9 +13,6 @@ namespace RestaurantManagement.DAL.Enteties
         public string SecondName { get; set; }
         public int PhoneNumber { get; set; }
         public Booking Booking { get; set; }
-        //public Client(){
-        //    Bookings = new List<Booking>();
-        //    }
         public bool Served { get; set; }
         public int TableId { get; set; }
         

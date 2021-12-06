@@ -10,7 +10,6 @@ namespace RestaurantManagement.DAL.Enteties
     {
         public int Id { get; set; }
         public int? Discount { get; set; }
-        //public string Dish { get; set; }
         public bool IsLogged { get; set; }
         public string Status { get; set; }
         public User User { get; set; }

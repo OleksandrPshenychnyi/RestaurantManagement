@@ -14,22 +14,25 @@ namespace RestaurantManagement.DAL.Repositories
     {
         private ProjectContext db;
         
-        public BookingRepository(ProjectContext context):base(context)
+        public BookingRepository( ProjectContext context):base(context)
         {
             db = context;
-          
+           
         }
         public async Task<IEnumerable<Booking>> GetAllUserBookingAsync()
         {
 
-            return await db.Bookings.Include(booking => booking.User).ToListAsync();
+            return await db.Bookings.Include(booking => booking.User).Include(booking => booking.Booking_Meals)
+                .ThenInclude(booking => booking.Meal).ToListAsync();
         }
         public  async Task<IEnumerable<Booking>> GetAllGuestBookingAsync()
         {
+            var bookingG = await db.Bookings.Include(booking => booking.Guest).Include(booking => booking.Booking_Meals)
+                .ThenInclude(booking => booking.Meal).ToListAsync();
 
-            return await db.Bookings.Include(booking => booking.Guest).ToListAsync();
+            return bookingG;
         }
-        public async Task<IEnumerable<Booking>> GetGuestBookingAsync(int guestId)
+        public async Task<IEnumerable<Booking>> GetGuestBookingAsync(int? guestId)
         {
             var getBooking = await db.Bookings.Include(booking => booking.Table).Include(booking => booking.Guest).
                 Where(booking => booking.GuestId == guestId).ToListAsync();
@@ -37,14 +40,20 @@ namespace RestaurantManagement.DAL.Repositories
 
             return getBooking;
         }
-        public async Task<IEnumerable<Booking>> GetUserBookingAsync(string userId)
+#nullable enable
+        public async Task<IEnumerable<Booking>> GetUserBookingAsync(string? userId)
         {
             var getBooking = await db.Bookings.Include(booking => booking.Table).
-                Where(booking => booking.User.Id == userId).ToListAsync();
+                Where(booking => booking.User.Id == userId && booking.Status == "Reserved").ToListAsync();
 
 
             return getBooking;
         }
-
+        public async Task<IEnumerable<Booking>> GetBookingForMealAsync(int? id)
+        {
+            var getBookingMeal = await db.Bookings.Include(booking => booking.Booking_Meals).ThenInclude(booking => booking.Meal)
+                .Where(booking => booking.Id == id).ToListAsync();
+            return getBookingMeal;
+        }
     }
 }

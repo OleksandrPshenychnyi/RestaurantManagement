@@ -18,47 +18,61 @@
             <h3>List of reserved tables</h3>
             <a href="~/Waiter/Archive">Archive</a>
             @*<input type="hidden" value="@ViewBag.Guest" name="GuestId" />*@
-            <table>
-                <tr>
-                    <td>First name</td>
-                    <td>Second name</td>
-                    <td>Phone number</td>
-
-                    <td></td>
-                </tr>
-
-
-
-                @foreach (var guest in ViewBag.Guest)
-                {
+        <table>
+            <tr>
+                <td>First name</td>
+                <td>Second name</td>
+                <td>Phone number</td>
+                <td>Meal name</td>
+                <td></td>
+            </tr>
 
 
-                    <tr>
 
-                        <td>@guest.FirstName</td>
-                        <td>@guest.SecondName</td>
-                        <td>@guest.PhoneNumber</td>
+            @foreach (var guest in ViewBag.Guest)
+            {
+               
+        <tr>
 
-                        <td><a href="~/Waiter/CloseGuest/@guest.GuestId">Close reservation</a></td>
-                    </tr>
+            <td>@guest.Guest.FirstName</td>
+            <td>@guest.Guest.SecondName</td>
+            <td>@guest.Guest.PhoneNumber</td>
 
-                }
 
-                @foreach (var user in ViewBag.User)
-                {
 
-                    <tr>
+            
 
-                        <td>@user.FirstName</td>
-                        <td>@user.SecondName</td>
-                        <td>@user.PhoneNumber</td>
 
-                        <td><a href="~/Waiter/CloseUser/@user.Id">Close reservation</a></td>
-                    </tr>
+            <td><a href="~/Waiter/MealsReady/@guest.Id">Check meals</a></td>
+            <td><a href="~/Waiter/CloseGuest/@guest.Guest.GuestId">Close reservation</a></td>
 
-                }
+        </tr>
 
-            </table>
+
+            }
+
+            @foreach (var user in ViewBag.User)
+            {
+
+        <tr>
+
+            <td>@user.User.FirstName</td>
+            <td>@user.User.SecondName</td>
+            <td>@user.User.PhoneNumber</td>
+            @*@foreach (var item in user.Booking_Meals)
+        {
+           <td>@item.Meal.MealName</td>
+
+            }*@
+
+            
+            <td><a href="~/Waiter/MealsReady/@user.Id">Check meals</a></td>
+            <td><a href="~/Waiter/CloseUser/@user.User.Id">Close reservation</a></td>
+        </tr>
+
+            }
+
+        </table>
 
             <input type="submit" value="Exit" />
         </form>
