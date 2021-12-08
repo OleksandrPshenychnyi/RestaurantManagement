@@ -132,11 +132,21 @@ namespace RestaurantManagement.Controllers
         }
         [HttpPost, ActionName("MealsReadyAsync")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> MealsReadyAsync(int id, IEnumerable<int> mealId)
+        public async Task<ActionResult> MealsReadyAsync(int Id, IEnumerable<int> mealId, IEnumerable<int> amount)
         {
 
-             await mealService.CreateMealAsync(id, mealId);
-            return RedirectToAction("Index");
+             await mealService.CreateMealAsync(Id, mealId, amount);
+            return RedirectToAction("MealsReady", "Waiter", new { @id = Id });
+            
+
+        }
+        [HttpPost, ActionName("MealsReadyCheckedAsync")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> MealsReadyCheckedAsync(int Id, IEnumerable<int> mealId)
+        {
+
+            await mealService.UpdateStatusMealAsync(Id, mealId);
+            return RedirectToAction("MealsReady","Waiter", new {@id = Id } );
 
         }
     }

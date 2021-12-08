@@ -7,11 +7,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace RestaurantManagement.BLL.Services
 {
     public class MealService : IMealService
     {
+        
         private UnitOfWork unitOfWork;
         ProjectContext db;
         public MealService(ProjectContext context)
@@ -36,6 +38,7 @@ namespace RestaurantManagement.BLL.Services
         }
         public async Task CreateMealAsync(Meal meal)
         {
+            
             await unitOfWork.Meals.CreateMealAsync(meal);
         }
         public async Task UpdateMealAsync(Meal meal)
@@ -56,15 +59,15 @@ namespace RestaurantManagement.BLL.Services
             var bookingMealGet = await unitOfWork.Bookings.GetBookingForMealAsync(id);
             return bookingMealGet;
         }
-        public async Task CreateMealAsync( int bookingId, IEnumerable<int> mealId)
+        public async Task CreateMealAsync( int bookingId, IEnumerable<int> mealId, IEnumerable<int> amount)
         {
 
-            await unitOfWork.Bookings_Meals.CreateAsync(bookingId, mealId);
+            await unitOfWork.Bookings_Meals.CreateAsync(bookingId, mealId, amount);
         }
-        public async Task UpdateStatusMealAsync(bool mealReady, IEnumerable<int> mealId)
+        public async Task UpdateStatusMealAsync(int id, IEnumerable<int> mealId)
         {
-
-            await unitOfWork.Bookings_Meals.UpdateAsync(mealReady, mealId);
+            
+            await unitOfWork.Bookings_Meals.UpdateAsync(id, mealId);
         }
     }
 }

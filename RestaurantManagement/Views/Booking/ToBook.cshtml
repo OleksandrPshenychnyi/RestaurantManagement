@@ -1,4 +1,4 @@
-﻿@model IEnumerable<RestaurantManagement.DAL.Enteties.Meal>
+﻿@model RestaurantManagement.ViewModels.MultipleTypesViewModel
 @{
     Layout = null;
 }
@@ -36,40 +36,39 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.MealName)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Description)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.ImagePath)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.UnitPrice)
-                        </th>
-                        <th></th>
+                        <td>Meal Name</td>
+                        <td>Description</td>
+                        <td>Image</td>
+                        <td>Price</td>
+                        <td>Amount</td>
+
+                        <td></td>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in ViewBag.Meal)
                     {
-                        <tr>
+                    <tr>
+                        <td>
+                            @item.MealName
+                        </td>
+                        <td>
+                            @item.Description
+                        </td>
+                        <td>
+                            <a href="@("Images/"+item.ImagePath)">
+                                <img src="@("~/Images/"+item.ImagePath)" asp-append-version="true" width="50" height="50" />
+                            </a>
+                        </td>
+                        <td>
+                            @item.UnitPrice
+                            <input type="checkbox" name="MealId" value="@item.MealId">
+                        </td>
+                        
                             <td>
-                                @item.MealName
+                            <input type="number" min="1" name="amount" />
                             </td>
-                            <td>
-                                @item.Description
-                            </td>
-                            <td>
-                                @item.ImagePath
-                            </td>
-                            <td>
-                                @item.UnitPrice
-                                <input type="checkbox" name="MealId" value="@item.MealId">
-                            </td>
-
-                        </tr>
+                    </tr>
 
                     }
                 </tbody>

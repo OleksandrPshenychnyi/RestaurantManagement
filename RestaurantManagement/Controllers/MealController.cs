@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RestaurantManagement.BLL.Interfaces;
@@ -6,6 +7,7 @@ using RestaurantManagement.DAL.EF;
 using RestaurantManagement.DAL.Enteties;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,14 +15,16 @@ namespace RestaurantManagement.Controllers
 {
     public class MealController : Controller
     {
+        private readonly IWebHostEnvironment _hostEnvironment;
         IMealService mealService;
         private readonly UserManager<User> _userManager;
         private readonly ProjectContext db;
-        public MealController(ProjectContext projectContext, UserManager<User> UserManager, IMealService servM)
+        public MealController(ProjectContext projectContext, UserManager<User> UserManager, IMealService servM, IWebHostEnvironment hostEnvironment)
         {
             _userManager = UserManager;
             db = projectContext;
             mealService = servM;
+            _hostEnvironment = hostEnvironment;
         }
        
         [HttpGet]
@@ -55,10 +59,19 @@ namespace RestaurantManagement.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MealId,MealName,Description,ImagePath,UnitPrice")] Meal meal)
+        public async Task<IActionResult> Create([Bind("MealId,MealName,Description,ImagePath,ImageFile,UnitPrice")] Meal meal)
         {
             if (ModelState.IsValid)
             {
+                string wwwrootPath = _hostEnvironment.WebRootPath;
+                string FileName = Path.GetFileNameWithoutExtension(meal.ImageFile.FileName);
+                string extension = Path.GetExtension(meal.ImageFile.FileName);
+                meal.ImagePath = FileName = FileName + DateTime.Now.ToString("yymmssfff") + extension;
+                string path = Path.Combine(wwwrootPath + "/Images/" + FileName);
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    await meal.ImageFile.CopyToAsync(fileStream);
+                }
                 await mealService.CreateMealAsync(meal);
                 return RedirectToAction(nameof(Index));
             }
@@ -84,7 +97,7 @@ namespace RestaurantManagement.Controllers
        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("MealId,MealName,Description,ImagePath,UnitPrice")] Meal meal)
+        public async Task<IActionResult> Edit(int id, [Bind("MealId,MealName,Description,ImagePath,ImageFile,UnitPrice")] Meal meal)
         {
             if (id != meal.MealId)
             {
@@ -95,6 +108,15 @@ namespace RestaurantManagement.Controllers
             {
                 try
                 {
+                    string wwwrootPath = _hostEnvironment.WebRootPath;
+                    string FileName = Path.GetFileNameWithoutExtension(meal.ImageFile.FileName);
+                    string extension = Path.GetExtension(meal.ImageFile.FileName);
+                    meal.ImagePath = FileName = FileName + DateTime.Now.ToString("yymmssfff") + extension;
+                    string path = Path.Combine(wwwrootPath + "/Images/" + FileName);
+                    using (var fileStream = new FileStream(path, FileMode.Create))
+                    {
+                        await meal.ImageFile.CopyToAsync(fileStream);
+                    }
                     await mealService.UpdateMealAsync(meal);
                 }
                 catch (DbUpdateConcurrencyException)

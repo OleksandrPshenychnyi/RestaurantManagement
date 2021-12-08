@@ -41,12 +41,12 @@ namespace RestaurantManagement.Controllers
             return await Task.Run(() => View());
         }
         [HttpPost]
-        public async Task<IActionResult> ToBookAsync(GuestViewModel guest, int tableId, IEnumerable<int> mealId)
+        public async Task<IActionResult> ToBookAsync(GuestViewModel guest, int tableId, IEnumerable<int> mealId, IEnumerable<int> amount)
         {
             if (!(User.Identity.IsAuthenticated))
             {
                 var mappedGuest = _mapper.Map<GuestDTO>(guest);
-                await bookingService.ToBookAsync(mappedGuest, tableId, mealId);
+                await bookingService.ToBookAsync(mappedGuest, tableId, mealId,amount);
                 return RedirectToAction("ThxPage", guest);
 
             }
@@ -70,11 +70,11 @@ namespace RestaurantManagement.Controllers
             return await Task.Run(() => View());
         }
         [HttpPost]
-        public async Task<IActionResult> ToBookAutorizedAsync(int tableId, IEnumerable<int> mealId)
+        public async Task<IActionResult> ToBookAutorizedAsync(int tableId, IEnumerable<int> mealId, IEnumerable<int> amount)
         {
            string userid = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
            User userGet= await _userManager.FindByIdAsync(userid);
-           await  bookingService.ToBookAutorizedAsync(tableId, userGet,mealId);
+           await  bookingService.ToBookAutorizedAsync(tableId, userGet,mealId, amount);
             
             return RedirectToAction("ThxPage");
         }

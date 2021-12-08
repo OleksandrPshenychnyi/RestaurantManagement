@@ -16,7 +16,6 @@
 
         <form method="post" asp-controller="Account" asp-action="Logout">
             <h3>List of archived orders</h3>
-            <a href="~/Waiter/Archive">Archive</a>
             @*<input type="hidden" value="@ViewBag.Guest" name="GuestId" />*@
             <table>
                 <tr>
@@ -43,11 +42,12 @@
                         @foreach (var item in guest.Booking_Meals)
                         {
                             <td>@item.Meal.MealName</td>
+                            <td>@item.Amount</td>
                         }
 
 
 
-                       
+
 
                     </tr>
 
@@ -65,16 +65,20 @@
                         @foreach (var item in user.Booking_Meals)
                         {
                             <td>@item.Meal.MealName</td>
+                            <td>@item.Amount</td>
                         }
-                    
+
                     </tr>
 
                 }
 
             </table>
-
+            <div>
+                <a asp-action="Index">Back to List</a>
+            </div>
             <input type="submit" value="Exit" />
         </form>
+        
     }
     else
     {

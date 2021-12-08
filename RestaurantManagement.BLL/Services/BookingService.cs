@@ -30,7 +30,7 @@ namespace RestaurantManagement.BLL.Services
             unitOfWork = new UnitOfWork(db);
             _mapper = mapper;
         }
-        public async Task ToBookAsync(GuestDTO guestDTO, int tableId, IEnumerable<int> mealId)
+        public async Task ToBookAsync(GuestDTO guestDTO, int tableId, IEnumerable<int> mealId, IEnumerable<int> amount)
         {
             var guestObj = _mapper.Map<Guest>(guestDTO);
            await unitOfWork.Guests.CreateAsync(guestObj);
@@ -44,13 +44,13 @@ namespace RestaurantManagement.BLL.Services
             };
             await unitOfWork.Bookings.CreateAsync(booking);
             var bookingId = booking.Id;
-            await unitOfWork.Bookings_Meals.CreateAsync(bookingId, mealId);
+            await unitOfWork.Bookings_Meals.CreateAsync(bookingId, mealId,amount);
             var table =await unitOfWork.Tables.GetAsync(tableId);
             table.IsAvailable = false;
            await unitOfWork.Tables.UpdateAsync(table);
         }
        
-        public  async Task ToBookAutorizedAsync(int tableId, User userGet, IEnumerable<int> mealId)
+        public  async Task ToBookAutorizedAsync(int tableId, User userGet, IEnumerable<int> mealId, IEnumerable<int> amount)
         {
             //decimal disc = new Discount(0.1m).GetDiscountedPrice(Table.Price);
             var booking = new Booking()
@@ -62,7 +62,7 @@ namespace RestaurantManagement.BLL.Services
             };
            await unitOfWork.Bookings.CreateAsync(booking);
             var bookingId = booking.Id;
-            await unitOfWork.Bookings_Meals.CreateAsync(bookingId, mealId);
+            await unitOfWork.Bookings_Meals.CreateAsync(bookingId, mealId, amount);
             var table = await unitOfWork.Tables.GetAsync(tableId);
             table.IsAvailable = false;
            await  unitOfWork.Tables.UpdateAsync(table);

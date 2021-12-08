@@ -15,8 +15,8 @@ namespace RestaurantManagement.BLL.Interfaces
         Task UpdateMealAsync(Meal meal);
         Task DeleteMealAsync(int id);
         Task<IEnumerable<Booking>> GetBookingForMeals(int? id);
-        Task CreateMealAsync(int bookingId, IEnumerable<int> mealId);
-        Task UpdateStatusMealAsync(bool mealReady, IEnumerable<int> mealId);
+        Task CreateMealAsync(int bookingId, IEnumerable<int> mealId, IEnumerable<int> amount);
+        Task UpdateStatusMealAsync(int id, IEnumerable<int> mealId);
         Task<bool> MealExists(int id);
     }
 }

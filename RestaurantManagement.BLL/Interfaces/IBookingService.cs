@@ -13,8 +13,8 @@ namespace RestaurantManagement.BLL.Interfaces
         Task<IEnumerable<Booking>> GetOneBookingGuestAsync(int? id);
 #nullable enable
         Task<IEnumerable<Booking>> GetOneBookingUserAsync(string? id);
-        Task ToBookAsync(GuestDTO guest, int id, IEnumerable<int> mealId);
-        Task ToBookAutorizedAsync(int tableId, User userGet, IEnumerable<int> mealId);
+        Task ToBookAsync(GuestDTO guest, int id, IEnumerable<int> mealId, IEnumerable<int> amount);
+        Task ToBookAutorizedAsync(int tableId, User userGet, IEnumerable<int> mealId, IEnumerable<int> amount);
         Task CloseReservationGuest(int guestId, int tableId);
         Task CloseReservationUser(string userId, int tableId);
         void Dispose();

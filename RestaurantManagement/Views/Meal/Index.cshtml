@@ -37,7 +37,9 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ImagePath)
+                <a href="@("Images/"+item.ImagePath)">
+                    <img src="@("~/Images/"+item.ImagePath)" asp-append-version="true" width="50" height="50" />
+                </a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.UnitPrice)

@@ -801,3 +801,4 @@ C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Meal\Edit.cshtml.g.cs
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Meal\Index.cshtml.g.cs
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Waiter\MealsReady.cshtml.g.cs
+C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\RestaurantManagement.MvcApplicationPartsAssemblyInfo.cs

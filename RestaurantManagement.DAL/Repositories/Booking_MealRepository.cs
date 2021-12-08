@@ -17,18 +17,18 @@ namespace RestaurantManagement.DAL.Repositories
             db = context;
 
         }
-        public async Task CreateAsync (int bookingId, IEnumerable<int> mealId)
+        public async Task CreateAsync (int bookingId, IEnumerable<int> mealId, IEnumerable<int> amount)
         {
             var massBooking = new List<Booking_Meal>();
-           
-            foreach (var id in mealId)
+            var mealsAndAmount = mealId.Zip(amount, (m, a) => new { MealId = m, Amount = a });
+            foreach (var ma in mealsAndAmount)
             {
-
                 Booking_Meal booking_meal = new Booking_Meal()
                 {
                     BookingId = bookingId,
-                    MealId = id,
-                    MealReady = false
+                    MealId = ma.MealId,
+                    MealReady = false,
+                    Amount = ma.Amount
                 };
                 massBooking.Add(booking_meal);
             }
@@ -36,23 +36,17 @@ namespace RestaurantManagement.DAL.Repositories
             await db.Booking_Meals.AddRangeAsync(massBooking);
             await db.SaveChangesAsync();
         }
-        public async Task UpdateAsync(bool mealReady, IEnumerable<int> mealId)
+        public async Task UpdateAsync(int bookingId, IEnumerable<int> mealId)
         {
             var massBooking = new List<Booking_Meal>();
-
+            Booking_Meal booking_meal = db.Booking_Meals.Where(b => b.BookingId == bookingId && b.MealReady == false).FirstOrDefault();
             foreach (var id in mealId)
-            {
-
-                Booking_Meal booking_meal = new Booking_Meal()
-                {
-                   
-                    MealId = id,
-                    MealReady = true
-                };
+            { 
+                 booking_meal.MealReady = true;
                 massBooking.Add(booking_meal);
             }
 
-            await db.Booking_Meals.AddRangeAsync(massBooking);
+             db.Booking_Meals.UpdateRange(massBooking);
             await db.SaveChangesAsync();
         }
     }

@@ -119,7 +119,7 @@ namespace RestaurantManagement
                     {
                         MealName = "Uzvar",
                         Description = "Made with apples",
-                        ImagePath = "uzvar.png",
+                        ImagePath = "Photo1.png",
                         UnitPrice = 15.50,
                         CategoryID = 1
 
@@ -129,7 +129,7 @@ namespace RestaurantManagement
                     {
                         MealName = "Borshch",
                         Description = "Red like blood",
-                        ImagePath = "borshch.png",
+                        ImagePath = "Photo2.png",
                         UnitPrice = 20,
                         CategoryID = 2
 
