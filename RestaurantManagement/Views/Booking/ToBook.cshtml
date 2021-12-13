@@ -1,43 +1,81 @@
-﻿@model RestaurantManagement.ViewModels.MultipleTypesViewModel
-@{
-    Layout = null;
-}
+﻿@model RestaurantManagement.Models.GuestViewModel
+@{ Layout = "~/Views/Shared/_Layout.cshtml"; }
 
 <!DOCTYPE html>
+
 <html>
 <head>
     <title>Booking page</title>
 </head>
 <body>
+   
     <div>
         <h3>Booking Form</h3>
         <p>To book the table fill the fields below:</p>
+
         <form method="post">
             <input type="hidden" value="@ViewBag.TableId" name="TableId" />
+            <div>
+                <table class="table">
+                    <tr>
+                        <td>First Name:</td>
+                        <td><input type="text" name="FirstName" required /> </td>
 
-            <table>
-                <tr>
-                    <td>First Name:</td>
-                    <td><input type="text" name="FirstName"> </td>
-                </tr>
-                <tr>
-                    <td>Second Name:</td>
-                    <td><input type="text" name="SecondName" /></td>
-                </tr>
-                <tr>
-                    <td>Phone Number:</td>
-                    <td><input type="text" name="PhoneNumber" /></td>
-                </tr>
-
-
-            </table>
+                    </tr>
+                    <tr>
+                        <td>Second Name:</td>
+                        <td><input type="text" name="SecondName" required /></td>
+                    </tr>
+                    <tr>
+                        <td>Phone Number:</td>
+                        <td><input type="text" name="PhoneNumber" required /></td>
+                    </tr>
 
 
-            <table class="table">
+                </table>
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.ReservationDate)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.ReservationDate)
+                @Html.ValidationMessageFor(model => model.ReservationDate)
+            </div>
+            <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <td>Meal Name</td>
+                        <th>Table number</th>
+                        <th>Capacity</th>
+                        <th>Hall placing</th>
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var table in ViewBag.Table)
+                    {
+
+        <tr>
+
+            <td>@table.TableNumber</td>
+            <td>@table.Capacity</td>
+            <td>@table.HallPlacing</td>
+
+
+        </tr>
+}
+                </tbody>
+            </table>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <td>
+                            Meal Name
+                        </td>
                         <td>Description</td>
+                        <td>
+                            Category
+                        </td>
                         <td>Image</td>
                         <td>Price</td>
                         <td>Amount</td>
@@ -46,35 +84,39 @@
                     </tr>
                 </thead>
                 <tbody>
+
                     @foreach (var item in ViewBag.Meal)
                     {
-                    <tr>
-                        <td>
-                            @item.MealName
-                        </td>
-                        <td>
-                            @item.Description
-                        </td>
-                        <td>
-                            <a href="@("Images/"+item.ImagePath)">
-                                <img src="@("~/Images/"+item.ImagePath)" asp-append-version="true" width="50" height="50" />
-                            </a>
-                        </td>
-                        <td>
-                            @item.UnitPrice
-                            <input type="checkbox" name="MealId" value="@item.MealId">
-                        </td>
-                        
-                            <td>
-                            <input type="number" min="1" name="amount" />
-                            </td>
-                    </tr>
+        <tr>
+            <td>
+                @item.MealName
+            </td>
+            <td>
+                @item.Description
+            </td>
+            <td>
+                @item.Category
+            </td>
+            <td>
+                <a href="@("Images/" + item.ImagePath)">
+                    <img src="@("~/Images/" + item.ImagePath)" asp-append-version="true" width="50" height="50" />
+                </a>
+            </td>
+            <td>
 
-                    }
+                @item.UnitPrice
+                <input type="checkbox" name="MealId" value="@item.MealId">
+            </td>
+
+            <td>
+                <input type="number" min="1" value="1" name="amount" />
+            </td>
+        </tr>}
                 </tbody>
                 <tr><td><input type="submit" value="Submit" /> </td><td></td></tr>
             </table>
         </form>
     </div>
+
 </body>
 </html>

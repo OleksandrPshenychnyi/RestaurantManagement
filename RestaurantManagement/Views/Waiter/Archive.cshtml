@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<RestaurantManagement.Models.GuestViewModel>
 @{
-    Layout = null;
 
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <!DOCTYPE html>
 
@@ -16,69 +16,56 @@
 
         <form method="post" asp-controller="Account" asp-action="Logout">
             <h3>List of archived orders</h3>
-            @*<input type="hidden" value="@ViewBag.Guest" name="GuestId" />*@
-            <table>
-                <tr>
-                    <td>First name</td>
-                    <td>Second name</td>
-                    <td>Phone number</td>
-                    <td>Meal name</td>
-                    <td></td>
-                </tr>
+            <table class="table  table-bordered">
+                <thead>
+                    <tr>
+                        <th>First name</th>
+                        <th>Second name</th>
+                        <th>Phone number</th>
+                        <th>Archived Meals</th>
+                    </tr>
+                </thead>
 
-
-
-                @foreach (var guest in ViewBag.Guest)
-                {
+                <tbody>
+                    @foreach (var guest in ViewBag.Guest)
+                    {
 
                     <tr>
 
                         <td>@guest.Guest.FirstName</td>
                         <td>@guest.Guest.SecondName</td>
                         <td>@guest.Guest.PhoneNumber</td>
+                        <td><a href="~/Waiter/ArchivedMealsGuest/@guest.Id">Archived Meals</a></td>
 
 
-
-                        @foreach (var item in guest.Booking_Meals)
-                        {
-                            <td>@item.Meal.MealName</td>
-                            <td>@item.Amount</td>
-                        }
-
-
-
-
-
+                     
                     </tr>
 
 
-                }
 
-                @foreach (var user in ViewBag.User)
-                {
+                    }
 
-                    <tr>
+                    @foreach (var user in ViewBag.User)
+                    {
 
-                        <td>@user.User.FirstName</td>
-                        <td>@user.User.SecondName</td>
-                        <td>@user.User.PhoneNumber</td>
-                        @foreach (var item in user.Booking_Meals)
-                        {
-                            <td>@item.Meal.MealName</td>
-                            <td>@item.Amount</td>
-                        }
+                        <tr>
 
-                    </tr>
+                            <td>@user.User.FirstName</td>
+                            <td>@user.User.SecondName</td>
+                            <td>@user.User.PhoneNumber</td>
+                            <td><a href="~/Waiter/ArchivedMealsUser/@user.Id">Archived Meals</a></td>
 
-                }
+                        </tr>
 
-            </table>
+                    }
+                    </tbody>
+                </table>
             <div>
                 <a asp-action="Index">Back to List</a>
             </div>
             <input type="submit" value="Exit" />
         </form>
-        
+
     }
     else
     {

@@ -10,6 +10,6 @@ namespace RestaurantManagement.BLL.Interfaces
    public interface IGuestService
     {
         //Task<Guest> GetGuestAsync(int id);
-        Task<IEnumerable<Guest>> GetAllGuestsAsync();
+        Task<IEnumerable<GuestDTO>> GetAllGuestsAsync();
     }
 }

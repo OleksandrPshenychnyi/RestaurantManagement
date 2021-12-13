@@ -14,6 +14,7 @@ namespace RestaurantManagement
         Waiter,
         User
     }
+ 
     public class SampleData
     {
         public static async Task SeedRolesAsync(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
@@ -88,30 +89,7 @@ namespace RestaurantManagement
         }
         public static void Initialize(ProjectContext context)
         {
-            if (!context.Categories.Any())
-            {
-                context.Categories.AddRange(
-                    new Category
-                    {
-                        CategoryName = "Drinks"
-
-
-                    },
-                    new Category
-                    {
-                        CategoryName = "Soups"
-
-
-                    },
-                    new Category
-                    {
-                        CategoryName = "Meat"
-
-
-                    }
-                );
-                context.SaveChanges();
-            }
+            
             if (!context.Meals.Any())
             {
                 context.Meals.AddRange(
@@ -120,9 +98,8 @@ namespace RestaurantManagement
                         MealName = "Uzvar",
                         Description = "Made with apples",
                         ImagePath = "Photo1.png",
-                        UnitPrice = 15.50,
-                        CategoryID = 1
-
+                        UnitPrice = 15.50M,
+                        Category = "Drinks"
 
                     },
                     new Meal
@@ -130,9 +107,8 @@ namespace RestaurantManagement
                         MealName = "Borshch",
                         Description = "Red like blood",
                         ImagePath = "Photo2.png",
-                        UnitPrice = 20,
-                        CategoryID = 2
-
+                        UnitPrice = 20m,
+                        Category ="Soups"
 
                     },
                     new Meal
@@ -140,9 +116,8 @@ namespace RestaurantManagement
                         MealName = "Shashlik",
                         Description = "You like it eji",
                         ImagePath = "shashlik.png",
-                        UnitPrice = 50,
-                        CategoryID = 3
-
+                        UnitPrice = 50m,
+                        Category = "Cooked on grill"
 
                     }
                 );
@@ -156,9 +131,9 @@ namespace RestaurantManagement
                         TableNumber = 5,
                         Capacity = 3,
                         HallPlacing = "Non smoking",
-                        WaiterId = 1,
-                        IsAvailable = true
-
+                        IsAvailable = true,
+                        TablePrice = 30,
+                        TableDiscount =10m
 
                     },
                     new Table
@@ -166,19 +141,18 @@ namespace RestaurantManagement
                         TableNumber = 2,
                         Capacity = 5,
                         HallPlacing = "Smoking",
-                        WaiterId = 2,
-                        IsAvailable = true
-
-
+                        IsAvailable = true,
+                        TablePrice = 40,
+                        TableDiscount = 20m
                     },
                     new Table
                     {
                         TableNumber = 8,
                         Capacity = 3,
                         HallPlacing = "Non smoking",
-                        WaiterId = 3,
-                        IsAvailable = true
-
+                        IsAvailable = true,
+                        TablePrice = 60,
+                        TableDiscount = 30m
 
                     }
                 );

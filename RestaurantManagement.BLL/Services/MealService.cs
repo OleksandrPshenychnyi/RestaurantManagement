@@ -8,42 +8,46 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using RestaurantManagement.BLL.BusinessModels;
+using RestaurantManagement.BLL.DTO;
+using AutoMapper;
 
 namespace RestaurantManagement.BLL.Services
 {
     public class MealService : IMealService
     {
-        
+        private readonly IMapper _mapper;
         private UnitOfWork unitOfWork;
         ProjectContext db;
-        public MealService(ProjectContext context)
+        public MealService(ProjectContext context, IMapper mapper)
         {
             db = context;
             unitOfWork = new UnitOfWork(db);
-
+            _mapper = mapper;
         }
-        public async Task<IEnumerable<Meal>> GetMealsAsync()
+        public async Task<IEnumerable<MealDTO>> GetMealsAsync()
         {
 
             var mealGet = await unitOfWork.Meals.GetAllMealsAsync();
-
-            return mealGet;
+            var mappedMealGet = _mapper.Map<List<MealDTO>>(mealGet);
+            return mappedMealGet;
         }
-        public async Task<Meal> GetOneMealAsync(int? id)
+        public async Task<MealDTO> GetOneMealAsync(int? id)
         {
 
             var mealGet = await unitOfWork.Meals.GetOneMealAsync(id);
-
-            return mealGet;
+            var mappedMealGet = _mapper.Map<MealDTO>(mealGet);
+            return mappedMealGet;
         }
-        public async Task CreateMealAsync(Meal meal)
+        public async Task CreateMealAsync(MealDTO meal)
         {
-            
-            await unitOfWork.Meals.CreateMealAsync(meal);
+            var mappedMealGet = _mapper.Map<Meal>(meal);
+            await unitOfWork.Meals.CreateMealAsync(mappedMealGet);
         }
-        public async Task UpdateMealAsync(Meal meal)
+        public async Task UpdateMealAsync(MealDTO meal)
         {
-            await unitOfWork.Meals.UpdateAsync(meal);
+            var mappedMealGet = _mapper.Map<Meal>(meal);
+            await unitOfWork.Meals.UpdateAsync(mappedMealGet);
         }
         public async Task DeleteMealAsync(int id)
         {
@@ -54,15 +58,21 @@ namespace RestaurantManagement.BLL.Services
             return await unitOfWork.Meals.Exists(id);
         }
       
-        public async Task<IEnumerable<Booking>> GetBookingForMeals (int? id)
+        public async Task<IEnumerable<BookingDTO>> GetBookingForMeals (int? id)
         {
             var bookingMealGet = await unitOfWork.Bookings.GetBookingForMealAsync(id);
-            return bookingMealGet;
+            var mappedMealGet = _mapper.Map<List<BookingDTO>>(bookingMealGet);
+            return mappedMealGet;
         }
         public async Task CreateMealAsync( int bookingId, IEnumerable<int> mealId, IEnumerable<int> amount)
         {
 
             await unitOfWork.Bookings_Meals.CreateAsync(bookingId, mealId, amount);
+            var oneBooking = await unitOfWork.Bookings.GetAsync(bookingId);
+            var massMeals = await unitOfWork.Meals.GetAllMealsFilteredAsync(mealId);
+            decimal price = new PriceCounter().MealPriceAsync(massMeals, amount);
+            oneBooking.Bill += price;
+            await unitOfWork.Bookings.UpdateAsync(oneBooking);
         }
         public async Task UpdateStatusMealAsync(int id, IEnumerable<int> mealId)
         {

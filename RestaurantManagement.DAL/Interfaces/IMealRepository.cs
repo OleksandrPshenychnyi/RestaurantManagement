@@ -13,6 +13,10 @@ namespace RestaurantManagement.DAL.Interfaces
         Task<Meal> GetOneMealAsync(int? id);
         Task CreateMealAsync(Meal meal);
         Task<bool> Exists(int id);
-       
+        Task UpdateMealAsync(Meal meal);
+        Task DeleteMealAsync(int id);
+        Task<IEnumerable<Meal>> GetAllMealsFilteredAsync(IEnumerable<int> mealId);
+
+
     }
 }

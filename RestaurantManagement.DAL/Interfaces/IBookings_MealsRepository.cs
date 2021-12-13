@@ -11,6 +11,6 @@ namespace RestaurantManagement.DAL.Interfaces
     {
         Task CreateAsync(int bookingId, IEnumerable<int> mealId, IEnumerable<int> amount);
         Task UpdateAsync(int bookingId, IEnumerable<int> mealId);
-        
+        //decimal MealPriceAsync(IEnumerable<Meal> mealId, IEnumerable<int> amount);
     }
 }

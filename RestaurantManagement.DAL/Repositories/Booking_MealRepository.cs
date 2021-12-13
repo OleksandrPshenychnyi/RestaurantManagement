@@ -38,16 +38,31 @@ namespace RestaurantManagement.DAL.Repositories
         }
         public async Task UpdateAsync(int bookingId, IEnumerable<int> mealId)
         {
-            var massBooking = new List<Booking_Meal>();
-            Booking_Meal booking_meal = db.Booking_Meals.Where(b => b.BookingId == bookingId && b.MealReady == false).FirstOrDefault();
-            foreach (var id in mealId)
-            { 
-                 booking_meal.MealReady = true;
-                massBooking.Add(booking_meal);
-            }
+            
+            IEnumerable<Booking_Meal> booking_meal = db.Booking_Meals.Where(b => b.BookingId == bookingId && b.MealReady == false && mealId.Contains(b.MealId)).ToList();
 
-             db.Booking_Meals.UpdateRange(massBooking);
+            foreach (var item in booking_meal)
+            {
+                item.MealReady = true;
+            }
+           
+             db.Booking_Meals.UpdateRange(booking_meal);
             await db.SaveChangesAsync();
         }
+        //public decimal MealPriceAsync(IEnumerable<Meal> mealId, IEnumerable<int> amount)
+        //{
+        //    var mealsAndAmount =  mealId.Zip(amount, (m, a) => new { MealId = m, Amount = a });
+        //    decimal count = 0;
+        //    decimal sum = 0;
+        //    foreach (var ma in mealsAndAmount)
+        //    {
+        //        var price = ma.MealId.UnitPrice;
+        //        var amountCount = ma.Amount;
+        //         count = price * amountCount;
+        //         sum += count;
+        //    }
+        //    return  sum;
+           
+        //}
     }
 }

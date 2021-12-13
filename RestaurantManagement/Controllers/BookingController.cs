@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using X.PagedList;
 
 namespace RestaurantManagement.Controllers
 {
@@ -22,22 +23,30 @@ namespace RestaurantManagement.Controllers
         private readonly IMapper _mapper;
         IBookingService bookingService;
         IMealService mealService;
-        public BookingController(IBookingService serv, ProjectContext projectContext, UserManager<User> UserManager, IMapper mapper, IMealService servM)
+        ITableService tableService;
+        public BookingController(IBookingService serv, ProjectContext projectContext, UserManager<User> UserManager, IMapper mapper, IMealService servM, ITableService servT)
         {
             _userManager = UserManager;
             bookingService = serv;
             db = projectContext;
             _mapper = mapper;
             mealService = servM;
+            tableService = servT;
         }
         ProjectContext db;
         [HttpGet]
         public async Task<IActionResult> ToBook(int? id)
         {
             if (id == null) return RedirectToAction("Index");
+            
+
             ViewBag.TableId = id;
+            
             var mealGet = await mealService.GetMealsAsync();
+            var selecttable = await tableService.GetOneTableAsync(id);
+            ViewBag.Table = selecttable;
             ViewBag.Meal = mealGet;
+           
             return await Task.Run(() => View());
         }
         [HttpPost]
@@ -45,10 +54,13 @@ namespace RestaurantManagement.Controllers
         {
             if (!(User.Identity.IsAuthenticated))
             {
-                var mappedGuest = _mapper.Map<GuestDTO>(guest);
-                await bookingService.ToBookAsync(mappedGuest, tableId, mealId,amount);
-                return RedirectToAction("ThxPage", guest);
-
+                if (ModelState.IsValid)
+                {
+                    var mappedGuest = _mapper.Map<GuestDTO>(guest);
+                    await bookingService.ToBookAsync(mappedGuest, tableId, mealId, amount);
+                    return RedirectToAction("ThxPage", guest);
+                }
+                return View(guest);
             }
             else return RedirectToAction("ToBookAutorized");
 
@@ -63,18 +75,20 @@ namespace RestaurantManagement.Controllers
             ViewBag.User = selectuser;
             ViewBag.TableId = id;
 
-            var selecttable = await db.Tables.Where(table => table.TableId == id).ToListAsync();
+            var selecttable = await  tableService.GetOneTableAsync(id);
+            var getTable = selecttable.FirstOrDefault();
+            ViewBag.TableDiscount = getTable.TableDiscount;
             ViewBag.Table = selecttable;
             var mealGet = await mealService.GetMealsAsync();
             ViewBag.Meal = mealGet;
             return await Task.Run(() => View());
         }
         [HttpPost]
-        public async Task<IActionResult> ToBookAutorizedAsync(int tableId, IEnumerable<int> mealId, IEnumerable<int> amount)
+        public async Task<IActionResult> ToBookAutorizedAsync(int tableId, IEnumerable<int> mealId, IEnumerable<int> amount, decimal tableDiscount)
         {
            string userid = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
            User userGet= await _userManager.FindByIdAsync(userid);
-           await  bookingService.ToBookAutorizedAsync(tableId, userGet,mealId, amount);
+           await  bookingService.ToBookAutorizedAsync(tableId, userGet,mealId, amount, tableDiscount);
             
             return RedirectToAction("ThxPage");
         }

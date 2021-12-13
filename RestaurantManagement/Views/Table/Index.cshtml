@@ -2,7 +2,7 @@
 
 @{
 
-    Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <!DOCTYPE html>
 
@@ -17,29 +17,32 @@
         <p>@User.Identity.Name</p>
 
         <form method="post" asp-controller="Account" asp-action="Logout">
-            <h3>List of tables</h3>
-            <table>
-                <tr>
-                    <td>Table Number</td>
-                    <td>Capacity</td>
-                    <td>Hall Placing</td>
-
-                    <td></td>
-                </tr>
-
-                @foreach (var table in Model)
-                {
-
+            <h3 class="lead">List of tables</h3>
+            <table class="table  table-bordered">
+                <thead>
                     <tr>
-
-                        <td>@table.TableNumber</td>
-                        <td>@table.Capacity</td>
-                        <td>@table.HallPlacing</td>
-
-                        <td><a href="~/Booking/ToBookAutorized/@table.TableId">To Book</a></td>
+                        <th>Table Number</th>
+                        <th>Capacity</th>
+                        <th>Hall Placing</th>
+                        <th>Booking price</th>
+                        <th></th>
                     </tr>
+                </thead>
+                <tbody>
+                    @foreach (var table in Model)
+                    {
 
-                }
+                        <tr>
+
+                            <td>@table.TableNumber</td>
+                            <td>@table.Capacity</td>
+                            <td>@table.HallPlacing</td>
+                            <td>@table.TablePrice</td>
+                            <td><a href="~/Booking/ToBookAutorized/@table.TableId">To Book</a></td>
+                        </tr>
+
+                    }
+                    </tbody>
             </table>
             <input type="submit" value="Exit" />
         </form>
@@ -50,28 +53,31 @@
         <a asp-controller="Account" asp-action="Login">Login</a>
         <a asp-controller="Account" asp-action="Register">Register</a>
         <h3>List of tables</h3>
-        <table>
-            <tr>
-                <td>Table Number</td>
-                <td>Capacity</td>
-                <td>Hall Placing</td>
-
-                <td></td>
-            </tr>
-
-            @foreach (var table in Model)
-            {
-
+        <table class="table  table-bordered">
+            <thead>
                 <tr>
-
-                    <td>@table.TableNumber</td>
-                    <td>@table.Capacity</td>
-                    <td>@table.HallPlacing</td>
-
-                    <td><a href="~/Booking/ToBook/@table.TableId">To Book</a></td>
+                    <th>Table Number</th>
+                    <th>Capacity</th>
+                    <th>Hall Placing</th>
+                    <th>Booking price</th>
+                    <th></th>
                 </tr>
+            </thead>
+            <tbody>
+                @foreach (var table in Model)
+                {
 
-            }
+                    <tr>
+
+                        <td>@table.TableNumber</td>
+                        <td>@table.Capacity</td>
+                        <td>@table.HallPlacing</td>
+                        <td>@table.TablePrice</td>
+                        <td><a href="~/Booking/ToBook/@table.TableId">To Book</a></td>
+                    </tr>
+
+                }
+                </tbody>
         </table>
     }
 

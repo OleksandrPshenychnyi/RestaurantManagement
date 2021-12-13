@@ -8,9 +8,15 @@ namespace RestaurantManagement.BLL.Interfaces
 {
     public interface ITableService
     {
-        
-        // TableDTO GetTable(int? id);
+
+        Task<IEnumerable<TableDTO>> GetTablesListAsync();
         Task<IEnumerable<TableDTO>> GetTablesAsync();
+        Task<List<TableDTO>> GetOneTableAsync(int? id);
+        Task CreateTableAsync(TableDTO table);
+        Task UpdateTableAsync(TableDTO table);
+        Task DeleteTableAsync(int id);
+        Task<TableDTO> GetTableAsync(int? id);
+        Task<bool> TableExists(int id);
         void Dispose();
     }
 }

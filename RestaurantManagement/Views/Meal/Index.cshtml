@@ -1,55 +1,86 @@
-﻿@model IEnumerable<RestaurantManagement.DAL.Enteties.Meal>
+﻿@model X.PagedList.IPagedList<RestaurantManagement.Models.MealViewModel>
 
-@{
-    ViewData["Title"] = "Index";
-}
+@using X.PagedList.Mvc.Core;
 
+@using X.PagedList.Web.Common;
+@{ ViewData["Title"] = "Index"; }
+
+@using (Html.BeginForm())
+{
 <h1>Avaliable for order meals</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
+       <p>
+           <a asp-action="Create">Create New</a>
+       </p>
+       <form asp-controller="Meal" asp-action="Index" method="get">
+           <p>
+              
+               Title: <input type="text" name="SearchString" />
+               <input type="submit" value="Filter" />
+           </p>
+       </form>
+         <table class="table">
+             <thead>
+                 <tr>
+                 <th> @Html.ActionLink("Meal Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })</th>
+
             <th>
-                @Html.DisplayNameFor(model => model.MealName)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Description)
+            </th>
+
+            <th>
+                @Html.ActionLink("Category", "Index", new { sortOrder = ViewBag.CategorySortParm, currentFilter = ViewBag.CurrentFilter })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().ImageFile)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ImagePath)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UnitPrice)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().UnitPrice)
             </th>
             <th></th>
         </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.MealName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                <a href="@("Images/"+item.ImagePath)">
-                    <img src="@("~/Images/"+item.ImagePath)" asp-append-version="true" width="50" height="50" />
-                </a>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UnitPrice)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.MealId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MealId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MealId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+             </thead>
+                           <tbody>
+                               @foreach (var item in Model)
+                               {
+                               <tr>
+                                   <td>
+                                       @Html.DisplayFor(modelItem => item.MealName)
+                                   </td>
+                                   <td>
+                                       @Html.DisplayFor(modelItem => item.Description)
+                                   </td>
+                                   <td>
+                                       @Html.DisplayFor(modelItem => item.Category)
+                                   </td>
+                                   <td>
+                                       <a href="@("Images/" + item.ImagePath)">
+                                           <img src="@("~/Images/" + item.ImagePath)" asp-append-version="true" width="50" height="50" />
+                                       </a>
+                                   </td>
+                                   <td>
+                                       @Html.DisplayFor(modelItem => item.UnitPrice)
+                                   </td>
+                                   <td>
+                                       <a asp-action="Edit" asp-route-id="@item.MealId">Edit</a> |
+                                       <a asp-action="Details" asp-route-id="@item.MealId">Details</a> |
+                                       <a asp-action="Delete" asp-route-id="@item.MealId">Delete</a>
+                                   </td>
+                               </tr>}
+                     </tbody>
+                 </table>
+         <br />
+        <div id="container" style="margin-left: 20px">
+        <p></p>
+                 <p></p>
+                 <div class="pagination" style="margin-left: 400px">
+                     
+                     @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter } ),
+         new PagedListRenderOptions
+            {
+           LiElementClasses = new string[] { "page-item" },
+        PageClasses = new string[] { "page-link" }
+             })
+                     
+                 </div>
+         </div>}

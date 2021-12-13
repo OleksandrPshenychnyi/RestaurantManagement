@@ -1,0 +1,66 @@
+﻿@model IEnumerable<RestaurantManagement.Models.GuestViewModel>
+@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Archived orders</title>
+</head>
+<body>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <p>@User.Identity.Name</p>
+
+        <form method="post" asp-controller="Account" asp-action="Logout">
+            <h3>List of archived meals</h3>
+            <table class="table  table-bordered">
+                <thead>
+                    <tr>
+                        
+                        <th>Meal name</th>
+                        <th>Amount</th>
+                        
+                    </tr>
+                </thead>
+
+                <tbody>
+                    
+        
+
+
+                        @foreach (var item in ViewBag.Guest)
+                        {
+                            @foreach (var meal in item.Booking_Meals)
+                            {<tr>
+                                <td>@meal.Meal.MealName</td>
+                                <td>@meal.Amount</td>
+                             </tr>
+                            }
+
+
+                        }
+
+
+                        
+                 
+                </tbody>
+            </table>
+            <div>
+                <a asp-action="Index">Back to List</a>
+            </div>
+            <input type="submit" value="Exit" />
+        </form>
+
+    }
+    else
+    {
+        <a asp-controller="Account" asp-action="Login">Login</a>
+        <a asp-controller="Account" asp-action="Register">Register</a>
+    }
+
+
+</body>
+</html>

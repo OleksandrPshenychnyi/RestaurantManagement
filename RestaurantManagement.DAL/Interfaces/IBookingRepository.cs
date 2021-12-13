@@ -15,7 +15,7 @@ namespace RestaurantManagement.DAL.Interfaces
 #nullable enable
         Task<IEnumerable<Booking>> GetUserBookingAsync(string? id);
         Task<IEnumerable<Booking>> GetBookingForMealAsync(int? id);
-       
+        
         new Task CreateAsync(Booking booking);
         new Task UpdateAsync(Booking booking);
         new Task DeleteAsync(int id);

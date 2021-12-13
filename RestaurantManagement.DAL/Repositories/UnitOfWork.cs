@@ -19,20 +19,20 @@ namespace RestaurantManagement.DAL
         }
 
         
-        private GenericRepository<Table> tableRepository;
+        private TableRepository tableRepository;
         private GuestRepository guestRepository;
         private GenericRepository<User> userRepository;
         private BookingRepository bookingRepository;
         private Booking_MealRepository booking_mealRepository;
-        private IMealRepository mealRepository;
-        public IGenericRepository<Table> Tables
+        private MealRepository mealRepository;
+        public ITableRepository Tables
         {
             get
             {
 
                 if (this.tableRepository == null)
                 {
-                    this.tableRepository = new GenericRepository<Table>(db);
+                    this.tableRepository = new TableRepository(db);
                 }
                 return tableRepository;
             }

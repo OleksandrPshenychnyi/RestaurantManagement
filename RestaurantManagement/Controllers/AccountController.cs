@@ -59,7 +59,7 @@ namespace RestaurantManagement.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
-            // удаляем аутентификационные куки
+            
             await _SignInManager.SignOutAsync();
             return RedirectToAction("Index", "Table");
         }

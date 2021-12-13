@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.31424.327
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestaurantManagement", "RestaurantManagement\RestaurantManagement.csproj", "{DC43078F-1487-4C3C-9ED9-11891A6A2949}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestaurantManagement.DAL", "RestaurantManagement.DAL\RestaurantManagement.DAL.csproj", "{4192B9A3-50E4-4156-AE10-6E27EA875253}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestaurantManagement.DAL", "RestaurantManagement.DAL\RestaurantManagement.DAL.csproj", "{4192B9A3-50E4-4156-AE10-6E27EA875253}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestaurantManagement.BLL", "RestaurantManagement.BLL\RestaurantManagement.BLL.csproj", "{000A7124-D48B-433A-89F4-C47625E752AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestaurantManagement.BLL", "RestaurantManagement.BLL\RestaurantManagement.BLL.csproj", "{000A7124-D48B-433A-89F4-C47625E752AC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

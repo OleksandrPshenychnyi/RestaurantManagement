@@ -13,24 +13,22 @@ namespace RestaurantManagement.BLL.Services
 {
     public class GuestService : IGuestService
     {
+        private readonly IMapper _mapper;
         private UnitOfWork unitOfWork;
         ProjectContext db;
-        public GuestService(ProjectContext context)
+        public GuestService(ProjectContext context, IMapper mapper)
         {
             
             db = context;
             unitOfWork = new UnitOfWork(db);
-
+            _mapper = mapper;
         }
-        //public async Task<Guest> GetGuestAsync(int id)
-        //{
-        //   var guest= await unitOfWork.Guests.GetAsync(id);
-        //    return guest;
-        //}
-        public async Task<IEnumerable<Guest>> GetAllGuestsAsync()
+        
+        public async Task<IEnumerable<GuestDTO>> GetAllGuestsAsync()
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Guest, GuestDTO>()).CreateMapper();
-            return await unitOfWork.Guests.GetAll();
+            var guestGet = await unitOfWork.Guests.GetAll();
+            var mappedGuestGet = _mapper.Map<List<GuestDTO>>(guestGet);
+            return mappedGuestGet;
         }
     }
 }

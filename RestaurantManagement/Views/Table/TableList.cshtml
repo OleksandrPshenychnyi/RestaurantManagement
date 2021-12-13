@@ -1,0 +1,85 @@
+﻿@model X.PagedList.IPagedList<RestaurantManagement.Models.TableViewModel>
+
+@using X.PagedList.Mvc.Core;
+
+@using X.PagedList.Web.Common;
+@{ ViewData["Title"] = "Index"; }
+
+@using (Html.BeginForm())
+{
+<h1>Avaliable for order meals</h1>
+
+ <p>
+     <a asp-action="Create">Create New</a>
+ </p>
+                 
+       <table class="table">
+           <thead>
+               <tr>
+                   <th>  @Html.DisplayNameFor(model => model.FirstOrDefault().IsAvailable)</th>
+
+          <th>
+              @Html.DisplayNameFor(model => model.FirstOrDefault().TableNumber)
+          </th>
+
+          <th>
+              @Html.DisplayNameFor(model => model.FirstOrDefault().Capacity)
+          </th>
+          <th>
+              @Html.DisplayNameFor(model => model.FirstOrDefault().HallPlacing)
+          </th>
+             <th>
+                 @Html.DisplayNameFor(model => model.FirstOrDefault().TablePrice)
+             </th>
+             <th>
+                 @Html.DisplayNameFor(model => model.FirstOrDefault().TableDiscount)
+             </th>
+             <th></th>
+         </tr>
+     </thead>
+          <tbody>
+              @foreach (var item in Model)
+              {
+              <tr>
+                  <td>
+                      @Html.DisplayFor(modelItem => item.IsAvailable)
+                  </td>
+                  <td>
+                      @Html.DisplayFor(modelItem => item.TableNumber)
+                  </td>
+                  <td>
+                      @Html.DisplayFor(modelItem => item.Capacity)
+                  </td>
+                  <td>
+                      @Html.DisplayFor(modelItem => item.HallPlacing)
+                  </td>
+                  <td>
+                      @Html.DisplayFor(modelItem => item.TablePrice)
+                  </td>
+                  <td>
+                      @Html.DisplayFor(modelItem => item.TableDiscount)
+                  </td>
+                  <td>
+                      <a asp-action="Edit" asp-route-id="@item.TableId">Edit</a> |
+                      <a asp-action="Details" asp-route-id="@item.TableId">Details</a> |
+                      <a asp-action="Delete" asp-route-id="@item.TableId">Delete</a>
+                  </td>
+              </tr>
+              }
+      </tbody>
+  </table>
+                  <br />
+    <div id="container" style="margin-left: 20px">
+          <p></p>
+          <p></p>
+          <div class="pagination" style="margin-left: 400px">
+
+              @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }),
+       new PagedListRenderOptions
+       {
+           LiElementClasses = new string[] { "page-item" },
+           PageClasses = new string[] { "page-link" }
+       })
+
+          </div>
+                                  </div>}

@@ -48,7 +48,7 @@ namespace RestaurantManagement
             services.AddScoped<ITableService, TableService>();
             services.AddScoped<IGuestService, GuestService>();
             services.AddScoped<IMealService, MealService>();
-            services.AddScoped<IGenericRepository<Table>, GenericRepository<Table>>();
+            services.AddScoped<ITableRepository, TableRepository>();
             services.AddScoped<IBookingRepository, BookingRepository>();
             services.AddScoped<IBookings_MealsRepository, Booking_MealRepository>();
             services.AddScoped<IMealRepository, MealRepository>();

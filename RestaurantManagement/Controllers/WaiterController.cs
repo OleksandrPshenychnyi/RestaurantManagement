@@ -37,10 +37,12 @@ namespace RestaurantManagement.Controllers
         public async Task<IActionResult> Index()
         {
             var bookingDtosUser = await bookingService.GetBookingsAsync("Reserved", false);
-            ViewBag.User = bookingDtosUser;
+            var mappedBookingUserView = _mapper.Map<List<BookingViewModel>>(bookingDtosUser);
+            ViewBag.User = mappedBookingUserView;
            
-            IEnumerable<BookingDTO> bookingDtosGuest = await bookingService.GetBookingsAsync("Reserved", true);
-            ViewBag.Guest = bookingDtosGuest;
+            var bookingDtosGuest = await bookingService.GetBookingsAsync("Reserved", true);
+            var mappedBookingGuestView = _mapper.Map<List<BookingViewModel>>(bookingDtosGuest);
+            ViewBag.Guest = mappedBookingGuestView;
 
 
             return await Task.Run(() => View());
@@ -52,15 +54,33 @@ namespace RestaurantManagement.Controllers
         {
 
             var closedBookingsUser = await bookingService.GetBookingsAsync("Closed",false);
-            ViewBag.User = closedBookingsUser;
+            var closedBookingUserView = _mapper.Map<List<BookingViewModel>>(closedBookingsUser);
+            ViewBag.User = closedBookingUserView;
             var closedBookingsGuest = await bookingService.GetBookingsAsync("Closed",true);
-            ViewBag.Guest = closedBookingsGuest;
+            var closedBookingGuestView = _mapper.Map<List<BookingViewModel>>(closedBookingsGuest);
+            ViewBag.Guest = closedBookingGuestView;
 
 
             return await Task.Run(() => View());
+        }
+        public async Task<IActionResult> ArchivedMealsGuest(int? id)
+        {
+            if (id == null) return RedirectToAction("Index");
+            var closedBookingsGuest = await bookingService.GetMealsForArchiveAsync(id);
+            var closedBookingGuestView = _mapper.Map<List<BookingViewModel>>(closedBookingsGuest);
+            ViewBag.Guest = closedBookingGuestView;
 
+            return await Task.Run(() => View());
+        }
+        public async Task<IActionResult> ArchivedMealsUser()
+        {
+           
+            var closedBookingsUser = await bookingService.GetBookingsAsync("Closed", false);
+            var closedBookingUserView = _mapper.Map<List<BookingViewModel>>(closedBookingsUser);
+            ViewBag.User = closedBookingUserView;
+            
 
-
+            return await Task.Run(() => View());
         }
         [HttpGet]
         public async Task<IActionResult> CloseGuestAsync(int? id)
@@ -69,13 +89,12 @@ namespace RestaurantManagement.Controllers
 
             if (id == null) return RedirectToAction("Index");
             var getBookingGuest = await bookingService.GetOneBookingGuestAsync(id);
+            var getBookingGuestView = _mapper.Map<List<BookingViewModel>>(getBookingGuest);
 
-            
             ViewBag.GuestId = id;
 
-            var tableId = getBookingGuest.Select(tableId=> tableId.TableId).FirstOrDefault().ToString();
+            var tableId = getBookingGuestView.Select(tableId=> tableId.TableId).FirstOrDefault().ToString();
             ViewBag.TableId = tableId;
-
 
             return await Task.Run(() => View());
         }
@@ -122,9 +141,9 @@ namespace RestaurantManagement.Controllers
         {
             if (id == null) return RedirectToAction("Index");
             var getBookingMeal = await mealService.GetBookingForMeals(id);
-           
+            var mappedBookingMeal = _mapper.Map<List<BookingViewModel>>(getBookingMeal);
             ViewBag.BookingId = id;
-            ViewBag.BookingMeals = getBookingMeal;
+            ViewBag.BookingMeals = mappedBookingMeal;
             var mealGet = await mealService.GetMealsAsync();
             ViewBag.Meal = mealGet;
 
