@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantManagement.DAL.Enteties;
 using RestaurantManagement.ViewModels;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,7 +10,7 @@ using System.Threading.Tasks;
 namespace RestaurantManagement.Controllers
 {
     [Authorize(Roles = "Admin")]
-    
+
     public class RolesController : Controller
     {
         RoleManager<IdentityRole> _roleManager;

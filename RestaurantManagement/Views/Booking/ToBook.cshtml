@@ -8,7 +8,6 @@
     <title>Booking page</title>
 </head>
 <body>
-   
     <div>
         <h3>Booking Form</h3>
         <p>To book the table fill the fields below:</p>
@@ -34,13 +33,9 @@
 
                 </table>
             </div>
-            <div class="editor-label">
-                @Html.LabelFor(model => model.ReservationDate)
-            </div>
-            <div class="editor-field">
-                @Html.EditorFor(model => model.ReservationDate)
-                @Html.ValidationMessageFor(model => model.ReservationDate)
-            </div>
+
+            Choose date and time: <input class="form-control" asp-for="ReservationDate" asp-format="{0:yyyy-MM-ddTHH:mm} " />
+
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -69,18 +64,14 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <td>
-                            Meal Name
-                        </td>
+                        <td>Meal Name</td>
                         <td>Description</td>
-                        <td>
-                            Category
-                        </td>
+                        <td>Category</td>
                         <td>Image</td>
                         <td>Price</td>
                         <td>Amount</td>
-
-                        <td></td>
+                        <td>Add to order</td>
+                   
                     </tr>
                 </thead>
                 <tbody>
@@ -99,18 +90,16 @@
             </td>
             <td>
                 <a href="@("Images/" + item.ImagePath)">
-                    <img src="@("~/Images/" + item.ImagePath)" asp-append-version="true" width="50" height="50" />
+                    <img src="@("~/Images/" + item.ImagePath)" asp-append-version="true" width="90" height="90" />
                 </a>
             </td>
             <td>
-
                 @item.UnitPrice
-                <input type="checkbox" name="MealId" value="@item.MealId">
             </td>
-
             <td>
-                <input type="number" min="1" value="1" name="amount" />
+                <input type="number" min="1" max="20" value="1" name="amount" />
             </td>
+            <td><input type="checkbox" name="MealId" value="@item.MealId"></td>
         </tr>}
                 </tbody>
                 <tr><td><input type="submit" value="Submit" /> </td><td></td></tr>

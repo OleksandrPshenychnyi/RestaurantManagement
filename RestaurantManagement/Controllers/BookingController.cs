@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RestaurantManagement.BLL;
 using RestaurantManagement.BLL.Interfaces;
-using RestaurantManagement.DAL;
 using RestaurantManagement.DAL.EF;
 using RestaurantManagement.DAL.Enteties;
 using RestaurantManagement.Models;
@@ -38,15 +37,15 @@ namespace RestaurantManagement.Controllers
         public async Task<IActionResult> ToBook(int? id)
         {
             if (id == null) return RedirectToAction("Index");
-            
+
 
             ViewBag.TableId = id;
-            
+
             var mealGet = await mealService.GetMealsAsync();
             var selecttable = await tableService.GetOneTableAsync(id);
             ViewBag.Table = selecttable;
             ViewBag.Meal = mealGet;
-           
+
             return await Task.Run(() => View());
         }
         [HttpPost]
@@ -58,7 +57,7 @@ namespace RestaurantManagement.Controllers
                 {
                     var mappedGuest = _mapper.Map<GuestDTO>(guest);
                     await bookingService.ToBookAsync(mappedGuest, tableId, mealId, amount);
-                    return RedirectToAction("ThxPage", guest);
+                    return RedirectToAction("ThxPage");
                 }
                 return View(guest);
             }
@@ -70,12 +69,12 @@ namespace RestaurantManagement.Controllers
         {
             if (id == null) return RedirectToAction("Index");
             var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            
+
             var selectuser = await db.Users.Where(user => user.Id == userId).ToListAsync();
             ViewBag.User = selectuser;
             ViewBag.TableId = id;
 
-            var selecttable = await  tableService.GetOneTableAsync(id);
+            var selecttable = await tableService.GetOneTableAsync(id);
             var getTable = selecttable.FirstOrDefault();
             ViewBag.TableDiscount = getTable.TableDiscount;
             ViewBag.Table = selecttable;
@@ -84,17 +83,20 @@ namespace RestaurantManagement.Controllers
             return await Task.Run(() => View());
         }
         [HttpPost]
-        public async Task<IActionResult> ToBookAutorizedAsync(int tableId, IEnumerable<int> mealId, IEnumerable<int> amount, decimal tableDiscount)
+
+        public async Task<IActionResult> ToBookAutorizedAsync(UserViewModel userGet, int tableId, IEnumerable<int> mealId, IEnumerable<int> amount, decimal tableDiscount, DateTime dateTime)
         {
-           string userid = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-           User userGet= await _userManager.FindByIdAsync(userid);
-           await  bookingService.ToBookAutorizedAsync(tableId, userGet,mealId, amount, tableDiscount);
-            
+            string userid = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            User user = await _userManager.FindByIdAsync(userid);
+            var getDate = userGet.ReservationDate;
+            var getDateDefault = getDate;
+
+            await bookingService.ToBookAutorizedAsync(tableId, user, mealId, amount, tableDiscount, getDateDefault);
+
             return RedirectToAction("ThxPage");
         }
-        public async Task<IActionResult> ThxPage(Guest guest)
+        public async Task<IActionResult> ThxPage()
         {
-            ViewBag.Guest = guest;
             return await Task.Run(() => View());
         }
     }

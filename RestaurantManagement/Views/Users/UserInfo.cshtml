@@ -1,0 +1,67 @@
+﻿@model IEnumerable<RestaurantManagement.Models.BookingViewModel>
+
+@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Table Bookings</title>
+</head>
+<body>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <form method="post" asp-controller="Users" asp-action="UserInfo">
+            <h3 class="lead">List of tables</h3>
+            @if (ViewBag.UserInfo.Count == 0)
+            {
+                <a>No tables booked</a>
+            }
+            else
+            {
+                <table class="table  table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Reservation status</th>
+                            <th>Bill</th>
+                            <th>Reservation date</th>
+                            <th>Close reservation date</th>
+                         
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var table in ViewBag.UserInfo)
+                        {
+
+                        <tr>
+
+                            <td>@table.Status</td>
+                            <td>@table.Bill</td>
+                            <td>@table.ReservationDate</td>
+                            @if(table.CloseReservationDate !=DateTime.MinValue)
+                            {
+                             <td>@table.CloseReservationDate</td>
+                            }
+                        else { <td>Don't closed yet</td>}
+                        </tr>
+
+                        }
+                    </tbody>
+                </table>}
+        </form>
+
+    }
+    else
+    {
+        <a asp-controller="Account" asp-action="Login">Login</a>
+        <a asp-controller="Account" asp-action="Register">Register</a>
+        <h3 class="lead">List of tables</h3>
+    }
+
+
+</body>
+</html>
+
+

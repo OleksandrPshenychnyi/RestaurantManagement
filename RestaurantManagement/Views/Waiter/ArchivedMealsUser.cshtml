@@ -12,32 +12,28 @@
 <body>
     @if (User.Identity.IsAuthenticated)
     {
-        <p>@User.Identity.Name</p>
-
         <form method="post" asp-controller="Account" asp-action="Logout">
             <h3>List of archived meals</h3>
             <table class="table  table-bordered">
                 <thead>
                     <tr>
-                        
+
                         <th>Meal name</th>
                         <th>Amount</th>
-                        
+
                     </tr>
                 </thead>
-
                 <tbody>
-                    
-        
+
                     @foreach (var user in ViewBag.User)
                     {
-                            @foreach (var item in user.Booking_Meals)
-                            {
-                                <tr>
+                        @foreach (var item in user.Booking_Meals)
+                        {
+                            <tr>
                                 <td>@item.Meal.MealName</td>
                                 <td>@item.Amount</td>
-                                 </tr>
-                            }
+                            </tr>
+                        }
 
                     }
                 </tbody>
@@ -54,7 +50,6 @@
         <a asp-controller="Account" asp-action="Login">Login</a>
         <a asp-controller="Account" asp-action="Register">Register</a>
     }
-
 
 </body>
 </html>

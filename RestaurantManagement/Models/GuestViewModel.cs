@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace RestaurantManagement.Models
 {
@@ -16,8 +13,8 @@ namespace RestaurantManagement.Models
         public string SecondName { get; set; }
         [Required(ErrorMessage = "Enter your phone number")]
         public int PhoneNumber { get; set; }
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-ddTHH:mm}", ApplyFormatInEditMode = true)]
         public DateTime ReservationDate { get; set; }
         public BookingViewModel Booking { get; set; }
         public bool Served { get; set; }

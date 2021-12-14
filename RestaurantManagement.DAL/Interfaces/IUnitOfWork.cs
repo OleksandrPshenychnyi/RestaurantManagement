@@ -1,11 +1,4 @@
-﻿using RestaurantManagement.DAL.Enteties;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RestaurantManagement.DAL.Interfaces
+﻿namespace RestaurantManagement.DAL.Interfaces
 {
     public interface IUnitOfWork
     {
@@ -14,6 +7,6 @@ namespace RestaurantManagement.DAL.Interfaces
         IMealRepository Meals { get; }
         IBookings_MealsRepository Bookings_Meals { get; }
         ITableRepository Tables { get; }
-        IGenericRepository<User> Users { get; }
+        IUserRepository Users { get; }
     }
 }

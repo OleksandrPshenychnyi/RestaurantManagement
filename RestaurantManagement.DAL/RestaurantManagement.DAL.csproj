@@ -5,7 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Repositories\UserRepository.cs" />
+    <Compile Remove="Enteties\IndexView.cs" />
+    <Compile Remove="Enteties\PageInfo.cs" />
   </ItemGroup>
 
   <ItemGroup>

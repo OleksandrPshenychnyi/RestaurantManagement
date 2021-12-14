@@ -1,21 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using RestaurantManagement.Models;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using RestaurantManagement.DAL;
-using RestaurantManagement.DAL.EF;
-using RestaurantManagement.BLL.Interfaces;
 using RestaurantManagement.BLL;
-using AutoMapper;
+using RestaurantManagement.BLL.Interfaces;
+using RestaurantManagement.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using X.PagedList;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace RestaurantManagement.Controllers
 {
@@ -24,33 +15,35 @@ namespace RestaurantManagement.Controllers
         private readonly IMapper _mapper;
         ITableService tableService;
         public TableController(ITableService serv, IMapper mapper)
-            {
+        {
             tableService = serv;
             _mapper = mapper;
         }
         public async Task<IActionResult> TableList(int? page)
         {
+
             int pageSize = 3;
             int pageNumber = (page ?? 1);
             var tableGet = await tableService.GetTablesListAsync();
             var mappedTable = _mapper.Map<List<TableViewModel>>(tableGet);
 
-            return await Task.Run(() => View( mappedTable.ToPagedList(pageNumber, pageSize)));
+            return await Task.Run(() => View(mappedTable.ToPagedList(pageNumber, pageSize)));
         }
         public async Task<IActionResult> Index()
-            {
+        {
             if (User.IsInRole("Admin"))
             {
-                return RedirectToAction("Index","Roles");
+                return RedirectToAction("Index", "Roles");
             }
             else if (User.IsInRole("Waiter"))
             {
                 return RedirectToAction("Index", "Waiter");
             }
-            
+
             IEnumerable<TableDTO> tableDtos = await tableService.GetTablesAsync();
             var mappedTables = _mapper.Map<List<TableViewModel>>(tableDtos);
-            return await Task.Run(() => View(mappedTables));
+            ViewBag.Tables = mappedTables;
+            return await Task.Run(() => View());
         }
         [HttpGet]
         public async Task<IActionResult> Details(int? id)
@@ -81,7 +74,7 @@ namespace RestaurantManagement.Controllers
         {
             if (ModelState.IsValid)
             {
-               
+
                 await tableService.CreateTableAsync(table);
                 return RedirectToAction(nameof(Index));
             }
@@ -103,8 +96,8 @@ namespace RestaurantManagement.Controllers
                 return NotFound();
             }
             var tableGet = await tableService.GetTablesListAsync();
-            
-           
+
+
             var mappedTable = _mapper.Map<TableViewModel>(table);
             return View(mappedTable);
         }
@@ -123,9 +116,9 @@ namespace RestaurantManagement.Controllers
             {
                 try
                 {
-                  
-                        await tableService.UpdateTableAsync(table);
-     
+
+                    await tableService.UpdateTableAsync(table);
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {

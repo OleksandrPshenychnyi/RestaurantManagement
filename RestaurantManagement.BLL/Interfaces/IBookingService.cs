@@ -1,9 +1,6 @@
-﻿
-using RestaurantManagement.DAL.Enteties;
+﻿using RestaurantManagement.DAL.Enteties;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 namespace RestaurantManagement.BLL.Interfaces
 {
@@ -15,7 +12,7 @@ namespace RestaurantManagement.BLL.Interfaces
 #nullable enable
         Task<IEnumerable<BookingDTO>> GetOneBookingUserAsync(string? id);
         Task ToBookAsync(GuestDTO guest, int id, IEnumerable<int> mealId, IEnumerable<int> amount);
-        Task ToBookAutorizedAsync(int tableId, User userGet, IEnumerable<int> mealId, IEnumerable<int> amount, decimal tableDiscount);
+        Task ToBookAutorizedAsync(int tableId, User userGet, IEnumerable<int> mealId, IEnumerable<int> amount, decimal tableDiscount, DateTime dateTime);
         Task CloseReservationGuest(int guestId, int tableId);
         Task CloseReservationUser(string userId, int tableId);
         void Dispose();

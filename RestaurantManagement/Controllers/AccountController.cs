@@ -1,12 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantManagement.DAL.Enteties;
-using RestaurantManagement.Models;
 using RestaurantManagement.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace RestaurantManagement.Controllers
@@ -37,7 +32,7 @@ namespace RestaurantManagement.Controllers
                     await _SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
                 if (result.Succeeded)
                 {
-                    
+
                     if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
                     {
                         return Redirect(model.ReturnUrl);
@@ -59,7 +54,7 @@ namespace RestaurantManagement.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
-            
+
             await _SignInManager.SignOutAsync();
             return RedirectToAction("Index", "Table");
         }
@@ -68,43 +63,43 @@ namespace RestaurantManagement.Controllers
         {
             return View();
         }
-      
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-           
-                if (ModelState.IsValid)
+
+            if (ModelState.IsValid)
+            {
+                User user = new User
                 {
-                    User user = new User
-                    {
-                        FirstName = model.FirstName,
-                        SecondName = model.SecondName,
-                        PhoneNumber = model.PhoneNumber,
-                        Email = model.Email,
-                        UserName = model.Email
-                    };
-                    // add user
-                    var result = await _UserManager.CreateAsync(user, model.Password);
-                    
-                    if (result.Succeeded)
-                    {
+                    FirstName = model.FirstName,
+                    SecondName = model.SecondName,
+                    PhoneNumber = model.PhoneNumber,
+                    Email = model.Email,
+                    UserName = model.Email
+                };
+                // add user
+                var result = await _UserManager.CreateAsync(user, model.Password);
+
+                if (result.Succeeded)
+                {
                     await _UserManager.AddToRoleAsync(user, "User");
                     // cookies
                     await _SignInManager.SignInAsync(user, false);
-                        return RedirectToAction("Index", "Table");
-                    }
-                    else
+                    return RedirectToAction("Index", "Table");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
                     {
-                        foreach (var error in result.Errors)
-                        {
-                            ModelState.AddModelError(string.Empty, error.Description);
-                        }
+                        ModelState.AddModelError(string.Empty, error.Description);
                     }
                 }
-                return View(model);
-
             }
+            return View(model);
+
         }
     }
+}
 

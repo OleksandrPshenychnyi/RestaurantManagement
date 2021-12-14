@@ -45,6 +45,7 @@ namespace RestaurantManagement
                .AddEntityFrameworkStores<ProjectContext>();
             services.AddControllersWithViews();
             services.AddScoped<IBookingService, BookingService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<ITableService, TableService>();
             services.AddScoped<IGuestService, GuestService>();
             services.AddScoped<IMealService, MealService>();
@@ -53,7 +54,7 @@ namespace RestaurantManagement
             services.AddScoped<IBookings_MealsRepository, Booking_MealRepository>();
             services.AddScoped<IMealRepository, MealRepository>();
             services.AddScoped<IGenericRepository<Guest>, GenericRepository<Guest>>();
-            services.AddScoped<IGenericRepository<User>, GenericRepository<User>>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddAuthentication();
 
             var mapperConfig = new MapperConfiguration(mc =>

@@ -12,18 +12,22 @@
 <body>
     @if (User.Identity.IsAuthenticated)
     {
-        <p>@User.Identity.Name</p>
-
         <form method="post" asp-controller="Account" asp-action="Logout">
             <h3>List of reserved tables</h3>
             <a href="~/Waiter/Archive">Archive</a>
+            @if(ViewBag.User.Count ==0 && ViewBag.Guest.Count == 0) {
+                <a> No orders</a>
+            }
+            else { 
         <table class="table  table-bordered">
             <thead>
                 <tr>
                     <th>First name</th>
                     <th>Second name</th>
                     <th>Phone number</th>
+                    <th>Table number</th>
                     <th>Bill</th>
+                    <th>Reservation date</th>
                     <th>Meal name</th>
                     <th>Check out</th>
                 </tr>
@@ -38,8 +42,9 @@
                 <td>@guest.Guest.FirstName</td>
                 <td>@guest.Guest.SecondName</td>
                 <td>@guest.Guest.PhoneNumber</td>
+                <td>@guest.Table.TableNumber</td>
                 <td>@guest.Bill</td>
-
+                <td>@guest.ReservationDate</td>
 
 
 
@@ -61,17 +66,18 @@
                         <td>@user.User.FirstName</td>
                         <td>@user.User.SecondName</td>
                         <td>@user.User.PhoneNumber</td>
+                        <td>@user.Table.TableNumber</td>
                         <td>@user.Bill</td>
-
+                        <td>@user.ReservationDate</td>
 
                         <td><a href="~/Waiter/MealsReady/@user.Id">Manage meals</a></td>
                         <td><a href="~/Waiter/CloseUser/@user.User.Id">Close reservation</a></td>
                     </tr>
 
                 }
-
+            
         </table>
-
+           }
             <input type="submit" value="Exit" />
         </form>
     }

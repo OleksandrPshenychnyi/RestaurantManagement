@@ -12,40 +12,31 @@
 <body>
     @if (User.Identity.IsAuthenticated)
     {
-        <p>@User.Identity.Name</p>
-
         <form method="post" asp-controller="Account" asp-action="Logout">
             <h3>List of archived meals</h3>
             <table class="table  table-bordered">
                 <thead>
                     <tr>
-                        
+
                         <th>Meal name</th>
                         <th>Amount</th>
-                        
+
                     </tr>
                 </thead>
-
                 <tbody>
-                    
-        
 
-
-                        @foreach (var item in ViewBag.Guest)
+                    @foreach (var item in ViewBag.Guest)
+                    {
+                        @foreach (var meal in item.Booking_Meals)
                         {
-                            @foreach (var meal in item.Booking_Meals)
-                            {<tr>
+                            <tr>
                                 <td>@meal.Meal.MealName</td>
                                 <td>@meal.Amount</td>
-                             </tr>
-                            }
-
-
+                            </tr>
                         }
 
+                    }
 
-                        
-                 
                 </tbody>
             </table>
             <div>

@@ -1,24 +1,32 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using RestaurantManagement.BLL.Interfaces;
 using RestaurantManagement.DAL.Enteties;
+using RestaurantManagement.Models;
 using RestaurantManagement.ViewModels;
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace RestaurantManagement.Controllers
 {
+
     public class UsersController : Controller
     {
+        
         UserManager<User> _userManager;
-
-        public UsersController(UserManager<User> userManager)
+        IUserService userService;
+        private readonly IMapper _mapper;
+        public UsersController(UserManager<User> userManager, IUserService servU, IMapper mapper)
         {
             _userManager = userManager;
+            userService = servU;
+            _mapper = mapper;
         }
-      
+
         public IActionResult Index() => View(_userManager.Users.ToList());
 
         public IActionResult Create() => View();
@@ -26,13 +34,13 @@ namespace RestaurantManagement.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateUserViewModel model)
         {
-            
-                if (ModelState.IsValid)
+
+            if (ModelState.IsValid)
             {
                 User user = new User { Email = model.Email, UserName = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
-                 
-                    if (result.Succeeded)
+
+                if (result.Succeeded)
                 {
                     return RedirectToAction("Index");
                 }
@@ -68,7 +76,7 @@ namespace RestaurantManagement.Controllers
                 {
                     user.Email = model.Email;
                     user.UserName = model.Email;
-                    
+
 
                     var result = await _userManager.UpdateAsync(user);
                     if (result.Succeeded)
@@ -144,8 +152,17 @@ namespace RestaurantManagement.Controllers
             }
             return RedirectToAction("Index");
         }
-        
-       
-        
+
+        [HttpGet]
+        public async Task<IActionResult> UserInfoAsync()
+        {
+            var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var getBookingsUser = await userService.GetOneUserBookings(userId);
+            var mappedUser = _mapper.Map<List<BookingViewModel>>(getBookingsUser);
+            ViewBag.UserInfo = mappedUser;
+            return await Task.Run(() => View());
+        }
+
+
     }
 }

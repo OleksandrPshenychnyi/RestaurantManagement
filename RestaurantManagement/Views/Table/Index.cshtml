@@ -14,10 +14,54 @@
     @if (User.Identity.IsAuthenticated)
     {
 
-        <p>@User.Identity.Name</p>
-
         <form method="post" asp-controller="Account" asp-action="Logout">
             <h3 class="lead">List of tables</h3>
+            @if (ViewBag.Tables.Count == 0)
+            {
+                <a>No tables avaliable</a>
+            }
+            else
+            {
+                <table class="table  table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Table Number</th>
+                            <th>Capacity</th>
+                            <th>Hall Placing</th>
+                            <th>Booking price</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var table in ViewBag.Tables)
+                        {
+
+                            <tr>
+
+                                <td>@table.TableNumber</td>
+                                <td>@table.Capacity</td>
+                                <td>@table.HallPlacing</td>
+                                <td>@table.TablePrice</td>
+                                <td><a href="~/Booking/ToBookAutorized/@table.TableId">To Book</a></td>
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>}
+            <input type="submit" value="Exit" />
+        </form>
+
+    }
+    else
+    {
+
+        <h3 class="lead">List of tables</h3>
+        @if (ViewBag.Tables.Count == 0)
+        {
+            <a>No tables avaliable</a>
+        }
+        else
+        {
             <table class="table  table-bordered">
                 <thead>
                     <tr>
@@ -29,7 +73,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var table in Model)
+                    @foreach (var table in ViewBag.Tables)
                     {
 
                         <tr>
@@ -38,47 +82,12 @@
                             <td>@table.Capacity</td>
                             <td>@table.HallPlacing</td>
                             <td>@table.TablePrice</td>
-                            <td><a href="~/Booking/ToBookAutorized/@table.TableId">To Book</a></td>
+                            <td><a href="~/Booking/ToBook/@table.TableId">To Book</a></td>
                         </tr>
 
                     }
-                    </tbody>
-            </table>
-            <input type="submit" value="Exit" />
-        </form>
-
-    }
-    else
-    {
-        <a asp-controller="Account" asp-action="Login">Login</a>
-        <a asp-controller="Account" asp-action="Register">Register</a>
-        <h3>List of tables</h3>
-        <table class="table  table-bordered">
-            <thead>
-                <tr>
-                    <th>Table Number</th>
-                    <th>Capacity</th>
-                    <th>Hall Placing</th>
-                    <th>Booking price</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var table in Model)
-                {
-
-                    <tr>
-
-                        <td>@table.TableNumber</td>
-                        <td>@table.Capacity</td>
-                        <td>@table.HallPlacing</td>
-                        <td>@table.TablePrice</td>
-                        <td><a href="~/Booking/ToBook/@table.TableId">To Book</a></td>
-                    </tr>
-
-                }
                 </tbody>
-        </table>
+            </table>}
     }
 
 

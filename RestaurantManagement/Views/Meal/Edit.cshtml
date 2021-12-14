@@ -1,8 +1,6 @@
 ﻿@model RestaurantManagement.Models.MealViewModel
 
-@{
-    ViewData["Title"] = "Edit";
-}
+@{ ViewData["Title"] = "Edit"; }
 
 <h1>Edit</h1>
 
@@ -29,7 +27,8 @@
                 <span asp-validation-for="Category" class="text-danger"></span>
             </div>
             <div class="form-group">
-
+                <img src="@("~/Images/" + Model.ImagePath)" asp-append-version="true" width="100" height="100" />
+                <input hidden asp-for="ImagePath" class="form-control" />
                 <label asp-for="ImageFile" class="control-label"></label>
                 <input asp-for="ImageFile" class="image/*" />
                 <span asp-validation-for="ImagePath" class="text-danger"></span>

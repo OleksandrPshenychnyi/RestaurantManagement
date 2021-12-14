@@ -7,24 +7,23 @@ using System.Threading.Tasks;
 
 namespace RestaurantManagement.BLL.Services
 {
-    public class GuestService : IGuestService
+    public class UserService : IUserService
     {
         private readonly IMapper _mapper;
         private UnitOfWork unitOfWork;
         ProjectContext db;
-        public GuestService(ProjectContext context, IMapper mapper)
+        public UserService(ProjectContext context, IMapper mapper)
         {
-
+         
             db = context;
             unitOfWork = new UnitOfWork(db);
             _mapper = mapper;
         }
-
-        public async Task<IEnumerable<GuestDTO>> GetAllGuestsAsync()
+        public async Task<IEnumerable<BookingDTO>> GetOneUserBookings(string id)
         {
-            var guestGet = await unitOfWork.Guests.GetAll();
-            var mappedGuestGet = _mapper.Map<List<GuestDTO>>(guestGet);
-            return mappedGuestGet;
+            var allBookingsUser = await unitOfWork.Users.GetOneBookingForUser(id);
+            var mappedallBookingsUser = _mapper.Map<List<BookingDTO>>(allBookingsUser);
+            return mappedallBookingsUser;
         }
     }
 }

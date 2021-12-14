@@ -1,16 +1,12 @@
-﻿using RestaurantManagement.BLL.Interfaces;
+﻿using AutoMapper;
+using RestaurantManagement.BLL.BusinessModels;
+using RestaurantManagement.BLL.DTO;
+using RestaurantManagement.BLL.Interfaces;
 using RestaurantManagement.DAL;
 using RestaurantManagement.DAL.EF;
 using RestaurantManagement.DAL.Enteties;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.IO;
-using RestaurantManagement.BLL.BusinessModels;
-using RestaurantManagement.BLL.DTO;
-using AutoMapper;
 
 namespace RestaurantManagement.BLL.Services
 {
@@ -57,14 +53,14 @@ namespace RestaurantManagement.BLL.Services
         {
             return await unitOfWork.Meals.Exists(id);
         }
-      
-        public async Task<IEnumerable<BookingDTO>> GetBookingForMeals (int? id)
+
+        public async Task<IEnumerable<BookingDTO>> GetBookingForMeals(int? id)
         {
             var bookingMealGet = await unitOfWork.Bookings.GetBookingForMealAsync(id);
             var mappedMealGet = _mapper.Map<List<BookingDTO>>(bookingMealGet);
             return mappedMealGet;
         }
-        public async Task CreateMealAsync( int bookingId, IEnumerable<int> mealId, IEnumerable<int> amount)
+        public async Task CreateMealAsync(int bookingId, IEnumerable<int> mealId, IEnumerable<int> amount)
         {
 
             await unitOfWork.Bookings_Meals.CreateAsync(bookingId, mealId, amount);
@@ -76,7 +72,7 @@ namespace RestaurantManagement.BLL.Services
         }
         public async Task UpdateStatusMealAsync(int id, IEnumerable<int> mealId)
         {
-            
+
             await unitOfWork.Bookings_Meals.UpdateAsync(id, mealId);
         }
     }

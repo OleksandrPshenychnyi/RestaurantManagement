@@ -785,7 +785,6 @@ C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Booking\ToBook.cshtml.g.cs
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Booking\ToBookAutorized.cshtml.g.cs
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Table\Index.cshtml.g.cs
-C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Table\Privacy.cshtml.g.cs
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\RestaurantManagement.csproj.AssemblyReference.cache
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\bin\Debug\net5.0\AutoMapper.dll
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\bin\Debug\net5.0\RestaurantManagement.BLL.dll
@@ -823,3 +822,4 @@ C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Table\TableList.cshtml.g.cs
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\bin\Debug\net5.0\Microsoft.AspNetCore.JsonPatch.dll
 C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll
+C:\Users\pshen\Desktop\RestaurantManagement\RestaurantManagement\obj\Debug\net5.0\Razor\Views\Users\UserInfo.cshtml.g.cs

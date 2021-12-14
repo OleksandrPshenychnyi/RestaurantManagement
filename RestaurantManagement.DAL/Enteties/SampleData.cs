@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using RestaurantManagement.DAL.EF;
 using RestaurantManagement.DAL.Enteties;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,7 +12,7 @@ namespace RestaurantManagement
         Waiter,
         User
     }
- 
+
     public class SampleData
     {
         public static async Task SeedRolesAsync(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
@@ -57,6 +55,7 @@ namespace RestaurantManagement
                 PhoneNumber = "123456",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true
+
             };
             if (userManager.Users.All(u => u.Id != DefaultUser.Id))
             {
@@ -89,7 +88,7 @@ namespace RestaurantManagement
         }
         public static void Initialize(ProjectContext context)
         {
-            
+
             if (!context.Meals.Any())
             {
                 context.Meals.AddRange(
@@ -97,7 +96,7 @@ namespace RestaurantManagement
                     {
                         MealName = "Uzvar",
                         Description = "Made with apples",
-                        ImagePath = "Photo1.png",
+                        ImagePath = "uzvar.jpg",
                         UnitPrice = 15.50M,
                         Category = "Drinks"
 
@@ -106,16 +105,16 @@ namespace RestaurantManagement
                     {
                         MealName = "Borshch",
                         Description = "Red like blood",
-                        ImagePath = "Photo2.png",
+                        ImagePath = "borshch.jpg",
                         UnitPrice = 20m,
-                        Category ="Soups"
+                        Category = "Soups"
 
                     },
                     new Meal
                     {
                         MealName = "Shashlik",
                         Description = "You like it eji",
-                        ImagePath = "shashlik.png",
+                        ImagePath = "shashlik.jpg",
                         UnitPrice = 50m,
                         Category = "Cooked on grill"
 
@@ -133,7 +132,7 @@ namespace RestaurantManagement
                         HallPlacing = "Non smoking",
                         IsAvailable = true,
                         TablePrice = 30,
-                        TableDiscount =10m
+                        TableDiscount = 10m
 
                     },
                     new Table

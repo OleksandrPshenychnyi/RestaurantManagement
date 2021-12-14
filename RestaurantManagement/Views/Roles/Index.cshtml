@@ -18,7 +18,6 @@
                 </td>
 
             </tr>
-
         }
     </table>
     <form method="post" asp-controller="Account" asp-action="Logout">
@@ -26,6 +25,11 @@
             Exit
         </button>
     </form>
-   
-    <a asp-action="Create">Add role</a>
-    <a asp-action="UserList">List of users</a>
+  
+      
+        <a asp-action="Create">Add role</a>
+        <a asp-action="UserList">List of users</a>
+        <a asp-controller="Meal" asp-action="Index">Manage meals</a>
+        <a asp-controller="Table" asp-action="TableList">Manage tables</a>
+       
+ 

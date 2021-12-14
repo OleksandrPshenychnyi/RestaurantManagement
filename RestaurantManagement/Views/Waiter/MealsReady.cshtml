@@ -6,22 +6,17 @@
 <!DOCTYPE html>
 
 <html>
-
 <head>
     <title>Meals</title>
 </head>
-
 <body>
 
     @if (User.Identity.IsAuthenticated)
     {
-       
-        <header>@User.Identity.Name</header>
-
-
         <h3>Manage meals</h3>
         <form asp-controller="Waiter" asp-action="MealsReadyCheckedAsync" method="post">
             <input type="hidden" value="@ViewBag.BookingMeals">
+
             <table class="table  table-bordered">
                 <thead>
                     <tr>
@@ -36,24 +31,17 @@
                 <tbody>
                     @foreach (var meal in ViewBag.BookingMeals)
                     {
-
-
-
                         @foreach (var item in meal.Booking_Meals)
                         {
                             <tr>
                                 <td>
                                     @item.Meal.MealName
-
                                 </td>
-
                                 <td>
                                     @item.Meal.UnitPrice
-
                                 </td>
                                 <td>
                                     @item.Amount
-
                                 </td>
                                 <td>
                                     @if (item.MealReady == false)
@@ -72,7 +60,6 @@
             </table>
         </form>
         <form asp-controller="Waiter" asp-action="MealsReadyAsync" method="post">
-
             <table class="table  table-bordered">
                 <tbody>
                     @foreach (var item in ViewBag.Meal)
@@ -85,7 +72,7 @@
                                 @item.Description
                             </td>
                             <td>
-                                <a href="@("Images/"+item.ImagePath)">
+                                <a>
                                     <img src="@("~/Images/"+item.ImagePath)" asp-append-version="true" width="50" height="50" />
                                 </a>
                             </td>
@@ -94,14 +81,13 @@
                                 <input type="checkbox" name="MealId" value="@item.MealId">
                             </td>
                             <td>
-                                <input type="number" min="1" value="1" name="amount" />
+                                <input type="number" min="1" value="1" max="20" name="amount" />
                             </td>
                         </tr>
 
                     }
                 </tbody>
                 @Html.HiddenFor(model => model.Id)
-                @*<tr><td><input type="hidden" value="@ViewBag.BookingMeals"></td></tr>*@
                 <tr><td><input type="submit" value="Submit" /> </td><td></td></tr>
             </table>
         </form>

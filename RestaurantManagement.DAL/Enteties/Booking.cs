@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace RestaurantManagement.DAL.Enteties
 {
@@ -14,9 +12,10 @@ namespace RestaurantManagement.DAL.Enteties
         public bool IsLogged { get; set; }
         public string Status { get; set; }
         public decimal Bill { get; set; }
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-ddTHH:mm}", ApplyFormatInEditMode = true)]
         public DateTime ReservationDate { get; set; }
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-ddTHH:mm}", ApplyFormatInEditMode = true)]
+        public DateTime CloseReservationDate { get; set; }
         public User User { get; set; }
         public int? GuestId { get; set; }
         public Guest Guest { get; set; }

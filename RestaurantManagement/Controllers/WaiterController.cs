@@ -1,22 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using RestaurantManagement.BLL.Interfaces;
+using RestaurantManagement.DAL.EF;
+using RestaurantManagement.DAL.Enteties;
+using RestaurantManagement.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using RestaurantManagement.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.EntityFrameworkCore;
-using RestaurantManagement.DAL.EF;
-using RestaurantManagement.BLL;
-using AutoMapper;
-using RestaurantManagement.BLL.Interfaces;
-using RestaurantManagement.DAL.Enteties;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Identity;
 
 namespace RestaurantManagement.Controllers
 {
-    //[Authorize(Roles = "Waiter")]
+    [Authorize(Roles = "Waiter")]
     public class WaiterController : Controller
     {
         private readonly IMapper _mapper;
@@ -25,7 +21,7 @@ namespace RestaurantManagement.Controllers
         IMealService mealService;
         ProjectContext db;
         private readonly UserManager<User> _userManager;
-        public WaiterController(ProjectContext context, IBookingService servB, IGuestService servG,IMealService servM, UserManager<User> UserManager, IMapper mapper)
+        public WaiterController(ProjectContext context, IBookingService servB, IGuestService servG, IMealService servM, UserManager<User> UserManager, IMapper mapper)
         {
             mealService = servM;
             _userManager = UserManager;
@@ -39,24 +35,20 @@ namespace RestaurantManagement.Controllers
             var bookingDtosUser = await bookingService.GetBookingsAsync("Reserved", false);
             var mappedBookingUserView = _mapper.Map<List<BookingViewModel>>(bookingDtosUser);
             ViewBag.User = mappedBookingUserView;
-           
+
             var bookingDtosGuest = await bookingService.GetBookingsAsync("Reserved", true);
             var mappedBookingGuestView = _mapper.Map<List<BookingViewModel>>(bookingDtosGuest);
             ViewBag.Guest = mappedBookingGuestView;
 
-
             return await Task.Run(() => View());
-
-
-
         }
         public async Task<IActionResult> Archive()
         {
 
-            var closedBookingsUser = await bookingService.GetBookingsAsync("Closed",false);
+            var closedBookingsUser = await bookingService.GetBookingsAsync("Closed", false);
             var closedBookingUserView = _mapper.Map<List<BookingViewModel>>(closedBookingsUser);
             ViewBag.User = closedBookingUserView;
-            var closedBookingsGuest = await bookingService.GetBookingsAsync("Closed",true);
+            var closedBookingsGuest = await bookingService.GetBookingsAsync("Closed", true);
             var closedBookingGuestView = _mapper.Map<List<BookingViewModel>>(closedBookingsGuest);
             ViewBag.Guest = closedBookingGuestView;
 
@@ -74,11 +66,11 @@ namespace RestaurantManagement.Controllers
         }
         public async Task<IActionResult> ArchivedMealsUser()
         {
-           
+
             var closedBookingsUser = await bookingService.GetBookingsAsync("Closed", false);
             var closedBookingUserView = _mapper.Map<List<BookingViewModel>>(closedBookingsUser);
             ViewBag.User = closedBookingUserView;
-            
+
 
             return await Task.Run(() => View());
         }
@@ -93,7 +85,7 @@ namespace RestaurantManagement.Controllers
 
             ViewBag.GuestId = id;
 
-            var tableId = getBookingGuestView.Select(tableId=> tableId.TableId).FirstOrDefault().ToString();
+            var tableId = getBookingGuestView.Select(tableId => tableId.TableId).FirstOrDefault().ToString();
             ViewBag.TableId = tableId;
 
             return await Task.Run(() => View());
@@ -117,7 +109,7 @@ namespace RestaurantManagement.Controllers
             if (id == null) return RedirectToAction("Index");
 
             var getBookingUser = await bookingService.GetOneBookingUserAsync(id);
-            
+
             ViewBag.UserId = id;
 
             var tableId = getBookingUser.Select(tableId => tableId.TableId).FirstOrDefault().ToString();
@@ -144,6 +136,7 @@ namespace RestaurantManagement.Controllers
             var mappedBookingMeal = _mapper.Map<List<BookingViewModel>>(getBookingMeal);
             ViewBag.BookingId = id;
             ViewBag.BookingMeals = mappedBookingMeal;
+
             var mealGet = await mealService.GetMealsAsync();
             ViewBag.Meal = mealGet;
 
@@ -154,9 +147,9 @@ namespace RestaurantManagement.Controllers
         public async Task<ActionResult> MealsReadyAsync(int Id, IEnumerable<int> mealId, IEnumerable<int> amount)
         {
 
-             await mealService.CreateMealAsync(Id, mealId, amount);
+            await mealService.CreateMealAsync(Id, mealId, amount);
             return RedirectToAction("MealsReady", "Waiter", new { @id = Id });
-            
+
 
         }
         [HttpPost, ActionName("MealsReadyCheckedAsync")]
@@ -165,7 +158,7 @@ namespace RestaurantManagement.Controllers
         {
 
             await mealService.UpdateStatusMealAsync(Id, mealId);
-            return RedirectToAction("MealsReady","Waiter", new {@id = Id } );
+            return RedirectToAction("MealsReady", "Waiter", new { @id = Id });
 
         }
     }

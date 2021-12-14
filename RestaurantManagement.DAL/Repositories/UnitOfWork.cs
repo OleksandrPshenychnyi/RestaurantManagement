@@ -1,12 +1,8 @@
 ﻿
 using RestaurantManagement.DAL.EF;
-using RestaurantManagement.DAL.Enteties;
 using RestaurantManagement.DAL.Interfaces;
 using RestaurantManagement.DAL.Repositories;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace RestaurantManagement.DAL
 {
@@ -18,10 +14,10 @@ namespace RestaurantManagement.DAL
             this.db = db;
         }
 
-        
+
         private TableRepository tableRepository;
         private GuestRepository guestRepository;
-        private GenericRepository<User> userRepository;
+        private UserRepository userRepository;
         private BookingRepository bookingRepository;
         private Booking_MealRepository booking_mealRepository;
         private MealRepository mealRepository;
@@ -37,38 +33,14 @@ namespace RestaurantManagement.DAL
                 return tableRepository;
             }
         }
-        //public IGenericRepository<Booking> Bookings
-        //{
-        //    get
-        //    {
-
-        //        if (this.bookingRepository == null)
-        //        {
-        //            this.bookingRepository = new GenericRepository<Booking>(db);
-        //        }
-        //        return bookingRepository;
-        //    }
-        //}
-        //public IGenericRepository<Guest> Guests
-        //{
-        //    get
-        //    {
-
-        //        if (this.guestRepository == null)
-        //        {
-        //            this.guestRepository = new GenericRepository<Guest>(db);
-        //        }
-        //        return guestRepository;
-        //    }
-        //}
-        public IGenericRepository<User> Users
+        public IUserRepository Users
         {
             get
             {
 
                 if (this.userRepository == null)
                 {
-                    this.userRepository = new GenericRepository<User>(db);
+                    this.userRepository = new UserRepository(db);
                 }
                 return userRepository;
             }
@@ -121,7 +93,7 @@ namespace RestaurantManagement.DAL
                 return guestRepository;
             }
         }
-        public  void SaveAsync()
+        public void SaveAsync()
         {
             db.SaveChangesAsync();
         }

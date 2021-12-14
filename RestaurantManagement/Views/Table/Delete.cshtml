@@ -1,8 +1,6 @@
 ﻿@model RestaurantManagement.Models.TableViewModel
 
-@{
-    ViewData["Title"] = "Delete";
-}
+@{ ViewData["Title"] = "Delete"; }
 
 <h1>Delete</h1>
 
@@ -51,9 +49,9 @@
             Image
         </dt>
 
-        
+
     </dl>
-    
+
     <form asp-action="Delete">
         <input type="hidden" asp-for="TableId" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |

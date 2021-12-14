@@ -3,10 +3,6 @@ using RestaurantManagement.BLL;
 using RestaurantManagement.BLL.DTO;
 using RestaurantManagement.DAL.Enteties;
 using RestaurantManagement.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace RestaurantManagement.Mappings
 {
@@ -36,8 +32,8 @@ namespace RestaurantManagement.Mappings
             CreateMap<User, UserDTO>();
             CreateMap<User, UserViewModel>();
             CreateMap<UserDTO, UserViewModel>();
+            CreateMap<UserViewModel, UserDTO>();
+            CreateMap<UserDTO, User>();
         }
-   
-        
     }
 }

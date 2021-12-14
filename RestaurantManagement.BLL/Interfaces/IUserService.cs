@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 namespace RestaurantManagement.BLL.Interfaces
 {
-    public interface IGuestService
+    public interface IUserService
     {
-        Task<IEnumerable<GuestDTO>> GetAllGuestsAsync();
+        Task<IEnumerable<BookingDTO>> GetOneUserBookings(string id);
     }
 }

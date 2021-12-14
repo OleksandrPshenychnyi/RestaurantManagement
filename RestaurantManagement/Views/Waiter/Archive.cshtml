@@ -12,8 +12,6 @@
 <body>
     @if (User.Identity.IsAuthenticated)
     {
-        <p>@User.Identity.Name</p>
-
         <form method="post" asp-controller="Account" asp-action="Logout">
             <h3>List of archived orders</h3>
             <table class="table  table-bordered">
@@ -22,7 +20,11 @@
                         <th>First name</th>
                         <th>Second name</th>
                         <th>Phone number</th>
+                        <th>Reservation time</th>
+                        <th>Close time</th>
+                        <th>Bill</th>
                         <th>Archived Meals</th>
+
                     </tr>
                 </thead>
 
@@ -30,18 +32,17 @@
                     @foreach (var guest in ViewBag.Guest)
                     {
 
-                    <tr>
+                        <tr>
 
-                        <td>@guest.Guest.FirstName</td>
-                        <td>@guest.Guest.SecondName</td>
-                        <td>@guest.Guest.PhoneNumber</td>
-                        <td><a href="~/Waiter/ArchivedMealsGuest/@guest.Id">Archived Meals</a></td>
+                            <td>@guest.Guest.FirstName</td>
+                            <td>@guest.Guest.SecondName</td>
+                            <td>@guest.Guest.PhoneNumber</td>
+                            <td>@guest.ReservationDate</td>
+                            <td>@guest.CloseReservationDate</td>
+                            <td>@guest.Bill</td>
+                            <td><a href="~/Waiter/ArchivedMealsGuest/@guest.Id">Archived Meals</a></td>
 
-
-                     
-                    </tr>
-
-
+                        </tr>
 
                     }
 
@@ -53,13 +54,16 @@
                             <td>@user.User.FirstName</td>
                             <td>@user.User.SecondName</td>
                             <td>@user.User.PhoneNumber</td>
+                            <td>@user.ReservationDate</td>
+                            <td>@user.CloseReservationDate</td>
+                            <td>@user.Bill</td>
                             <td><a href="~/Waiter/ArchivedMealsUser/@user.Id">Archived Meals</a></td>
 
                         </tr>
 
                     }
-                    </tbody>
-                </table>
+                </tbody>
+            </table>
             <div>
                 <a asp-action="Index">Back to List</a>
             </div>

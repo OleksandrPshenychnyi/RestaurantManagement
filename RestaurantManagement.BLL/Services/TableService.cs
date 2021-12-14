@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using RestaurantManagement.BLL.Interfaces;
 using RestaurantManagement.DAL;
 using RestaurantManagement.DAL.EF;
@@ -8,7 +6,6 @@ using RestaurantManagement.DAL.Enteties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace RestaurantManagement.BLL.Services
@@ -49,7 +46,7 @@ namespace RestaurantManagement.BLL.Services
         public async Task<TableDTO> GetTableAsync(int? id)
         {
             var table = await unitOfWork.Tables.GetTableAsync(id);
-            
+
             var mappedTable = _mapper.Map<TableDTO>(table);
             return mappedTable;
 
